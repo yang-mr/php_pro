@@ -23,6 +23,7 @@ class Db
 		$returnResult = 2;   //0该用户已存在 1添加成功  2添加失败
 		$conn = self::getConn();
 		$name = $user->getName();
+		$type = $user->getType();
 		$password = $user->getPassword();
 		$result = $conn->query("select * from user where username = '$name'");
 		// var_dump($result->fetch_row());
@@ -31,13 +32,13 @@ class Db
 		if ($result->fetch_row()) {
 			$returnResult = 0;
 		} else {
-			$stmt = $conn->prepare("insert into user(username, password) values (?, ?);");
+			$stmt = $conn->prepare("insert into user(username, password, type) values (?, ?, ?);");
 			if (!$stmt) {
 				die($conn->error);
 			}
 
 			$tmpPwd = md5($password);
-			$stmt->bind_param('ss', $name, $tmpPwd);
+			$stmt->bind_param('ssd', $name, $tmpPwd, $type);
 			
 			$stmt->execute();
 			mysqli_stmt_close($stmt);
