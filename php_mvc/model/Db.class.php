@@ -97,5 +97,24 @@ class Db
 			var_dump($row);
 		}
 	}
+
+	/**
+	 * [add user want]
+	 * @param  WantBean $bean    [insert table bean]
+	 * @param  [type]   $user_id []
+	 * @return [type]            [result]
+	 */
+	public function insertDataToWant(WantBean $bean, $user_id) {
+		$conn = self::getConn();
+		$stmt = $conn->prepare("insert into want(title, des, area, price, user_id) values (?, ?, ?, ?, ?);");
+			if (!$stmt) {
+				die($conn->error);
+			}
+			$stmt->bind_param('ssddd', $bean->title, $bean->des, $bean->area, $bean->price, $user_id);
+			$stmt->execute();
+			mysqli_stmt_close($stmt);
+			$conn->close();
+			return 1;
+	} 
 }
 	

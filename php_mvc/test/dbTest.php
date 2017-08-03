@@ -18,6 +18,12 @@
 	//echo $db->getLoginData('rose', '123');
 
 	//test cookie
-	login("rose", "123");
+//	login("rose", "123");
+
+	//test insert createwant table
+	$bean = new WantBean("my name is title", "desdes", 100, 1000);
+	echo $db->insertDataToWant($bean, 10);
+
+
 
 

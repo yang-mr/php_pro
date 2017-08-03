@@ -14,3 +14,41 @@ create table user (
 	type int not null
 );
 
+//需求表  外键 user_id;
+
+create table want (
+	id int unique not null primary key auto_increment, 
+	title varchar(40) not null,
+	des varchar(100) not null,
+	area int not null, 
+	price int,
+	publicdata date,
+	user_id int not null,	
+  	CONSTRAINT want_fk FOREIGN KEY(user_id) REFERENCES user(id)
+);
+
+前端：
+	vh单位就是当前屏幕可见高度的1%; 100vh = 100%;
+
+	页面布局 flex
+
+	  	容器flex属性
+			flex-direction 主轴的方向
+			flex-wrap 是否要换行
+			flex-flow 组合上面2个属性
+			justify-content 项目如何在主轴上对齐
+			align-items 项目如何在交叉轴上对齐
+			align-content 多条轴线的对齐方式，一条轴线不起作用
+
+		项目属性
+			order 项目的对齐方式 默认0 数字越小越前
+			flex-grow 项目放大 默认0 为0的时候不放大 越大得到剩余的空间等比增加
+			flex-shrink 项目缩小 默认1 为0的时候不缩小
+			flex-basis 项目的本来大小 默认auto 可以设固定值100px
+			flex ps:  flex: none | auto | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]   :auto (1 1 auto) 和 none (0 0 auto)
+
+			align-self  单个项目与其他的项目不一样的对齐方式 默认auto 表示继承父元素(align-items)
+
+
+
+

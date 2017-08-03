@@ -1,0 +1,25 @@
+body {
+	margin: 0px;
+}
+
+form {
+	margin: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.div_flex {
+	display: flex;
+	flex-direction: row;
+}
+
+.div_flex .div_label {
+	flex: 0 0 4em;
+}
+
+#createwant {
+	margin-top: 30px;
+	width: 25%;
+}
+
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style type="text/css">
+    * {
+        margin: 0px;
+    }
+
+    .container {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    .header {
+        background-color: gray;
+        flex: 1;
+        text-align: center;
+    }
+
+    footer {
+        background-color: red;
+        flex: 1;
+    }
+
+    .context {
+        display: flex;
+        flex: 8;
+    }
+
+    nav,
+    aside {
+        background-color: blue;
+        flex: 0 0 12em;
+    }
+
+    .context main {
+        background-color: yellow;
+        flex: 8;
+    }
+
+    div nav {
+        order: -1;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+            flex: 1;
+        }
+        nav,
+        main,
+        aside {
+            flex: auto;
+        }
+    }
+
+    #parent {
+        width: 200px;
+    	height: 150px;
+    	background-color: black;
+    	display: flex;
+    	flex-flow: row wrap;
+    	align-content: flex-start;
+    }
+
+
+
+
+    .child01 {
+        border: 1px solid red;
+        height: 50px;
+        flex: 0 0 25%;
+        box-sizing: border-box;
+        background-color: white;
+    }
+    </style>
+</head>
+
+<body class="container">
+    <header class="header">header</header>
+    <div class="context">
+        <nav></nav>
+        <main>
+            <div id="parent">
+                <div class="child01"></div>
+                <div class="child01"></div>
+                <div class="child01"></div>
+                <div class="child01"></div>
+                <div class="child01"></div>
+            </div>
+        </main>
+        <aside></aside>
+    </div>
+    <footer></footer>
+</body>
+
+</html>
