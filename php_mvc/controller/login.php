@@ -1,4 +1,5 @@
 <?php
+	require_once "../vendor/autoload.php";
 	require_once "../model/Db.class.php";
 	require_once "../model/User.class.php";
 
@@ -30,6 +31,8 @@
 		if ($result == 2) {
 			getCookie($name);
 		}
+
+		var_dump($app = new Application($options));
 		//echo "login: " . $result . PHP_EOL;
 		return $result;
 	}

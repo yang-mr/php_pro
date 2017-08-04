@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>发布新需求</title>
-	    <link rel="stylesheet" type="text/css" href="../public/css/createwant.css" />
-	    <script language="JavaScript" src="../public/js/createwant.js"></script>
+    <meta charset="utf-8">
+    <title>发布新需求</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/createwant.css" />
+    <script language="JavaScript" src="../public/js/jquery-3.2.1.min.js"></script>
+    <script language="JavaScript" src="../public/js/createwant.js"></script>
 </head>
+
 <body>
-	<form>
-		<div class="div_flex"><label class="div_label">标题</label><input type="text" name="title"></div>
-		<div class="div_flex"><label class="div_label">描述</label><input type="text" name="des"></div>
-		<div class="div_flex"><label class="div_label">建筑面积</label><input type="text" name="area"></div>
-		<div class="div_flex"><label class="div_label">预算</label><input type="text" name="price"></div>
-		<button id="createwant">提交新需求</button>
-	</form>
+    <form enctype="multipart/form-data" action="../controller/createwant.php" method="post">
+        <div class="div_flex">
+            <label class="div_label">标题</label>
+            <input type="text" name="title" id="title">
+        </div>
+        <div class="div_flex">
+            <label class="div_label">描述</label>
+            <input type="text" name="des" id="des">
+        </div>
+        <div class="div_flex">
+            <label class="div_label">建筑面积</label>
+            <input type="text" name="area" id="area">
+        </div>
+        <div class="div_flex">
+            <label class="div_label">预算</label>
+            <input type="text" name="price" id="price">
+        </div>
+        <div class="div_flex">
+            <label class="div_label">上传文件</label>
+            <input type="file" name="file" id="file">
+        </div>
+        <button id="createwant" name="action" value="createwant" type="submit">提交新需求</button>
+    </form>
 </body>
+
 </html>

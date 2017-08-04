@@ -50,5 +50,32 @@ create table want (
 			align-self  单个项目与其他的项目不一样的对齐方式 默认auto 表示继承父元素(align-items)
 
 
+		注意：
+			enctype属性:规定在发送到服务器之前应该如何对表单数据进行编码
+				1.application/x-www-form-urlencoded
+					（默认的编码方式）被编码为名称/值对	
+
+				2.multipart/form-data
+					表单数据被编码为一条消息
+
+				3. text/plain
+					表单数据中的空格转换为 "+" 加号，但不对特殊字符编码
+
+
+		Composer:
+			composer install 
+			composer update  		以上2个命令会更新所有的扩展包，谨慎使用；
+
+			composer require monolog/monolog  推荐使用该命令安装扩展包；
+
+			composer update monolog/monolog  
+			更新某个包
+
+			composer remove monolog/monolog
+			移除某个包
+
+		monolog 日志库：
+			handle日志管理器
+				
 
 
