@@ -1,0 +1,16 @@
+注意
+	控制器下的子目录不能和目录下的控制器类相同；
+
+
+
+
+
+数据库：
+	database ci;
+
+	create table blog(
+		id int auto_increment primary key,
+		title varchar(40),
+		des varchar(40)
+	);
+	

@@ -137,7 +137,7 @@
 			多行多列 (一般在主查询的from)
 				select d.dept_id, d.position, number average from dept d inner join (select dept_id, count(person_id) number, avg(money) average from person group by dept_id desc) person on person.dept_id = d.dept_id;
 		注意：
-			not in 条件：当有null时，查询的结果为空;
+			not in 条件：当有null时，查询的结果为空;	
 			当没有数据的时候：count() 函数返回0; 其他的函数返回null
 
 	运算符(成立返回1, 否则返回0)
@@ -145,8 +145,58 @@
 			  !=, <> 不能操作null
 
 	存储过程和函数的操作
-		
+		操作变量
+			declare var_name type default value;  //声明变量
+			set var_name = var_value; //赋值变量
+		存储过程
+			创建
+				delimiter $$
+				create procedure proce_person_money ()
+				comment '查询所有雇员的工资'
+				begin
+					select money from person;
+				end$$
+				delimiter ;
+			查看
+				show procedure status;或(db:information_schema) select * from routines \G
+		函数
+			创建
+				delimiter $$
+				create function fun_person_money (person_id int(11))
+					returns double(10, 2)
+				comment '查询某个人的工资'
+				begin
+					return (select money from person where person.person_id = person_id);
+				end$$
+				delimiter ;
+			查看
+				show function status;或(db:information_schema) select * from routines \G
+	事务(原子性 一致性 隔离性 持久性)
+		事务隔壁级别
+			read-uncommitted: 读取未提交的数据--->脏读
+			read-committed: 读取提交的数据
+			repeatable-read: 可以重读--->幻读
+			serializable: 可以序列化
+	数据库维护
+		复制数据文件(innoDB无效，MyISAM有效)
+		mysqldump
+			备份1个数据库
+				mysqldump -u root -p db_name table_name01 > c:\upback.sql
+			备份多个数据库
+				mysqldump -u root -p --databases data01 data02 > c:\upback.sql
+			备份所有数据库
+				mysqldump -u root -p --all-databases > c:\upback.sql
+			还原表
+				mysql -u root -p < c:\upback.sql
+		数据库导出到文本文件
+			select * from person into outfile 'c:\test.txt';
+			mysqldump -u root -p -T c:\test.txt
+			mysql -u root -p -e"select * from person" company>c:\test.txt
 
+		文本导入数据库表
+			
+
+			
 	//创建数据库
 	create database php_mvc;
 
