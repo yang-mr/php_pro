@@ -1,13 +1,19 @@
 <html>
 <head>
     <title>My Blog</title>
-    <?php echo $des;?>
+    {title}
+    {des}
 </head>
 <body>
     <h1>Welcome to my Blog!</h1>
-    <h2><?php echo $title;?>
+   <!--  <h2><?php echo $title;?>
   <?php foreach ($list as $item):?>
     	<li><?php echo $item;?></li>
-    <?php endforeach;?>
+    <?php endforeach;?> -->
+
+    {lists}
+    	{title}
+    	{des}
+    {/lists}
 </body>
 </html>
