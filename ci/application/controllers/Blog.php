@@ -11,12 +11,13 @@
 		}
 
 		public function create_blog() {
-		//	$this->model->insert_blog();
-			/*$hash = password_hash('123456', PASSWORD_DEFAULT);
-			var_dump(password_get_info($hash));
-			var_dump(password_verify('123456', $hash));
-			echo $hash;*/
+			$this->load->library('email');
+			$this->email->to('3180518198@qq.com', 'admin');
+			$this->email->from('yang971460565@163.com');
+			$this->email->subject('email test');
+			$this->email->message('email message');
 
+<<<<<<< b11cfbee8a6c9b883f28d7d56d4616fb18483382
 			//$this->model->get_blog();
 			/*$config['base_url'] = 'www.baidu.com';
 			$config['total_rows'] = 200;
@@ -106,4 +107,13 @@ $test_name = 'Adds one plus one';
 			echo base_url('/capcha');
 			echo index_page();
 		}
+=======
+			var_dump($this->email->send());
+			echo $this->email->print_debugger(array('headers'));
+		}
+
+		public function upload_file() {
+			$this->load->view('upload_file');
+		}
+>>>>>>> email send test;
 	}

@@ -85,5 +85,9 @@
 			foreach ($query->result() as $row) {
 				echo $row->title;
 			}
+			$array = array('title'=>'t04', 'des'=>'d5');
+			$result = $this->db->insert_string('blog', $array);
+
+			var_dump($result);
 		}
 	}

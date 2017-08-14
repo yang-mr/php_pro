@@ -1,6 +1,6 @@
 注意
 	控制器下的子目录不能和目录下的控制器类相同；
-
+	核心类不能引入; ps: $this->input->post();
 
 
 
@@ -20,6 +20,7 @@
 		ip_address varchar(20) not null,
 		register_date datetime not null
 	);
+<<<<<<< b11cfbee8a6c9b883f28d7d56d4616fb18483382
 
 //需要装修的人的需求表   price : 装修预算 publicdata :发布时间
 	create table fitment_demands(
@@ -35,3 +36,10 @@
 
 
 	
+=======
+	
+
+协议
+	mail, sendmail, or smtp:推协议， 发送方
+	pop3、imap:拉协议，接收方
+>>>>>>> email send test;
