@@ -51,9 +51,18 @@
             </ul>
         </nav>
         <main>
-            <table>
-                
-            </table>            
+           
+                <?php foreach ($demands as $item):?>
+                     <table id="table_demand">
+                    <tr id="header_part">
+                        <th id="demand_title">标题：<?php echo $item['title']; ?></th>
+                        <th id="demand_area">面积: <?php echo $item['area']; ?></th>
+                    </tr>
+                    <tr id="description_part">
+                        <th>装修描述：<?php echo $item['description']; ?></th>
+                    </tr>
+                      </table>  
+                <?php endforeach;?>
         </main>
         <aside></aside>
     </div>

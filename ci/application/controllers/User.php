@@ -7,6 +7,31 @@ class User extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->model('user_model');
 	}
+
+	public function index() {
+		$array = array(
+			array(
+				'field'=>'username',
+				'laber'=>'Username',
+				'rules'=>'required|min_length[5]|max_length[10]'
+			),
+			array(
+				'field'=>'password',
+				'laber'=>'Password',
+				'rules'=>'required|min_length[6]'
+			)
+		);
+		$this->form_validation->set_rules($array);
+		if (!$this->form_validation->run()) {
+			$this->load->view('user_login');
+		} else  {
+			if ($result = $this->user_model->login_user()) {
+				$this->load->view('user_center', $result);
+			} else {
+				 echo '登录失败';
+			}
+		}
+	}
 	/*
 	用户注册
 	*/

@@ -17,7 +17,6 @@
 			$this->email->subject('email test');
 			$this->email->message('email message');
 
-<<<<<<< b11cfbee8a6c9b883f28d7d56d4616fb18483382
 			//$this->model->get_blog();
 			/*$config['base_url'] = 'www.baidu.com';
 			$config['total_rows'] = 200;
@@ -78,7 +77,6 @@ $test_name = 'Adds one plus one';
     	$name = 'data.txt';
     	$content = 'fdkjk';
     	$this->zip->add_data($name, $content);
-    	var_dump( $this->zip->archive('./upload/my_backup.zip'));
     	//$this->zip->download('my_kjfd.zip');
 		}
 
@@ -107,7 +105,6 @@ $test_name = 'Adds one plus one';
 			echo base_url('/capcha');
 			echo index_page();
 		}
-=======
 			var_dump($this->email->send());
 			echo $this->email->print_debugger(array('headers'));
 		}
@@ -115,5 +112,4 @@ $test_name = 'Adds one plus one';
 		public function upload_file() {
 			$this->load->view('upload_file');
 		}
->>>>>>> email send test;
 	}

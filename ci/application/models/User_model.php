@@ -31,7 +31,12 @@
 			if (empty($data)) {
 				return false;
 			} else if (md5($tmp) === $data['password']){
-				return array('id'=>$data['id'], 'username'=>$username);
+				$id = $data['id'];
+				$data = array('id'=>$id, 'username'=>$username);
+				//去获取用户发布的信息
+				$sql = "select title, description, price, area from fitment_demands where user_id = " . $data['id'];
+				$data['demands'] = $this->db->query($sql)->result_array();
+				return $data;
 			} else {
 				return false;
 			}

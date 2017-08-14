@@ -32,7 +32,7 @@ header p a {
 
 #context main {
     flex: 7;
-    background-color: black;
+    background-color: gray;
 }
 
 #context aside {
