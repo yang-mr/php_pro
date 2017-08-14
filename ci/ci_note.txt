@@ -20,7 +20,6 @@
 		ip_address varchar(20) not null,
 		register_date datetime not null
 	);
-<<<<<<< b11cfbee8a6c9b883f28d7d56d4616fb18483382
 
 //需要装修的人的需求表   price : 装修预算 publicdata :发布时间
 	create table fitment_demands(
@@ -34,10 +33,6 @@
 		constraint fk_user_id foreign key(user_id) references fitment_user(id)
 	);
 
-
-	
-=======
-	
 
 协议
 	mail, sendmail, or smtp:推协议， 发送方
