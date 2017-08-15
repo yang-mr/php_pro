@@ -107,12 +107,12 @@ class User extends CI_Controller {
 				'laber'=>'Title',
 				'rules'=>'required|min_length[5]|max_length[40]'
 			),
-			array(
+			/*array(
 				'field'=>'description',
 				'laber'=>'Desc',
 				'rules'=>'required|min_length[6]'
 			),
-		/*	array(
+			array(
 				'field'=>'price',
 				'laber'=>'price',
 				'rules'=>'required'

@@ -522,3 +522,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 $config['pwd_salt'] = 'jfdjk9898';
+
+//七牛 密钥公钥
+$config['qiniu_ak'] = 'w0Sbc63amzRZrBZs5XWS0cKjnzgR2hn1dUMCPXeo';
+$config['qiniu_sk'] = '7lxU5_qqpxji83Q7AtGl6o8mDPLhSH3XgiOm1IZp';

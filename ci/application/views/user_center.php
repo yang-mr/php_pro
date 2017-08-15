@@ -22,7 +22,8 @@
     <?php echo validation_errors()?>
  <div id="dialog-form" title="发布新需求">
   <p class="validateTips">所有的表单字段都是必填的。</p>
-  <?php echo form_open('user/post_message'); ?>
+  <?php $hidden = array('id' => $id, 'type' => $type, 'username' => $username);
+       echo form_open('user/post_message', '', $hidden); ?>
   <fieldset>
     <label for="name">标题</label>
     <input type="text" name="title" id="name" class="text ui-widget-content ui-corner-all">
@@ -31,9 +32,9 @@
     <label for="password">预算</label>
     <input type="text" name="price" id="password" value="" class="text ui-widget-content ui-corner-all">
      <label for="password">面积</label>
-     <input type="hidden" name="id" value="<?php echo $id;?>"/>
+   <!--   <input type="hidden" name="id" value="<?php echo $id;?>"/>
       <input type="hidden" name="type" value="<?php echo $type;?>"/>
-    <input type="hidden" name="username" value="<?php echo $username;?>"/>
+    <input type="hidden" name="username" value="<?php echo $username;?>"/> -->
     <input type="text" name="area" id="password" value="" class="text ui-widget-content ui-corner-all">
     <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all"/>
   </fieldset>
@@ -41,7 +42,7 @@
 </div>
 <div id="dialog-form-worker-designer" title="添加项目简介">
   <p class="validateTips">所有的表单字段都是必填的。</p>
-  <?php echo form_open('user/post_message'); ?>
+  <?php echo form_open_multipart('user/post_message'); ?>
   <fieldset>
     <label for="name">标题</label>
     <input type="text" name="title" id="name" class="text ui-widget-content ui-corner-all">
@@ -50,7 +51,11 @@
     <label for="password">项目时间</label>
     <input type="text" name="pro_time" value="" class="text ui-widget-content ui-corner-all">
      <label for="password">上传项目图片或者文件</label>
-    <input type="file" name="time" value="" class="text ui-widget-content ui-corner-all">
+    <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
+    <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
+    <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
+    <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
+    <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
     <input type="hidden" name="id" value="<?php echo $id;?>"/>
     <input type="hidden" name="type" value="<?php echo $type;?>"/>
     <input type="hidden" name="username" value="<?php echo $username;?>"/>
@@ -91,7 +96,23 @@
                         <th id="demand_time">发布时间: <?php echo $item['public_date']; ?></th>
                     </tr>
                       </table>  
-                <?php endforeach;}?>
+                <?php endforeach;} else {?>
+
+                     <?php foreach ($demands as $item):?>
+                     <table id="table_demand">
+                    <tr id="header_part">
+                        <th id="demand_title">标题：<?php echo $item['title']; ?></th>
+                    </tr>
+                    <tr id="description_part">
+                        <th>项目描述：<?php echo $item['description']; ?></th>
+                    </tr>
+                     <tr id="footer_part">
+                        <th id="demand_price">项目周期：<?php echo $item['pro_time']; ?></th>
+                        <th id="demand_time">发布时间: <?php echo $item['public_time']; ?></th>
+                    </tr>
+                      </table>  
+                <?php endforeach;?>
+                <?php }?>
         </main>
         <aside></aside>
     </div>
