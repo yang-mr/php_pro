@@ -112,7 +112,7 @@ class User extends CI_Controller {
 				'laber'=>'Desc',
 				'rules'=>'required|min_length[6]'
 			),
-			array(
+		/*	array(
 				'field'=>'price',
 				'laber'=>'price',
 				'rules'=>'required'
@@ -121,19 +121,30 @@ class User extends CI_Controller {
 				'field'=>'area',
 				'laber'=>'area',
 				'rules'=>'required'
-			)
+			)*/
 		);
 
 		$this->form_validation->set_rules($array);
+		$type = $this->input->post('type');
 		if (!$this->form_validation->run()) {
 			$data = array(
 				'username'=>$this->input->post('username'),
 				'id'=>$this->input->post('id'),
+				'type'=>$type,
 				'result'=>''
 			);
 			$this->load->view('user_center', $data);
 		} else  {
-			$this->load->view('user_center', $this->user_model->insert_message());
+			if ($type == "0") {
+				//需要装修的人
+				$this->load->view('user_center', $this->user_model->insert_message());
+			} else if ($type == "1") {
+				//装修的人发布项目
+				$this->load->view('user_center', $this->user_model->insert_worker());
+		} else if ($type == "2") {
+				//设计师发布项目
+				$this->load->view('user_center', $this->user_model->insert_designer());
 		}
 	}
+}
 }

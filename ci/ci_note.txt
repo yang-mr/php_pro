@@ -33,8 +33,41 @@
 		constraint fk_user_id foreign key(user_id) references fitment_user(id)
 	);
 
+//装修师傅的表   pro_time: 装修花的时间；
+	create table fitment_worker(
+		worker_id int auto_increment primary key,
+		user_id int not null,
+		title varchar(10) not null,
+		description varchar(40) not null,
+		pro_time int not null,
+		public_time datetime not null,
+		constraint fk_worker_user foreign key(user_id) references fitment_user(id)
+	);
+
+	//设计师的表   pro_time: 装修花的时间；
+	create table fitment_designer(
+		designer_id int auto_increment primary key,
+		user_id int not null,
+		title varchar(10) not null,
+		description varchar(40) not null,
+		pro_time int not null,
+		public_time datetime not null,
+		constraint fk_designer_user foreign key(user_id) references fitment_user(id)
+	);
+
+//资源表 图片 word Excel等  type: 0 = 图片 1= word
+	create table fitment_res(
+		image_id int auto_increment primary key,
+		worker_id int,
+		designer_id int,
+		type int not null default 0,
+		res_url varchar(40) not null,
+		res_time datetime not null,
+		constraint fk_worker_res foreign key(worker_id) references fitment_worker(worker_id),
+		constraint fk_designer_res foreign key(designer_id) references fitment_designer(designer_id)
+	);
+
 
 协议
 	mail, sendmail, or smtp:推协议， 发送方
 	pop3、imap:拉协议，接收方
->>>>>>> email send test;

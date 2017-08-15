@@ -1,7 +1,13 @@
 $(function() {
     $("#post_message").button().click(function() {
-        $("#dialog-form").dialog("open");
+        var tmp = $("#post_message").text().trim();
+        if (tmp == "发布新需求") {
+            $("#dialog-form").dialog("open");
+        } else if (tmp == "发布新作品") {
+            $("#dialog-form-worker-designer").dialog("open");
+        }
     });
+
     $("#dialog-form").dialog({
         autoOpen: false,
         height: 800,
@@ -27,6 +33,16 @@ $(function() {
                 $(this).dialog("close");
             }
         },
+        close: function() {
+            $(this).dialog("close");
+        }
+    });
+
+    $("#dialog-form-worker-designer").dialog({
+        autoOpen: false,
+        height: 600,
+        width: 500,
+        modal: true,
         close: function() {
             $(this).dialog("close");
         }

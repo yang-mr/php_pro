@@ -32,14 +32,39 @@
     <input type="text" name="price" id="password" value="" class="text ui-widget-content ui-corner-all">
      <label for="password">面积</label>
      <input type="hidden" name="id" value="<?php echo $id;?>"/>
+      <input type="hidden" name="type" value="<?php echo $type;?>"/>
     <input type="hidden" name="username" value="<?php echo $username;?>"/>
     <input type="text" name="area" id="password" value="" class="text ui-widget-content ui-corner-all">
     <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all"/>
   </fieldset>
   </form>
 </div>
+<div id="dialog-form-worker-designer" title="添加项目简介">
+  <p class="validateTips">所有的表单字段都是必填的。</p>
+  <?php echo form_open('user/post_message'); ?>
+  <fieldset>
+    <label for="name">标题</label>
+    <input type="text" name="title" id="name" class="text ui-widget-content ui-corner-all">
+    <label for="email">描述</label>
+    <input type="text" name="description" id="email" value="" class="text ui-widget-content ui-corner-all">
+    <label for="password">项目时间</label>
+    <input type="text" name="pro_time" value="" class="text ui-widget-content ui-corner-all">
+     <label for="password">上传项目图片或者文件</label>
+    <input type="file" name="time" value="" class="text ui-widget-content ui-corner-all">
+    <input type="hidden" name="id" value="<?php echo $id;?>"/>
+    <input type="hidden" name="type" value="<?php echo $type;?>"/>
+    <input type="hidden" name="username" value="<?php echo $username;?>"/>
+    <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all"/>
+  </fieldset>
+  </form>
+</div>
     <header>
-        <p id="user_name"><?php echo $username; ?><a href="#" id='post_message'>发布新需求</a></p>
+        <p id="user_name"><?php echo $username; ?><a href="#" id='post_message'><?php if($type == '0') {?>
+        发布新需求
+        <?php } else {?>
+            发布新作品
+        <?php }?>
+        </a></p>
     </header>
     <div id="context">
         <nav>
@@ -51,7 +76,7 @@
             </ul>
         </nav>
         <main>
-           
+                <?php if($type == 0) {?>
                 <?php foreach ($demands as $item):?>
                      <table id="table_demand">
                     <tr id="header_part">
@@ -61,14 +86,16 @@
                     <tr id="description_part">
                         <th>装修描述：<?php echo $item['description']; ?></th>
                     </tr>
+                     <tr id="footer_part">
+                        <th id="demand_price">预算：<?php echo $item['price']; ?></th>
+                        <th id="demand_time">发布时间: <?php echo $item['public_date']; ?></th>
+                    </tr>
                       </table>  
-                <?php endforeach;?>
+                <?php endforeach;}?>
         </main>
         <aside></aside>
     </div>
     <footer>
-
     </footer>
 </body>
-
 </html>
