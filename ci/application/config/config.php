@@ -35,7 +35,7 @@ $config['base_url'] = 'http://localhost/php_pro/ci';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -526,3 +526,6 @@ $config['pwd_salt'] = 'jfdjk9898';
 //七牛 密钥公钥
 $config['qiniu_ak'] = 'w0Sbc63amzRZrBZs5XWS0cKjnzgR2hn1dUMCPXeo';
 $config['qiniu_sk'] = '7lxU5_qqpxji83Q7AtGl6o8mDPLhSH3XgiOm1IZp';
+
+//分页
+$config['per_page'] = 4;

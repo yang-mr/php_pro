@@ -1,0 +1,5 @@
+RewriteEngine on 
+
+RewriteCond $1 !^(index\.php|public|images|robots\.txt) 
+
+RewriteRule ^(.*)$ /php_pro/ci/index.php/$1 [L]

@@ -11,8 +11,10 @@
     <script>
         function myload() {
             <?php if(isset($_COOKIE['result']) && $_COOKIE['result'] != ""){ ?>
-            alert("<?php echo $_COOKIE['result']; setcookie('result', ''); ?>");
+            // setcookie('result', ''); 
+            alert("<?php echo $_COOKIE['result']; ?>");
             <?php } ?>
+            alert('test');
         }
    window.onload = myload;
  </script>
@@ -84,8 +86,8 @@
                     </tr>
                     <tr id="description_part">
                         <th>装修描述：<?php echo $item['description']; ?></th>
-                        <th value = "<?php echo $item['demand_id'] ?>"><a id="edit<?php $item['demand_id']?>" href="update_message/<?php echo $item['demand_id']?>">编辑</a></th>
-                        <th><a href="delete_message/<?php echo $item['demand_id']?>">删除</a></th>
+                        <th><a href="<?php echo base_url()?>user/update_message/<?php echo $item['demand_id']?>">编辑</a></th>
+                        <th><a href="<?php echo base_url()?>user/delete_message/<?php echo $item['demand_id']?>">删除</a></th>
                     </tr>
                      <tr id="footer_part">
                         <th id="demand_price">预算：<?php echo $item['price']; ?></th>
@@ -109,6 +111,9 @@
                       </table>  
                 <?php endforeach;?>
                 <?php }?>
+                <div>
+                    <?php echo $pages?> ;
+                </div>
         </main>
         <aside></aside>
     </div>

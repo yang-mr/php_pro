@@ -1,5 +1,5 @@
 <?php
-	require_once './vendor/autoload.php';
+	//require_once './vendor/autoload.php';
 
 	use Qiniu\Auth;
     use Qiniu\Storage\UploadManager;
@@ -51,15 +51,17 @@
 			}
 		}
 
-		public function get_user_center() {
+		public function get_user_center($startindex = 0) {
 			$type = get_data_from_cookie('type');
 			$id = get_data_from_cookie('id');
-		/*	$data['result'] = $this->config->item('result');
-			var_dump($this->config->item('result'));*/
 			if ($type == 0) {
 					//去获取需要装修的人发布的信息
-					$sql = "select demand_id, title, description, price, area, public_date from fitment_demands where user_id = " . $id;
-					$data['demands'] = $this->db->query($sql)->result_array();
+					$sql = "select demand_id, title, description, price, area, 
+					public_date from fitment_demands  where user_id = ? limit ?,?";
+					$array = array(
+						$id, $startindex + "", $this->config->item('per_page')
+					);
+					$data['demands'] = $this->db->query($sql, $array)->result_array();
 				} else if ($type == 1) {
 					//去获取装修师傅发布的信息
 					$sql = "select title, description, pro_time, public_time from fitment_worker where user_id = " . $id;
@@ -87,6 +89,23 @@
 				$sql = 'select designer_id, title, description, pro_time from fitment_designer where designer_id = ' . $id;
 			}
 			return $this->db->query($sql)->row_array();
+		}
+
+		 /*
+			得到一行数据
+		*/
+		public function get_count() {
+			$type = get_data_from_cookie('type');
+			$id = get_data_from_cookie('id');
+			$sql = '';
+			if ($type == 0) {
+				$sql = 'select count(demand_id) a from fitment_demands where user_id = ' . $id;
+			} else if ($type == 1) {
+				$sql = 'select worker_id, title, description, pro_time from fitment_worker where worker_id = ' . $id;
+			} else if ($type == 2) {
+				$sql = 'select designer_id, title, description, pro_time from fitment_designer where designer_id = ' . $id;
+			}
+			return $this->db->query($sql)->row_array()['a'];
 		}
 
 		/*
