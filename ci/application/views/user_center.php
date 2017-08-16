@@ -10,20 +10,19 @@
     <title>个人中心</title>
     <script>
         function myload() {
-            <?php if (isset($result)) {?>
-            alert("<?php echo $result ?> ");
-            <?php }?>
+            <?php if(isset($_COOKIE['result']) && $_COOKIE['result'] != ""){ ?>
+            alert("<?php echo $_COOKIE['result']; setcookie('result', ''); ?>");
+            <?php } ?>
         }
    window.onload = myload;
  </script>
-    </script>
 </head>
 <body>
+
     <?php echo validation_errors()?>
  <div id="dialog-form" title="发布新需求">
   <p class="validateTips">所有的表单字段都是必填的。</p>
-  <?php $hidden = array('id' => $id, 'type' => $type, 'username' => $username);
-       echo form_open('user/post_message', '', $hidden); ?>
+  <?php echo form_open('user/post_message'); ?>
   <fieldset>
     <label for="name">标题</label>
     <input type="text" name="title" id="name" class="text ui-widget-content ui-corner-all">
@@ -32,14 +31,12 @@
     <label for="password">预算</label>
     <input type="text" name="price" id="password" value="" class="text ui-widget-content ui-corner-all">
      <label for="password">面积</label>
-   <!--   <input type="hidden" name="id" value="<?php echo $id;?>"/>
-      <input type="hidden" name="type" value="<?php echo $type;?>"/>
-    <input type="hidden" name="username" value="<?php echo $username;?>"/> -->
     <input type="text" name="area" id="password" value="" class="text ui-widget-content ui-corner-all">
-    <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all"/>
+    <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all">
   </fieldset>
   </form>
 </div>
+
 <div id="dialog-form-worker-designer" title="添加项目简介">
   <p class="validateTips">所有的表单字段都是必填的。</p>
   <?php echo form_open_multipart('user/post_message'); ?>
@@ -56,15 +53,12 @@
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
-    <input type="hidden" name="id" value="<?php echo $id;?>"/>
-    <input type="hidden" name="type" value="<?php echo $type;?>"/>
-    <input type="hidden" name="username" value="<?php echo $username;?>"/>
     <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all"/>
   </fieldset>
   </form>
 </div>
     <header>
-        <p id="user_name"><?php echo $username; ?><a href="#" id='post_message'><?php if($type == '0') {?>
+        <p id="user_name"> <?php echo get_data_from_cookie('username'); ?><a href="#" id='post_message'><?php if(get_data_from_cookie('type') == 0) {?>
         发布新需求
         <?php } else {?>
             发布新作品
@@ -81,7 +75,7 @@
             </ul>
         </nav>
         <main>
-                <?php if($type == 0) {?>
+                <?php if($_COOKIE['type'] == 0) {?>
                 <?php foreach ($demands as $item):?>
                      <table id="table_demand">
                     <tr id="header_part">
@@ -90,6 +84,8 @@
                     </tr>
                     <tr id="description_part">
                         <th>装修描述：<?php echo $item['description']; ?></th>
+                        <th value = "<?php echo $item['demand_id'] ?>"><a id="edit<?php $item['demand_id']?>" href="update_message/<?php echo $item['demand_id']?>">编辑</a></th>
+                        <th><a href="delete_message/<?php echo $item['demand_id']?>">删除</a></th>
                     </tr>
                      <tr id="footer_part">
                         <th id="demand_price">预算：<?php echo $item['price']; ?></th>
