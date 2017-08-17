@@ -13,14 +13,14 @@
             <?php if(isset($_COOKIE['result']) && $_COOKIE['result'] != ""){ ?>
             // setcookie('result', ''); 
             alert("<?php echo $_COOKIE['result']; ?>");
-            <?php } ?>
-            alert('test');
+            <?php } 
+                setcookie("result", '', time() - 3600, '/');
+            ?>
         }
    window.onload = myload;
  </script>
 </head>
 <body>
-
     <?php echo validation_errors()?>
  <div id="dialog-form" title="发布新需求">
   <p class="validateTips">所有的表单字段都是必填的。</p>
@@ -95,11 +95,12 @@
                     </tr>
                       </table>  
                 <?php endforeach;} else {?>
-
                      <?php foreach ($demands as $item):?>
                      <table id="table_demand">
                     <tr id="header_part">
                         <th id="demand_title">标题：<?php echo $item['title']; ?></th>
+                        <th><a href="<?php echo base_url()?>user/update_message/<?php echo $item['id']?>">编辑</a></th>
+                        <th><a href="<?php echo base_url()?>user/delete_message/<?php echo $item['id']?>">删除</a></th>
                     </tr>
                     <tr id="description_part">
                         <th>项目描述：<?php echo $item['description']; ?></th>
@@ -108,7 +109,7 @@
                         <th id="demand_price">项目周期：<?php echo $item['pro_time']; ?></th>
                         <th id="demand_time">发布时间: <?php echo $item['public_time']; ?></th>
                     </tr>
-                      </table>  
+                      </table>
                 <?php endforeach;?>
                 <?php }?>
                 <div>

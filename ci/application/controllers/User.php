@@ -144,16 +144,16 @@ class User extends CI_Controller {
 		} else  {
 				if ($type == "0") {
 					//需要装修的人
-					$this->load->view('user_center', $this->user_model->insert_message());
+					$this->user_model->insert_message();
 				} else if ($type == "1") {
 					//装修的人发布项目
-					$this->load->view('user_center', $this->user_model->insert_worker());
+					$this->user_model->insert_worker();
 				} else if ($type == "2") {
 					//设计师发布项目
 					$this->load->view('user_center', $this->user_model->insert_designer());
 				}
 		}
-		header("Location:" . base_url() . "/user/user_center");
+		header("Location:" . base_url() . "user/user_center");
 	}
 
 	public function delete_message($id = 0) {
@@ -183,21 +183,18 @@ class User extends CI_Controller {
 						echo "更新失败";
 				}
 			} else if ($type == 1) {
-				$this->user_model->delete_worker($tmpid);
+				if ($this->user_model->update_worker($tmpid)) {
+						header('Location:' . base_url() . 'user/user_center');
+				} else {
+						echo "更新失败";
+				}
 			} else if ($type == 2) {
 				$this->user_model->delete_designer($tmpid);
 			}
-		
 		} else {
 			//显示更新界面
-			if ($type == 0) {
-				$data = $this->user_model->get_message_row($id);
-				$this->load->view('update_message', $data);
-			} else if ($type == 1) {
-				$this->user_model->delete_worker($id);
-			} else if ($type == 2) {
-				$this->user_model->delete_designer($id);
-			}
+			$data = $this->user_model->get_message_row($id);
+			$this->load->view('update_message', $data);
 		}
 	}
 }

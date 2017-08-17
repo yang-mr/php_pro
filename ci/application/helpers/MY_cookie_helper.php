@@ -8,5 +8,6 @@
 			delete_cookie('id');
 			delete_cookie('type');
 			header("Location:./login");
+			exit();
 		}
 	}

@@ -1,8 +1,10 @@
 <?php
-	//require_once './vendor/autoload.php';
+	require_once './vendor/autoload.php';
 
 	use Qiniu\Auth;
     use Qiniu\Storage\UploadManager;
+    use Qiniu\Storage\BucketManager;
+
 	class User_model extends CI_Model {
 		public  function __construct() {
 			parent::__construct();
@@ -12,7 +14,6 @@
 		public function insert_user() {
 			$pwd = $this->input->post('password');
 			$tmp = $pwd . $this->config->item('pwd_salt');
-
 			$array = array(
 				'username'=>$this->input->post('username'),
 				'password'=>md5($tmp),
@@ -22,7 +23,6 @@
 				'ip_address'=>$_SERVER["REMOTE_ADDR"],
 				'register_date'=>date('Y-m-d H:i:sa')
 			);
-
 			return $this->db->insert('fitment_user', $array);
 		}
 
@@ -41,10 +41,10 @@
 				/*
 					用cookie 保存
 				 */
-				setcookie('id', $id . '', time() + 3600);
-				setcookie('username', $username, time() + 3600);
-				setcookie('type', $type . '', time() + 3600);
-				setcookie('result', '登录成功', time() + 3600);
+				setcookie('id', $id . '', time() + 60 * 60 * 24 * 7, "/");
+				setcookie('username', $username, time() + 60 * 60 * 24 * 7, "/");
+				setcookie('type', $type . '', time() + 60 * 60 * 24 * 7, "/");
+				setcookie('result', 'denglu', time() + 60 * 60 * 24 * 7, "/");
 				return true;
 			} else {
 				return false;
@@ -54,45 +54,47 @@
 		public function get_user_center($startindex = 0) {
 			$type = get_data_from_cookie('type');
 			$id = get_data_from_cookie('id');
+			$per_page = $this->config->item('per_page');
 			if ($type == 0) {
 					//去获取需要装修的人发布的信息
 					$sql = "select demand_id, title, description, price, area, 
 					public_date from fitment_demands  where user_id = ? limit ?,?";
 					$array = array(
-						$id, $startindex + "", $this->config->item('per_page')
+						$id, $startindex + "", $per_page
 					);
 					$data['demands'] = $this->db->query($sql, $array)->result_array();
 				} else if ($type == 1) {
 					//去获取装修师傅发布的信息
-					$sql = "select title, description, pro_time, public_time from fitment_worker where user_id = " . $id;
+					$sql = "select worker_id id, title, description, pro_time, public_time from fitment_worker where user_id = " . $id . " limit " . $startindex . "," . $per_page . ";";
 					$data['demands'] = $this->db->query($sql)->result_array();
 				} else if ($type == 2) {
 					//去获取设计师发布的信息
-					$sql = "select title, description, pro_time, public_time from fitment_designer where user_id = " . $id;
+					$sql = "select designer_id id, title, description, pro_time, public_time from fitment_designer where user_id = " . $id;
 					$data['demands'] = $this->db->query($sql)->result_array();
 				}
 			return $data;
 		}
-
 		 /*
 			得到一行数据
 		*/
 		public function get_message_row($id = 0) {
 			$type = get_data_from_cookie('type');
-			$table = 'fitment_demands';
 			$sql = '';
 			if ($type == 0) {
-				$sql = 'select demand_id, title, description, area, price from fitment_demands where demand_id = ' . $id;
+				$sql = 'select demand_id id, title, description, area, price from fitment_demands where demand_id = ' . $id;
 			} else if ($type == 1) {
-				$sql = 'select worker_id, title, description, pro_time from fitment_worker where worker_id = ' . $id;
+				$sql = 'select worker_id id, title, description, pro_time from fitment_worker where worker_id = ' . $id;
+				$sql_re = 'select image_id, res_url from fitment_res where worker_id = ' . $id;
+				$data = $this->db->query($sql)->row_array();
+				$data['images'] = $this->db->query($sql_re)->result_array();
+				return $data;
 			} else if ($type == 2) {
-				$sql = 'select designer_id, title, description, pro_time from fitment_designer where designer_id = ' . $id;
+				$sql = 'select designer_id id, title, description, pro_time from fitment_designer where designer_id = ' . $id;
 			}
 			return $this->db->query($sql)->row_array();
 		}
-
-		 /*
-			得到一行数据
+		/*
+			得到行数的总数
 		*/
 		public function get_count() {
 			$type = get_data_from_cookie('type');
@@ -101,9 +103,9 @@
 			if ($type == 0) {
 				$sql = 'select count(demand_id) a from fitment_demands where user_id = ' . $id;
 			} else if ($type == 1) {
-				$sql = 'select worker_id, title, description, pro_time from fitment_worker where worker_id = ' . $id;
+				$sql = 'select count(worker_id) a from fitment_worker where user_id = ' . $id;
 			} else if ($type == 2) {
-				$sql = 'select designer_id, title, description, pro_time from fitment_designer where designer_id = ' . $id;
+				$sql = 'select count(designer_id) a from fitment_designer where user_id = ' . $id;
 			}
 			return $this->db->query($sql)->row_array()['a'];
 		}
@@ -122,9 +124,9 @@
 				'user_id'=>$id
 			);
 			if ($this->db->insert('fitment_demands', $array)) {
-				setcookie('result', '发布成功', time() + 3600);
+				setcookie('result', 'fabu', time() + 60 * 60 * 24 * 7, "/");
 			} else {
-				setcookie('result', '发布失败', time() + 3600);
+				setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
 			}
 		}
         
@@ -134,9 +136,9 @@
 		public function delete_message($demand_id = 0) {
 			$delresult = $this->db->query('delete from fitment_demands where demand_id=' . $demand_id);
 			if ($delresult) {
-				setcookie('result', '删除成功', time() + 3600);
+				setcookie('result', 'shanchu', time() + 60 * 60 * 24 * 7, "/");
 			} else {
-				setcookie('result', '删除失败', time() + 3600);
+				setcookie('result', '删除失败', time() + 60 * 60 * 24 * 7, "/");
 			}
 		}
 
@@ -166,13 +168,7 @@
 		装修师傅 发布的项目
 		*/
 		public function insert_worker() {
-		  $id = $this->input->post('id');
-			$result = array(
-				'id'=>$id,
-				'username'=>$this->input->post('username'),
-				'type'=>$this->input->post('type')
-			);
-
+		  	$id = get_data_from_cookie('id');
 			$array = array(
 				'user_id'=>$id,
 				'title'=>$this->input->post('title'),
@@ -180,8 +176,11 @@
 				'public_time'=>date('Y-m-d H:i:s'),
 				'pro_time'=>$this->input->post('pro_time')
 			);
-			if ($this->db->insert('fitment_worker', $array)) {
-				$worker_id = $this->db->query('select max(worker_id) worker_id from fitment_worker')->result()[0]->worker_id;
+
+			$this->db->trans_start();   //开启事务
+			$insert_worker_result = $this->db->insert('fitment_worker', $array);
+			if ($insert_worker_result) {
+				$worker_id = $this->db->query('select max(worker_id) worker_id from fitment_worker')->row_array()['worker_id'];
 
 				  $file = $_FILES['userfile'];
 				  $accessKey = $this->config->item('qiniu_ak');
@@ -195,8 +194,10 @@
 				  for ($i=0; $i < count($file); $i++) {
 				  		$name = $file['name'][$i];
 				  		if ("" != $name) {
-				  			$uploadresult = $uploadMgr->putFile($token, 'fitment_' . mt_rand() . time() , $file['tmp_name'][$i]);
 				  			$type = substr($file['type'][$i], 0, 5) == 'image' ? 0 : 1;
+				  			$exp_name = explode('.', $name);
+				  			$suffix = $exp_name[count($exp_name) - 1];
+				  			$uploadresult = $uploadMgr->putFile($token, $i . 'fitment_' . mt_rand() . time() . '.' . $suffix, $file['tmp_name'][$i]);
 					  		$upload = array(
 					  			'worker_id'=>$worker_id,
 					  			'type'=>$type,
@@ -204,18 +205,100 @@
 					  			'res_time'=>date('Y-m-d H:i:s')
 					  			);
 					  		if (!$this->db->insert('fitment_res', $upload)) {
-					  			$result['result'] = '有些图片上传失败';
+					  			//$result['result'] = '有些图片上传失败';
 					  		}
 				  		 } 
 				  }
-				$result['result'] = '发布成功';
-			} else {
-				$result['result'] = '发布失败';
+				  $this->db->trans_complete(); //结束事务
+				  if ($this->db->trans_status() === false) {
+				  	setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
+				  	return;
+				  }
+					setcookie('result', '发布成功', time() + 60 * 60 * 24 * 7, "/");
+				} else {
+					setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
+				}
+		}
+
+		public function delete_worker($id) {
+			  $accessKey = $this->config->item('qiniu_ak');
+			  $secretKey = $this->config->item('qiniu_sk');
+			  //初始化Auth状态
+			  $auth = new Auth($accessKey, $secretKey);
+			  //初始化BucketManager
+			  $bucketMgr = new BucketManager($auth);
+			  $bucket = $this->config->item('qiniu_bucket');
+			  $query = $this->db->query('select res_url from fitment_res where worker_id=' . $id);
+			  $key = $query->row_array()['res_url'];
+			  //删除$bucket 中的文件 $key
+			  $err = $bucketMgr->delete($bucket, $key);
+			  if ($err !== null) {
+			      var_dump($err);
+			  } else {
+			      $this->db->query('delete from fitment_res where worker_id=' . $id);
+				if ($this->db->affected_rows() >= 0) {
+					$this->db->query('delete from fitment_worker where worker_id=' . $id);
+					setcookie('result', '删除成功', time() + 60 * 60 * 24 * 7, "/");
+				} else {
+					setcookie('result', '删除失败', time() + 60 * 60 * 24 * 7, "/");
+				}
+			  }
+		}
+
+		public function update_worker($id) {
+			//七牛 先上传图片再删除之前的
+			 $file = $_FILES['userfile'];
+			 var_dump($file);
+			 var_dump($this->input->post('ids'));
+			 $res_all = $this->input->post('ids');
+			  $accessKey = $this->config->item('qiniu_ak');
+			  $secretKey = $this->config->item('qiniu_sk');
+			  $auth = new Auth($accessKey, $secretKey);
+			  $bucket = $this->config->item('qiniu_bucket');
+			  // 生成上传Token
+			  $token = $auth->uploadToken($bucket);
+			  // 构建 UploadManager 对象
+			  $uploadMgr = new UploadManager();
+			  for ($i=0; $i < count($file['name']); $i++) {
+			  		$name = $file['name'][$i];
+			  		if ("" != $name) {
+			  			$type = substr($file['type'][$i], 0, 5) == 'image' ? 0 : 1;
+			  			$exp_name = explode('.', $name);
+			  			$suffix = $exp_name[count($exp_name) - 1];
+			  			$uploadresult = $uploadMgr->putFile($token, $i . 'fitment_' . mt_rand() . time() . '.' . $suffix, $file['tmp_name'][$i]);
+				  		
+				  		$res = $res_all[$i];
+				  		$res_array = explode(',', $res);
+				  		$res_id = $res_array[0];
+				  		$res_url = $res_array[1];
+			  			//初始化BucketManager
+						  $bucketMgr = new BucketManager($auth);
+						  //删除$bucket 中的文件 $key
+						  $err = $bucketMgr->delete($bucket, $res_url);
+						  if ($err !== null) {
+						      var_dump($err);
+						  } else {
+						  	$array = array('type'=>$type, 'res_url'=>$uploadresult[0]['key'], 'res_time'=>date("Y-m-d H:i:s"));
+							$sql = $this->db->update_string('fitment_res', $array, 'image_id=' . $res_id);
+							$updateres = $this->db->query($sql);
+							if ($updateres) {
+								$title = $this->input->post('title');
+								$description = $this->input->post('description');
+								$pro_time = $this->input->post('pro_time');
+
+								$array = array('title'=>$title, 'description'=>$description, 'pro_time'=>$pro_time, 'public_time'=>date("Y-m-d H:i:s"));
+								$sql = $this->db->update_string('fitment_worker', $array, 'worker_id=' . $id);
+								$updateresult = $this->db->query($sql);
+								if ($updateresult) {
+									setcookie('result', '更新成功', time() + 60 * 60 * 24 * 7, '/');
+									return true;
+								} else {
+									return false;
+								}
+							}
+						  }
+			  }
 			}
-			//去获取装修师傅发布的信息
-			$sql = "select title, description, pro_time, public_time from fitment_worker where user_id = " . $id;
-			$result['demands'] = $this->db->query($sql)->result_array();
-			return $result;
 		}
 
 		/*
@@ -240,9 +323,17 @@
 			} else {
 				$result['result'] = '发布失败';
 			}
-			//去获取设计师发布的信息
-			$sql = "select title, description, pro_time, public_time from fitment_designer where user_id = " . $id;
-			$result['demands'] = $this->db->query($sql)->result_array();
-			return $result;
+		}
+
+		public function delete_designer($id) {
+			$this->db->trans_start();
+			$this->db->query('delete from fitment_demands where designer_id=' . $id);
+			$this->db->query('delete from fitment_res where designer_id=' . $id);
+			$this->db->trans_complete();
+			if ($this->db->trans_status === false) {
+				setcookie('result', '删除失败', time() + 60 * 60 * 24 * 7, "/");
+			} else {
+				setcookie('result', '删除成功', time() + 60 * 60 * 24 * 7, "/");
+			}
 		}
 	}
