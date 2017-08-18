@@ -529,4 +529,4 @@ $config['qiniu_bucket'] = 'test2';
 $config['qiniu_domain'] = 'http://ogmbfybyn.bkt.clouddn.com/';
 
 //分页
-$config['per_page'] = 4;
+$config['per_page'] = 3;

@@ -9,30 +9,6 @@ class User extends CI_Controller {
 		$this->load->library('pagination'); //分页
 	}
 
-	public function index() {
-		$array = array(
-			array(
-				'field'=>'username',
-				'laber'=>'Username',
-				'rules'=>'required|min_length[5]|max_length[10]'
-			),
-			array(
-				'field'=>'password',
-				'laber'=>'Password',
-				'rules'=>'required|min_length[6]'
-			)
-		);
-		$this->form_validation->set_rules($array);
-		if (!$this->form_validation->run()) {
-			$this->load->view('user_login');
-		} else  {
-			if ($result = $this->user_model->login_user()) {
-				$this->load->view('user_center', $result);
-			} else {
-				 echo '登录失败';
-			}
-		}
-	}
 	/*
 	用户注册
 	*/
@@ -89,16 +65,31 @@ class User extends CI_Controller {
 				'rules'=>'required|min_length[6]'
 			)
 		);
-		$this->form_validation->set_rules($array);
+
+	/*	$this->form_validation->set_rules($array);
 		if (!$this->form_validation->run()) {
 			$this->load->view('user_login');
 		} else  {
+			var_dump($array);
 			if ($this->user_model->login_user()) {
+					echo '登录成功';
+					exit;
 				header("Location:./user_center");
 			} else {
 				 echo '登录失败';
 			}
-		}
+		}*/
+			$first = $this->input->post('username');
+			if (!isset($first)) {
+				$this->load->view('user_login');
+				return;
+			}
+		    
+			if ($this->user_model->login_user()) {
+				 echo '登录成功';
+			} else {
+				 echo '登录失败';
+			}
 	}
 
 	public function user_center($page = 0) {
@@ -144,7 +135,7 @@ class User extends CI_Controller {
 		} else  {
 				if ($type == "0") {
 					//需要装修的人
-					$this->user_model->insert_message();
+					echo $this->user_model->insert_message();
 				} else if ($type == "1") {
 					//装修的人发布项目
 					$this->user_model->insert_worker();
@@ -153,23 +144,21 @@ class User extends CI_Controller {
 					$this->load->view('user_center', $this->user_model->insert_designer());
 				}
 		}
-		header("Location:" . base_url() . "user/user_center");
 	}
 
 	public function delete_message($id = 0) {
 		$type = get_data_from_cookie('type');
 		if ($id != 0) {
 			if ($type == 0) {
-				$this->user_model->delete_message($id);
+				echo $this->user_model->delete_message($id);
 			} else if ($type == 1) {
-				$this->user_model->delete_worker($id);
+				echo $this->user_model->delete_worker($id);
 			} else if ($type == 2) {
-				$this->user_model->delete_designer($id);
+				echo $this->user_model->delete_designer($id);
 			}
 		} else {
-
+			echo "删除失败";
 		}
-		header("Location:" . base_url() . 'user/user_center');
 	}
 
 	public function update_message($id = 0, $typeid = 0) {
@@ -177,11 +166,7 @@ class User extends CI_Controller {
 		if ($typeid != 0) {
 			$tmpid = $this->uri->segment(3);
 			if ($type == 0) {
-				if ($this->user_model->update_message($tmpid)) {
-						header('Location:' . base_url() . 'user/user_center');
-				} else {
-						echo "更新失败";
-				}
+				echo $this->user_model->update_message($tmpid);
 			} else if ($type == 1) {
 				if ($this->user_model->update_worker($tmpid)) {
 						header('Location:' . base_url() . 'user/user_center');

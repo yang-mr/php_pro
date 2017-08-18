@@ -1,0 +1,50 @@
+body {
+    margin: 0px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    flex: 0 0 2em;
+    background-color: gray;
+}
+
+footer {
+    flex: 0 0 2em;
+    background-color: red;
+}
+
+header p a {
+    float: right;
+    margin-right: 20px;
+}
+
+#context {
+    flex: 8;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+#context nav {
+    flex: 1;
+}
+
+#context main {
+    flex: 7;
+    background-color: gray;
+}
+
+#context aside {
+    flex: 1;
+}
+
+input.text { margin-bottom:12px; width:95%; padding: .4em; }
+
+ main #table_demand {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    margin-bottom: 20px;
+ }

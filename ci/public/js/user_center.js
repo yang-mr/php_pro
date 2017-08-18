@@ -1,5 +1,5 @@
 $(function() {
-    $("#post_message").button().click(function() {
+    $("#post_message").click(function() {
         var tmp = $("#post_message").text().trim();
         if (tmp == "发布新需求") {
             $("#dialog-form").dialog("open");

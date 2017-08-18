@@ -10,7 +10,7 @@
 			parent::__construct();
         			$this->load->database();
 		}
-
+		
 		public function insert_user() {
 			$pwd = $this->input->post('password');
 			$tmp = $pwd . $this->config->item('pwd_salt');
@@ -29,12 +29,11 @@
 		public function login_user() {
 			$pwd = $this->input->post('password');
 			$username = $this->input->post('username');
-			$tmp = $pwd . $this->config->item('pwd_salt');
 			$sql = "select type, password, id from fitment_user where username='" . $username . "'";
 			$data = $this->db->query($sql)->row_array();
 			if (empty($data)) {
 				return false;
-			} else if (md5($tmp) === $data['password']){
+			} else if ($pwd === $data['password']){
 				$id = $data['id'];
 				$type = $data['type'];
 				/*$data = array('id'=>$id, 'username'=>$username, 'type'=>$type);*/
@@ -124,9 +123,9 @@
 				'user_id'=>$id
 			);
 			if ($this->db->insert('fitment_demands', $array)) {
-				setcookie('result', 'fabu', time() + 60 * 60 * 24 * 7, "/");
+				return "发布成功";
 			} else {
-				setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
+				return "发布失败";
 			}
 		}
         
@@ -134,11 +133,13 @@
 		需要装修的人的 删除需求
 		*/
 		public function delete_message($demand_id = 0) {
-			$delresult = $this->db->query('delete from fitment_demands where demand_id=' . $demand_id);
-			if ($delresult) {
-				setcookie('result', 'shanchu', time() + 60 * 60 * 24 * 7, "/");
+			$this->db->query('delete from fitment_demands where demand_id=' . $demand_id);
+			if ($this->db->affected_rows() > 0) {
+				return "删除成功";
+				//setcookie('result', 'shanchu', time() + 60 * 60 * 24 * 7, "/");
 			} else {
-				setcookie('result', '删除失败', time() + 60 * 60 * 24 * 7, "/");
+				return "删除失败";
+				//setcookie('result', '删除失败', time() + 60 * 60 * 24 * 7, "/");
 			}
 		}
 
@@ -154,13 +155,11 @@
 		/*	$sql = "update fitment_demands set title = ?, description = ?, price = ?, area = ?, public_date = ? where demand_id = ?";*/
 			$array = array('title'=>$title, 'description'=>$description, 'price'=>$price, 'area'=>$area, 'public_date'=>date("Y-m-d H:i:s"));
 			$sql = $this->db->update_string('fitment_demands', $array, 'demand_id=' . $id);
-
-			$updateresult = $this->db->query($sql);
-			if ($updateresult) {
-				setcookie('result', '更新成功', time() + 3600);
-				return true;
+			$this->db->query($sql);
+			if ($this->db->affected_rows() > 0) {
+				return "更新成功";
 			} else {
-				return false;
+				return "更新失败";
 			}
 		}
 
@@ -248,8 +247,6 @@
 		public function update_worker($id) {
 			//七牛 先上传图片再删除之前的
 			 $file = $_FILES['userfile'];
-			 var_dump($file);
-			 var_dump($this->input->post('ids'));
 			 $res_all = $this->input->post('ids');
 			  $accessKey = $this->config->item('qiniu_ak');
 			  $secretKey = $this->config->item('qiniu_sk');
@@ -261,12 +258,16 @@
 			  $uploadMgr = new UploadManager();
 			  for ($i=0; $i < count($file['name']); $i++) {
 			  		$name = $file['name'][$i];
+			  		var_dump("" != $name);
+			  		exit;
 			  		if ("" != $name) {
 			  			$type = substr($file['type'][$i], 0, 5) == 'image' ? 0 : 1;
 			  			$exp_name = explode('.', $name);
 			  			$suffix = $exp_name[count($exp_name) - 1];
 			  			$uploadresult = $uploadMgr->putFile($token, $i . 'fitment_' . mt_rand() . time() . '.' . $suffix, $file['tmp_name'][$i]);
-				  		
+				  		if ($uploadresult[0]['error'] != null) {
+				  			return false;
+				  		}
 				  		$res = $res_all[$i];
 				  		$res_array = explode(',', $res);
 				  		$res_id = $res_array[0];

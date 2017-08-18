@@ -9,34 +9,49 @@
                                     <script language="JavaScript" src="<?php echo base_url() ?>public/js/user_center.js"></script>
     <title>个人中心</title>
     <script>
-        function myload() {
-            <?php if(isset($_COOKIE['result']) && $_COOKIE['result'] != ""){ ?>
-            // setcookie('result', ''); 
-            alert("<?php echo $_COOKIE['result']; ?>");
-            <?php } 
-                setcookie("result", '', time() - 3600, '/');
-            ?>
+        function jss_delete(id) {
+            $.get("./delete_message/" + id, function(data, status){
+                if (status == 'success') {
+                     alert(data);
+                     location.href = 'user_center';
+                } else {
+                     alert('删除失败');
+                }
+            });
         }
-   window.onload = myload;
+
+        $(function() {
+              $("#submit").click(function() {
+                    var title = $("#title").val();
+                    var description = $("#description").val();
+                    var price = $("#price").val();
+                    var area = $("#area").val();
+
+                    $.post('./post_message', {"title":title, "description":description, "price":price, "area":area}, function(data, status){
+                        if ('success' == status) {
+                            alert(data);
+                            location.href="./user_center";
+                        } else {
+                            alert("发布失败");
+                        }
+                    });
+            });
+        });
  </script>
 </head>
 <body>
     <?php echo validation_errors()?>
  <div id="dialog-form" title="发布新需求">
   <p class="validateTips">所有的表单字段都是必填的。</p>
-  <?php echo form_open('user/post_message'); ?>
-  <fieldset>
     <label for="name">标题</label>
-    <input type="text" name="title" id="name" class="text ui-widget-content ui-corner-all">
+    <input type="text" id="title" class="text ui-widget-content ui-corner-all">
     <label for="email">描述</label>
-    <input type="text" name="description" id="email" value="" class="text ui-widget-content ui-corner-all">
+    <input type="text" id="description" value="" class="text ui-widget-content ui-corner-all">
     <label for="password">预算</label>
-    <input type="text" name="price" id="password" value="" class="text ui-widget-content ui-corner-all">
+    <input type="text" id="price" value="" class="text ui-widget-content ui-corner-all">
      <label for="password">面积</label>
-    <input type="text" name="area" id="password" value="" class="text ui-widget-content ui-corner-all">
-    <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all">
-  </fieldset>
-  </form>
+    <input type="text" id="area" value="" class="text ui-widget-content ui-corner-all">
+    <button id="submit" class="text ui-widget-content ui-corner-all">发布新需求</button>
 </div>
 
 <div id="dialog-form-worker-designer" title="添加项目简介">
@@ -87,7 +102,7 @@
                     <tr id="description_part">
                         <th>装修描述：<?php echo $item['description']; ?></th>
                         <th><a href="<?php echo base_url()?>user/update_message/<?php echo $item['demand_id']?>">编辑</a></th>
-                        <th><a href="<?php echo base_url()?>user/delete_message/<?php echo $item['demand_id']?>">删除</a></th>
+                        <th><a href="javascript:void(0);" onclick="jss_delete(<?php echo $item['demand_id']?>)">删除</a></th>
                     </tr>
                      <tr id="footer_part">
                         <th id="demand_price">预算：<?php echo $item['price']; ?></th>
@@ -99,8 +114,8 @@
                      <table id="table_demand">
                     <tr id="header_part">
                         <th id="demand_title">标题：<?php echo $item['title']; ?></th>
-                        <th><a href="<?php echo base_url()?>user/update_message/<?php echo $item['id']?>">编辑</a></th>
-                        <th><a href="<?php echo base_url()?>user/delete_message/<?php echo $item['id']?>">删除</a></th>
+                        <th><a class="edit" href="<?php echo base_url()?>user/update_message/<?php echo $item['id']?>">编辑</a></th>
+                        <th><a class="delete" href="<?php echo base_url()?>user/delete_message/<?php echo $item['id']?>">删除</a></th>
                     </tr>
                     <tr id="description_part">
                         <th>项目描述：<?php echo $item['description']; ?></th>
