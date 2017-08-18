@@ -132,3 +132,6 @@ ajax
 				});
 		});
 		</script>
+CURL command
+	curl http://baidu.com    //在终端输出网页信息
+	curl -o[O] savefilename.txt http://baidu.com 将网页保存到文件
