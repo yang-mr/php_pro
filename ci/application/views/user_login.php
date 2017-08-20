@@ -4,7 +4,7 @@
 	<title>用户登录</title>
     <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://www.veryhuo.com/uploads/Common/js/jQuery.md5.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../public/css/user_login.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>public/css/user_login.css">
    <!--  <script type="text/javascript">
     	function test(data) {
     		 console.log(data);
@@ -80,6 +80,7 @@
 <body>
 	<div id="wrapper">
 		<div id="header">
+			<a href="<?php echo base_url()?>home/index">首页</a>
 		</div>
 		<div id="navfirst">
 		</div>

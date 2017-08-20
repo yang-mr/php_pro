@@ -1,0 +1,130 @@
+body {
+    margin: 0px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    flex: 0 0 2em;
+    background-color: gray;
+}
+
+footer {
+    flex: 0 0 2em;
+    background-color: red;
+}
+
+header p a {
+    float: right;
+    margin-right: 20px;
+}
+
+#context {
+    flex: 8;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+#context nav {
+    flex: 1;
+}
+
+#context main {
+    flex: 7;
+    background-color: gray;
+}
+
+#context aside {
+    flex: 1;
+}
+
+ input.text { margin-bottom:12px; width:95%; padding: .4em; }
+
+ main #table_demand {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    margin-bottom: 20px;
+ }
+
+
+
+* {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                outline: 0
+            }
+            
+            ul,
+            li {
+                list-style: none;
+            }
+            
+            a {
+                text-decoration: none;
+            }
+            
+            a:hover {
+                cursor: pointer;
+                text-decoration: none;
+            }
+            
+            a:link {
+                text-decoration: none;
+            }
+            
+            img {
+                vertical-align: middle;
+            }
+            
+            .btn-numbox {
+                overflow: hidden;
+                margin-top: 20px;
+            }
+            
+            .btn-numbox li {
+                float: left;
+            }
+            
+            .btn-numbox li .number,
+            .kucun {
+                display: inline-block;
+                font-size: 12px;
+                color: #808080;
+                vertical-align: sub;
+                margin-left: 20px;
+            }
+            
+            .btn-numbox .count {
+                overflow: hidden;
+                margin: 0 16px 0 -20px;
+            }
+            
+            .btn-numbox .count .num-jian,
+            .input-num,
+            .num-jia {
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                line-height: 28px;
+                text-align: center;
+                font-size: 18px;
+                color: #999;
+                cursor: pointer;
+                border: 1px solid #e6e6e6;
+            }
+            
+            .btn-numbox .count .num-jia {
+                margin-left: 1px;
+            }
+            
+            .btn-numbox .count .input-num {
+                width: 58px;
+                height: 26px;
+                color: #333;
+                border-left: 0;
+                border-right: 0;
+            }

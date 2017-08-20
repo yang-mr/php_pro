@@ -1,14 +1,13 @@
 <?php
 	require_once './vendor/autoload.php';
+	require_once 'Base_model.php';
 
 	use Qiniu\Auth;
-    use Qiniu\Storage\UploadManager;
-    use Qiniu\Storage\BucketManager;
-
-	class User_model extends CI_Model {
+    	use Qiniu\Storage\UploadManager;
+    	use Qiniu\Storage\BucketManager;
+	class User_model extends Base_model {
 		public  function __construct() {
 			parent::__construct();
-        			$this->load->database();
 		}
 		
 		public function insert_user() {
@@ -43,11 +42,41 @@
 				setcookie('id', $id . '', time() + 60 * 60 * 24 * 7, "/");
 				setcookie('username', $username, time() + 60 * 60 * 24 * 7, "/");
 				setcookie('type', $type . '', time() + 60 * 60 * 24 * 7, "/");
-				setcookie('result', 'denglu', time() + 60 * 60 * 24 * 7, "/");
 				return true;
 			} else {
 				return false;
 			}
+		}
+
+		public function get_cart_list($page = 0) {
+			$per_page = $this->config->item('per_page');
+			$i = 0;
+			$tmp = array();
+			$id = get_data_from_cookie('id');
+			$query = $this->db->query('select cart_id, worker_id, designer_id, public_time, number from fitment_cart where user_id = ' . $id . ' limit ' . $page . ', ' . $per_page);
+			$cartdata = $query->result_array();
+			foreach ($cartdata as $item) {
+				$data = array();
+				if ($item['worker_id'] != null) {
+					$data = $this->db->query('select worker_id id, title, description, pro_time from fitment_worker where worker_id = ' . $item['worker_id'])->row_array();
+					$data['type'] = '1';
+					$data['public_time'] = $item['public_time'];
+					$data['number'] = $item['number'];
+					$data['cart_id'] = $item['cart_id'];
+					$tmp[$i] = $data;
+				} else {
+					$data = $this->db->query('select designer_id id, title, description, pro_time from fitment_designer where designer_id = ' . $item['designer_id'])->row_array();
+					$data['type'] = '2';
+					$data['public_time'] = $item['public_time'];
+					$data['number'] = $item['number'];
+					$data['cart_id'] = $item['cart_id'];
+					$tmp[$i] = $data;
+				}
+				++$i;
+			}
+			$result['carts'] = $tmp;
+			$result['carts_pages'] = count($cartdata);
+			return $result;
 		}
 
 		public function get_user_center($startindex = 0) {
@@ -73,6 +102,32 @@
 				}
 			return $data;
 		}
+		/*
+			得到行数的总数
+		*/
+		public function get_count() {
+			$type = get_data_from_cookie('type');
+			$id = get_data_from_cookie('id');
+			$sql = '';
+			if ($type == 0) {
+				$sql = 'select count(demand_id) a from fitment_demands where user_id = ' . $id;
+			} else if ($type == 1) {
+				$sql = 'select count(worker_id) a from fitment_worker where user_id = ' . $id;
+			} else if ($type == 2) {
+				$sql = 'select count(designer_id) a from fitment_designer where user_id = ' . $id;
+			}
+			return $this->db->query($sql)->row_array()['a'];
+		}
+
+		/*
+			得到行数的总数
+		*/
+		public function get_count_fitmentcart_table() {
+			$id = get_data_from_cookie('id');
+			$sql = 'select count(cart_id) a from fitment_cart where user_id = ' . $id;
+			return $this->db->query($sql)->row_array()['a'];
+		}
+
 		 /*
 			得到一行数据
 		*/
@@ -92,23 +147,6 @@
 			}
 			return $this->db->query($sql)->row_array();
 		}
-		/*
-			得到行数的总数
-		*/
-		public function get_count() {
-			$type = get_data_from_cookie('type');
-			$id = get_data_from_cookie('id');
-			$sql = '';
-			if ($type == 0) {
-				$sql = 'select count(demand_id) a from fitment_demands where user_id = ' . $id;
-			} else if ($type == 1) {
-				$sql = 'select count(worker_id) a from fitment_worker where user_id = ' . $id;
-			} else if ($type == 2) {
-				$sql = 'select count(designer_id) a from fitment_designer where user_id = ' . $id;
-			}
-			return $this->db->query($sql)->row_array()['a'];
-		}
-
 		/*
 		需要装修的人的 发布的需求
 		*/
@@ -210,12 +248,14 @@
 				  }
 				  $this->db->trans_complete(); //结束事务
 				  if ($this->db->trans_status() === false) {
-				  	setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
-				  	return;
+				  	//setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
+				  	return "发布失败";
 				  }
-					setcookie('result', '发布成功', time() + 60 * 60 * 24 * 7, "/");
+					//setcookie('result', '发布成功', time() + 60 * 60 * 24 * 7, "/");
+				  	return "发布成功";
 				} else {
-					setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
+					//setcookie('result', '发布失败', time() + 60 * 60 * 24 * 7, "/");
+					return "发布成功";
 				}
 		}
 

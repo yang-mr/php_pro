@@ -20,6 +20,15 @@
             });
         }
 
+        function item_detail(id, type) {
+            if (<?php echo is_login()?>) {
+                location.href = '<?php echo base_url()?>good/item/' + id + "/" + type;
+            } else {
+                alter('请登陆后操作');
+                location.href = '<?php echo base_url()?>user/login';
+            }
+        }
+
         $(function() {
               $("#submit").click(function() {
                     var title = $("#title").val();
@@ -41,12 +50,18 @@
 </head>
 <body>
     <header>
-        <p id="user_name"> <?php echo get_data_from_cookie('username'); ?><a href="#" id='post_message'><?php if(get_data_from_cookie('type') == 0) {?>
-        发布新需求
-        <?php } else {?>
-            发布新作品
-        <?php }?>
-        </a></p>
+        <?php if (is_login()) {?>
+             <div id="user_name">
+              <a href="<?php echo base_url() ?>user/user_center">
+              <?php echo get_data_from_cookie('username'); ?></a>
+              <a href="#" id='post_message'>
+              <?php if(get_data_from_cookie('type') == 0) {?> 发布新需求<?php } else {?>
+              发布新作品<?php }?> </a>
+            </div>
+       <?php } else {?>
+                <a href="<?php echo base_url()?>user/login">登陆</a>
+                <a href="<?php echo base_url()?>user/register">注册</a>
+       <?php }?>
     </header>
     <div id="context">
         <nav>
@@ -62,7 +77,7 @@
                     <div id="content_header"></div>
                     <div id="demands_content">
                          <?php foreach ($demands as $item):?>
-                         <table id="table_demand">
+                         <table id="table_demand" onclick="item_detail(<?php echo $item['id']?>, <?php echo $demands_type?>)">
                         <tr id="header_part">
                             <th id="demand_title">标题：<?php echo $item['title']; ?></th>
                             <th id="demand_area">面积: <?php echo $item['area']; ?></th>
@@ -78,13 +93,36 @@
                         <?php endforeach;?>
                     </div>
                     <div id="content_footer">
-                        <?php echo $pages?>
+                        <?php echo $demands_pages?>
+                    </div>
+                </div>
+
+                <div id="demands_content_main">
+                    <div id="content_header"></div>
+                    <div id="demands_content">
+                         <?php foreach ($workers as $item):?>
+                         <table id="table_demand" onclick="item_detail(<?php echo $item['id'] ?>, <?php echo $workers_type?>)">
+                        <tr id="header_part">
+                            <th id="demand_title">标题：<?php echo $item['title']; ?></th>
+                        </tr>
+                        <tr id="description_part">
+                            <th>装修描述：<?php echo $item['description']; ?></th>
+                        </tr>
+                         <tr id="footer_part">
+                            <th id="demand_price">工期：<?php echo $item['pro_time']; ?></th>
+                            <th id="demand_time">发布时间: <?php echo $item['public_time']; ?></th>
+                        </tr>
+                          </table>  
+                        <?php endforeach;?>
+                    </div>
+                    <div id="content_footer">
+                        <?php echo $workers_pages?>
                     </div>
                 </div>
         </main>
         <aside></aside>
     </div>
-    <footer>
-    </footer>
+    <!-- <footer>
+    </footer> -->
 </body>
 </html>

@@ -92,6 +92,27 @@ class User extends CI_Controller {
 			}
 	}
 
+	public function logout() {
+		setcookie('username', '', time() - 10, '/');
+		setcookie('id', '', time() - 10, '/');
+		setcookie('type', '', time() - 10, '/');
+		header("Location:" . base_url() . "user/login");	
+		exit;    
+	}
+
+	//购物车列表
+	public function cart_list($page = 0) {
+		$data = $this->user_model->get_cart_list($page);
+		
+		$config['base_url'] = base_url() . 'user/cart_list';
+		$config['total_rows'] = $this->user_model->get_count_fitmentcart_table();
+		$config['per_page'] = $this->config->item('per_page');
+		$this->pagination->initialize($config);
+		$data['pages'] = $this->pagination->create_links();
+
+		$this->load->view('user_cart', $data);
+	}
+
 	public function user_center($page = 0) {
 		$data = $this->user_model->get_user_center($page);
 
@@ -138,7 +159,7 @@ class User extends CI_Controller {
 					echo $this->user_model->insert_message();
 				} else if ($type == "1") {
 					//装修的人发布项目
-					$this->user_model->insert_worker();
+					echo $this->user_model->insert_worker();
 				} else if ($type == "2") {
 					//设计师发布项目
 					$this->load->view('user_center', $this->user_model->insert_designer());

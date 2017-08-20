@@ -1,3 +1,4 @@
+<html>
 <head>
     <meta charset="UTF-8">
                 <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -10,10 +11,10 @@
                   var p = $('#price').val();
                   var a = $('#area').val();
 
-                  $.post("./" + id + "/10", {"title":title,"description":desc ,"price":p,"area":a},function(data, status){
+                  $.post("<?php base_url()?>user/update_message/" + id + "/10", {"title":title,"description":desc ,"price":p,"area":a},function(data, status){
                       if (status == 'success') {
                         alert('更新成功');
-                        location.href="../user_center";
+                        location.href="<?php echo base_url();?>user/user_center";
                       } else {
                         alert('更新失败');
                       }

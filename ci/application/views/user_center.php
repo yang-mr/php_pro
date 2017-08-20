@@ -10,10 +10,10 @@
     <title>个人中心</title>
     <script>
         function jss_delete(id) {
-            $.get("./delete_message/" + id, function(data, status){
+            $.get("<?php echo base_url() ?>user/delete_message/" + id, function(data, status){
                 if (status == 'success') {
                      alert(data);
-                     location.href = 'user_center';
+                     location.href = '<?php echo base_url()?>user/user_center';
                 } else {
                      alert('删除失败');
                 }
@@ -27,15 +27,37 @@
                     var price = $("#price").val();
                     var area = $("#area").val();
 
-                    $.post('./post_message', {"title":title, "description":description, "price":price, "area":area}, function(data, status){
+                    $.post('<?php echo base_url() ?>user/post_message', {"title":title, "description":description, "price":price, "area":area}, function(data, status){
                         if ('success' == status) {
                             alert(data);
-                            location.href="./user_center";
+                            location.href="<?php echo base_url()?>user/user_center";
                         } else {
                             alert("发布失败");
                         }
                     });
             });
+
+              $("#submit_2").click(function() {
+                    var form = new FormData(document.getElementById('worker'));
+                      $.ajax({
+                        url:"<?php echo base_url()?>user/post_message",
+                        type:"post",
+                        data:form,
+                        processData:false,
+                        contentType:false,
+                        success:function(data){
+                            if (data == '发布成功') {
+                                alert("发布成功");
+                                location.href="<?php echo base_url()?>user/user_center";
+                            } else {
+                                alert("发布失败");
+                            }
+                        },
+                        error:function(e){
+                            alert("错误！！");
+                        }
+                    });        
+              });
         });
  </script>
 </head>
@@ -56,26 +78,24 @@
 
 <div id="dialog-form-worker-designer" title="添加项目简介">
   <p class="validateTips">所有的表单字段都是必填的。</p>
-  <?php echo form_open_multipart('user/post_message'); ?>
-  <fieldset>
+  <form id="worker">
     <label for="name">标题</label>
     <input type="text" name="title" id="name" class="text ui-widget-content ui-corner-all">
     <label for="email">描述</label>
     <input type="text" name="description" id="email" value="" class="text ui-widget-content ui-corner-all">
     <label for="password">项目时间</label>
     <input type="text" name="pro_time" value="" class="text ui-widget-content ui-corner-all">
-     <label for="password">上传项目图片或者文件</label>
+    <label for="password">上传项目图片或者文件</label>
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
     <input type="file" name="userfile[]" value="" class="text ui-widget-content ui-corner-all">
-    <input type="submit" value="发布新需求" class="text ui-widget-content ui-corner-all"/>
-  </fieldset>
-  </form>
+    <input type="button" value="发布新需求" id="submit_2"/>
+    </form>
 </div>
     <header>
-        <p id="user_name"> <?php echo get_data_from_cookie('username'); ?><a href="#" id='post_message'><?php if(get_data_from_cookie('type') == 0) {?>
+        <p id="user_name"> <?php echo get_data_from_cookie('username'); ?><a href="<?php echo base_url()?>user/logout">退出登录</a><a href="<?php echo base_url()?>home/index">首页</a><a href="#" id='post_message'><?php if(get_data_from_cookie('type') == 0) {?>
         发布新需求
         <?php } else {?>
             发布新作品
@@ -128,7 +148,7 @@
                 <?php endforeach;?>
                 <?php }?>
                 <div>
-                    <?php echo $pages?> ;
+                    <?php echo $pages?> 
                 </div>
         </main>
         <aside></aside>

@@ -68,6 +68,19 @@
 	);
 
 
+	//购物车的表   pro_time: 装修花的时间；
+	create table fitment_cart(
+		cart_id int auto_increment primary key,
+		user_id int not null,
+		worker_id int,
+		designer_id int,
+		public_time datetime not null,
+		number int defalut 1,
+		constraint fk_cart_user foreign key(user_id) references fitment_user(id),
+		constraint fk_cart_worker foreign key(worker_id) references fitment_worker(worker_id),
+		constraint fk_cart_designer foreign key(designer_id) references fitment_designer(designer_id)
+	);
+
 协议
 	mail, sendmail, or smtp:推协议， 发送方
 	pop3、imap:拉协议，接收方

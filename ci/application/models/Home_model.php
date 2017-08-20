@@ -1,17 +1,42 @@
 <?php
-	class Home_model extends CI_Model{
+	require_once "Base_model.php";
+
+	class Home_model extends Base_model {
 		public  function __construct() {
 			parent::__construct();
-        			$this->load->database();
+		}
+
+		/*
+			得到行数的总数
+		*/
+		public function get_count($type = 0) {
+			$sql = '';
+			if ($type == 0) {
+				$sql = "select count(demand_id) a from fitment_demands";
+			} else if ($type == 1) {
+				$sql = "select count(worker_id) a from fitment_worker";
+			} else if ($type == 2) {
+				$sql = 'select count(designer_id) a from fitment_designer';
+			}
+			return $this->db->query($sql)->row_array()['a'];
 		}
 		
-		public function index($demand_startpage=0, $worker_startpage=0, $designer_startpage=0) {
+		public function index($demand_startpage=0, $type=0) {
 			$per_page = $this->config->item('per_page');
-			$sql1 = "select title, description, price, area, public_date from fitment_demands limit " . $designer_startpage . "," . $per_page;
-			$query_demands = $this->db->query($sql1);
-			$result_demands = $query_demands->result_array();
-			$demands_sum = count($result_demands);
-			$result_demands['sum'] = $demands_sum;
-			return $result_demands;
+			$result = array();
+			if ($type == 0) {
+				$sql1 = "select demand_id id, title, description, price, area, public_date from fitment_demands limit " . $demand_startpage . "," . $per_page;
+				$result['demands'] = $this->db->query($sql1)->result_array();
+
+				$sql2 = "select worker_id id, title, description, pro_time, public_time from fitment_worker limit " . 0 . "," . $per_page;
+				$result['workers'] = $this->db->query($sql2)->result_array();
+			} else if($type == 1) {
+				$sql1 = "select demand_id id, title, description, price, area, public_date from fitment_demands limit " . 0 . "," . $per_page;
+				$result['demands'] = $this->db->query($sql1)->result_array();
+
+				$sql2 = "select worker_id id, title, description, pro_time, public_time from fitment_worker limit " . $demand_startpage . "," . $per_page;
+				$result['workers'] = $this->db->query($sql2)->result_array();
+			}
+			return $result;
 		}
 	}

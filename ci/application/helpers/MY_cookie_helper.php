@@ -7,7 +7,16 @@
 			delete_cookie('username');
 			delete_cookie('id');
 			delete_cookie('type');
-			header("Location:./login");
+			header("Location:" . base_url() . "user/login");
 			exit();
+		}
+	}
+
+	function is_login() {
+		$value = get_cookie("username");
+		if ($value != null) {
+			return true;
+		} else {
+			return false;
 		}
 	}
