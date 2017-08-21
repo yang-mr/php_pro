@@ -21,4 +21,8 @@ class Good extends CI_Controller {
 	public function change_cart_count() {
 			echo $this->good_model->change_cart_count();
 	}
+
+	public function delete_cart_item() {
+			echo $this->good_model->delete_cart_item();
+	}
 }

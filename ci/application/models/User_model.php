@@ -48,6 +48,34 @@
 			}
 		}
 
+		public function get_address_list($page) {
+			$per_page = $this->config->item('per_page');
+			$id = get_data_from_cookie('id');
+
+			$query = $this->db->query('select address_id id, name, phone, province, city, address_detail, zip from fitment_address where user_id = ' . $id . ' limit ' . $page . ',' . $per_page);
+			$result['addresses'] = $query->result_array();
+			return $result;
+		}
+
+		public function add_address() {
+			$id = get_data_from_cookie('id');
+			$data = array(
+				'user_id'=>$id,
+				'name'=>$this->input->post('name'),
+				'phone'=>$this->input->post('phone'),
+				'province'=>$this->input->post('province'),
+				'city'=>$this->input->post('city'),
+				'address_detail'=>$this->input->post('address_detail'),
+				'zip'=>$this->input->post('zip'),
+				'add_time'=>date('Y:m:d H:m:sa')
+				);
+			$result = $this->db->insert('fitment_address', $data);
+			if ($result) {
+				return "添加地址成功";
+			}
+			return "添加地址失败";
+		}
+
 		public function get_cart_list($page = 0) {
 			$per_page = $this->config->item('per_page');
 			$i = 0;
@@ -75,7 +103,6 @@
 				++$i;
 			}
 			$result['carts'] = $tmp;
-			$result['carts_pages'] = count($cartdata);
 			return $result;
 		}
 
@@ -125,6 +152,15 @@
 		public function get_count_fitmentcart_table() {
 			$id = get_data_from_cookie('id');
 			$sql = 'select count(cart_id) a from fitment_cart where user_id = ' . $id;
+			return $this->db->query($sql)->row_array()['a'];
+		}
+
+		/*
+			得到行数的总数
+		*/
+		public function get_count_fitment_address_table() {
+			$id = get_data_from_cookie('id');
+			$sql = 'select count(address_id) a from fitment_address where user_id = ' . $id;
 			return $this->db->query($sql)->row_array()['a'];
 		}
 

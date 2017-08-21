@@ -105,10 +105,9 @@
     <div id="context">
         <nav>
             <ul>
-                <li>我的订单</li>
-                <li>我的订单</li>
-                <li>我的订单</li>
-                <li>我的订单</li>
+                <li><a href="<?php echo base_url()?>user/cart_list">我的购物车</a></li>
+                <li><a href="<?php echo base_url()?>order/order_list">我的订单</a></li>
+                <li><a href="<?php echo base_url()?>user/user_address">我的收货地址</a></li>
             </ul>
         </nav>
         <main>

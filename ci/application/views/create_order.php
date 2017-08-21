@@ -48,7 +48,7 @@
             });
         }
 
-         function delete_cart_item(id) {
+         function select_address(id) {
             $.post('<?php echo base_url() ?>good/delete_cart_item', {'cart_id':id}, function(data, status){
                         if ('success' == status) {
                             alert(data);
@@ -108,10 +108,26 @@
               <a href="<?php echo base_url() ?>user/user_center">
               <?php echo get_data_from_cookie('username'); ?>
               </a>
-              </div>    
-              <a href="#" id='edit_cart'>
-            编辑购物车 </a>
-           
+              <br/>
+              <br/>
+              </div>
+              <div class = "select_address">
+                    <table id="address_item" onclick="select_address(<?php echo $item['id']?>)">
+                              <tr>
+                                <td>
+                                  收件人: <?php echo $item['name']?>
+                                </td>
+                                  <td>
+                                  手机号码: <?php echo $item['phone']?>
+                                </td>
+                                <td><a href="#" class="cart_delete" onclick="delete_cart_item(<?php echo $item['id']?>)">删除</a></td>
+                              </tr>
+                              <tr>
+                                  <td id="address_detail"><?php echo $item['province']; ?> <?php echo $item['city']; echo $item['address_detail']?></td>
+                                  <td>邮编：<?php echo $item['zip']; ?></td>
+                              </tr>
+                        </table>  
+              </div>
     </header>
     <div id="context">
         <nav>
@@ -123,16 +139,13 @@
             </ul>
         </nav>
         <main>
-                <div id="demands_content_main">
-                    <div id="content_header"></div>
-                    <div id="demands_content">
-                         <?php foreach ($carts as $item):?>
+                    <div id="order_list">
+                         <?php foreach ($orders as $item):?>
                          <table id="table_demand" onclick="item_detail(<?php echo $item['id']?>, <?php echo $item['type']?>)">
                                 <tr rowspan='4'><input type='checkbox' value='<?php echo $item['id']?>' name="cartids"/></tr>
                                 <tr>
                                     <tr id="header_part">
                                         <td id="demand_title">标题：<?php echo $item['title']; ?></td>
-                                        <td><a href="#" class="cart_delete" onclick="delete_cart_item(<?php echo $item['cart_id']?>)">删除</a></td>
                                     </tr>
                                     <tr id="description_part">
                                         <td>描述：<?php echo $item['description']; ?></td>
@@ -142,28 +155,11 @@
                                         <td id="demand_time">时间: <?php echo $item['public_time']; ?></td>
                                     </tr>
                                 </tr>
-                                 <tr rowspan='3'>
-                　　　　    <ul class="btn-numbox">
-                                    <li><span class="number">数量</span></li>
-                                    <li>
-                                    <ul class="count">
-                                        <li><span id="num-jian" class="num-jian" onclick='num_jian(<?php echo $item['cart_id']?>)'>-</span></li>
-                                        <li><input type="text" class="input-num" id="input-num<?php echo $item['cart_id']?>" value="<?php echo $item['number']?>" /></li>
-                                        <li><span id="num-jia" class="num-jia" onclick='num_jia(<?php echo $item['cart_id']?>)'>+</span></li>
-                                    </ul>
-                                    </li>
-                                    <li><span class="kucun">（库存:54）</span></li>
-                        　　　  </ul>
-                     </tr>
                           </table>  
                         <?php endforeach;?>
                     </div>
-                    <div id="content_footer">
-                        <?php echo $pages?>
-                    </div>
-                </div>
                 <div id="operation_list">
-                    <a id="go_pay" href="#">合并付款</a>
+                    <a id="go_pay" href="#">提交付款</a>
                 </div>
         </main>
     </div>

@@ -71,4 +71,17 @@
 				}
 			}
 		}
+
+		public function delete_cart_item() {
+			$cart_id = $this->input->post('cart_id');
+			if ($cart_id != null) {
+				$sql = 'delete from fitment_cart where cart_id = ' . $cart_id;
+				$this->db->query($sql);
+				if ($this->db->affected_rows() > 0) {
+					return '操作成功';
+				} else {
+					return '操作失败';
+				}
+			}
+		}
 	}

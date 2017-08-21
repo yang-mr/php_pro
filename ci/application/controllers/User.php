@@ -109,8 +109,25 @@ class User extends CI_Controller {
 		$config['per_page'] = $this->config->item('per_page');
 		$this->pagination->initialize($config);
 		$data['pages'] = $this->pagination->create_links();
-
 		$this->load->view('user_cart', $data);
+	}
+
+	//地址列表
+	public function user_address($page = 0) {
+		$data = $this->user_model->get_address_list($page);
+		
+		$config['base_url'] = base_url() . 'user/user_address';
+		$config['total_rows'] = $this->user_model->get_count_fitment_address_table();
+		$config['per_page'] = $this->config->item('per_page');
+		$this->pagination->initialize($config);
+		$data['pages'] = $this->pagination->create_links();
+
+		$this->load->view('user_address', $data);
+	}
+
+		//地址列表
+	public function add_address() {
+		echo $this->user_model->add_address();
 	}
 
 	public function user_center($page = 0) {
