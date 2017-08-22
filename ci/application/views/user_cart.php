@@ -89,15 +89,8 @@
                     $('input:checkbox:checked').each(function (index, item) {
                          vals.push($(this).val());
                      });
-                    
-                     $.post('<?php echo base_url()?>order/create_order', {"carts":vals}, function(data, status){
-                        if ('success' == status) {
-                            alert(data);
-                            location.href="./user_center";
-                        } else {
-                            alert("发布失败");
-                        }
-                    });
+                    var tmp = vals.join("-");
+                    location.href="<?php echo base_url() ?>order/create_order/" + tmp;
               });
         });
  </script>
@@ -127,8 +120,8 @@
                     <div id="content_header"></div>
                     <div id="demands_content">
                          <?php foreach ($carts as $item):?>
-                         <table id="table_demand" onclick="item_detail(<?php echo $item['id']?>, <?php echo $item['type']?>)">
-                                <tr rowspan='4'><input type='checkbox' value='<?php echo $item['id']?>' name="cartids"/></tr>
+                         <table id="table_demand")">
+                                <tr rowspan='4'><input type='checkbox' value='<?php echo $item['cart_id']?>' name="cartids"/></tr>
                                 <tr>
                                     <tr id="header_part">
                                         <td id="demand_title">标题：<?php echo $item['title']; ?></td>
@@ -163,7 +156,7 @@
                     </div>
                 </div>
                 <div id="operation_list">
-                    <a id="go_pay" href="#">合并付款</a>
+                    <button id="go_pay">合并付款</button>
                 </div>
         </main>
     </div>

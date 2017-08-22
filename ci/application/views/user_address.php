@@ -8,15 +8,8 @@
                 </script>
     <title>地址列表</title>
     <script>   
-         function delete_cart_item(id) {
-            $.post('<?php echo base_url() ?>good/delete_cart_item', {'cart_id':id}, function(data, status){
-                        if ('success' == status) {
-                            alert(data);
-                            location.href="<?php echo base_url() ?>user/cart_list";
-                        } else {
-                            alert("删除购物车失败");
-                        }
-            });
+         function address_item(id) {
+            location.href="<?php echo base_url() ?>order/create_order/" + id + "/<?php echo $carts?>";
         }
 
         function add_address() {
@@ -43,12 +36,6 @@
 
               $("#edit_address").click(function() {
                     $(".cart_delete").toggle();
-              });
-
-              $("#address_item").click(function() {
-                  if (<?php isset($carts)?>) {
-                      
-                  }
               });
 
              $("#open_dialog").click(function() {
@@ -119,7 +106,7 @@
                     <div id="content_header"></div>
                     <div id="demands_content">
                          <?php foreach ($addresses as $item):?>
-                         <table id="address_item" onclick="go_create(<?php echo $item['id']?>, <?php echo $carts?>)">
+                         <table id="address_item" onclick="address_item(<?php echo $item['id']?>)">
                                 <tr>
                                   <td>
                                     收件人: <?php echo $item['name']?>

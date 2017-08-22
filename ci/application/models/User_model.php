@@ -88,18 +88,14 @@
 				if ($item['worker_id'] != null) {
 					$data = $this->db->query('select worker_id id, title, description, pro_time from fitment_worker where worker_id = ' . $item['worker_id'])->row_array();
 					$data['type'] = '1';
-					$data['public_time'] = $item['public_time'];
-					$data['number'] = $item['number'];
-					$data['cart_id'] = $item['cart_id'];
-					$tmp[$i] = $data;
 				} else {
 					$data = $this->db->query('select designer_id id, title, description, pro_time from fitment_designer where designer_id = ' . $item['designer_id'])->row_array();
 					$data['type'] = '2';
+				}
 					$data['public_time'] = $item['public_time'];
 					$data['number'] = $item['number'];
 					$data['cart_id'] = $item['cart_id'];
 					$tmp[$i] = $data;
-				}
 				++$i;
 			}
 			$result['carts'] = $tmp;
