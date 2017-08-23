@@ -78,12 +78,11 @@
 		worker_id int,
 		designer_id int,
 		public_time datetime not null,
-		cart_count int default 1,
-		type int not null default 0,
+		number int default 1,
+		type int default 1,
 		order_id int,
 		constraint fk_cart_user foreign key(user_id) references fitment_user(id),
 		constraint fk_cart_order foreign key(order_id) references fitment_order(order_id),
-		constraint fk_cart_worker foreign key(worker_id) references fitment_worker(worker_id),
 		constraint fk_cart_worker foreign key(worker_id) references fitment_worker(worker_id),
 		constraint fk_cart_designer foreign key(designer_id) references fitment_designer(designer_id)
 	);
@@ -95,6 +94,7 @@
 		address_id int not null,
 		create_time datetime not null,
 		pay_time datetime,
+		order_money doule not null,
 		status int not null default 0,
 		constraint fk_order_user foreign key(user_id) references fitment_user(id),
 		constraint fk_order_address foreign key(address_id) references fitment_address(address_id)

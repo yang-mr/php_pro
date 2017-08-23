@@ -10,20 +10,21 @@
         }
 
         $(function() {
-               $("#go_pay").click(function() {
-                  <?php if(empty($address)) {?>
-                    alert("请添加地址！！！");
-                    return;
-                  <?php }?>
-                   $.get('<?php echo base_url() ?>order/create_order_ok/<?php echo $address['id']?>/<?php echo $cartids?>', function(data, status){
-                        if ('success' == status) {
-                            var tip = data.substring(0, 6);
-                            if (tip == '生成订单成功') {
-                                 var order_id = data.substring(6, data.length);
-                                 location.href="<?php echo base_url() ?>order/order_detail/" + order_id;
-                            }
+               $("#pay_order").click(function() {
+                  location.href="<?php echo base_url()?>order/create_order_ok" + $address['id'] + "/" + $cartids;
+              });
+
+                $("#cancel_order").click(function() {
+                    $.get('<?php echo base_url()?>order/cancel_order/<?php echo $order_id?>', function(data, status){
+                        if (status == 'success') {
+                          if (data == '取消订单成功') {
+                            
+                          } else {
+                            alter('取消订单失败');
+                          }
+                        } else {
+                          alter('取消订单失败');
                         }
-                        alert("生成订单失败");
                     });
               });
         });
@@ -38,7 +39,6 @@
               <br/>
               <br/>
               </div>
-             
     </header>
     <div id="context">
         <nav>
@@ -52,9 +52,6 @@
         <main>
          <div class = "select_address">
                     <table id="address_item" onclick="select_address()">
-                              <?php if (empty($address)) {?>
-                                <tr>请添加地址！！！</tr>
-                              <?php } else {?>
                                    <tr>
                                 <td>
                                   收件人: <?php echo $address['name']?>
@@ -67,9 +64,19 @@
                                   <td id="address_detail"><?php echo $address['province']; ?> <?php echo $address['city']; echo $address['address_detail']?></td>
                                   <td>邮编：<?php echo $address['zip']; ?></td>
                               </tr>
-                                <?php }?>
-                             
                         </table>  
+                        <p><strong>订单号:<?php echo $order_id?></strong><em>时间:<?php echo $create_time?></em>
+                        <strong>
+                          <?php if($status == '0') {?>
+                            待付款
+                          <?php } else if($status == '1') {?>
+                            已付款
+                          <?php } else if($status == '2') {?>
+                            已取消
+                          <?php } else if($status == '3') {?>
+                            已失效
+                          <?php }?>  
+                        </strong></p>
               </div>
                     <div>
                          <?php foreach ($carts as $item):?>
@@ -89,9 +96,7 @@
                           </table>  
                         <?php endforeach;?>
                     </div>
-                <div id="operation_list">
-                    <button id="go_pay">提交付款</button>
-                </div>
+                  <p><button id="pay_order">付款</button><button id="cancel_order">取消订单</button></p>
         </main>
     </div>
 </body>

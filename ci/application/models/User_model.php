@@ -81,7 +81,8 @@
 			$i = 0;
 			$tmp = array();
 			$id = get_data_from_cookie('id');
-			$query = $this->db->query('select cart_id, worker_id, designer_id, public_time, number from fitment_cart where user_id = ' . $id . ' limit ' . $page . ', ' . $per_page);
+			$query = $this->db->query('select cart_id, worker_id, designer_id, public_time, 
+				number from fitment_cart where user_id = ' . $id . ' and type = 1 limit ' . $page . ', ' . $per_page);
 			$cartdata = $query->result_array();
 			foreach ($cartdata as $item) {
 				$data = array();
@@ -147,7 +148,7 @@
 		*/
 		public function get_count_fitmentcart_table() {
 			$id = get_data_from_cookie('id');
-			$sql = 'select count(cart_id) a from fitment_cart where user_id = ' . $id;
+			$sql = 'select count(cart_id) a from fitment_cart where type = 1 and user_id = ' . $id;
 			return $this->db->query($sql)->row_array()['a'];
 		}
 
