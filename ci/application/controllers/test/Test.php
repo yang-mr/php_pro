@@ -12,9 +12,69 @@
 		}
 
 		public function test() {
-			echo time() . PHP_EOL;
-			echo now() . PHP_EOL;
-			echo date('Y-m-d H:i:s');
+		  /* $redis = new Redis();
+		   $redis->connect('127.0.0.1',6379);
+		   $redis->set('string','hello redis');
+		   echo $redis->get('string');*/
+		   // phpinfo();
+		   // 
+		   // 
+		   
+			//连接
+			$mem = new Memcache;
+			$mem->connect("127.0.0.1", 11211);
+			//保存数据 
+		// 	$mem->set('key1', false);    
+		    or
+		// 	$mem->add('key3', 'my name is key3');
+
+			$data = array('key1', 'key2');
+			//取数据  单个取或者多个取
+		//	$val = $mem->get('key1', $flag);
+			
+			//replace 替换数据
+			$mem->set('count', 1);
+			$mem->replace('key1', '我是新的');
+
+			//delete 删除数据   5:数据在5秒之内被删除
+			//$mem->delete('key1', 5);
+			//清楚所有数据
+			//$mem->flush();
+			$var = $mem->get('key1');
+			//在基础上增加3
+			//$mem->increment('count', 3);
+			//减少
+			$mem->decrement('count', -1);
+			var_dump($mem->get('key3'));
+			exit;
+/*
+			//替换数据
+			$mem->replace('key1', 'This is replace value', 0, 60);
+			$val = $mem->get('key1');
+			echo "Get key1 value: " . $val . "<br />";
+
+			//保存数组
+			$arr = array('aaa', 'bbb', 'ccc', 'ddd');
+			$mem->set('key2', $arr, 0, 60);
+			$val2 = $mem->get('key2');
+			echo "Get key2 value: ";
+			print_r($val2);
+			echo "<br />";
+
+			//删除数据
+			$mem->delete('key1');
+			$val = $mem->get('key1');
+			echo "Get key1 value: " . $val . "<br />";
+
+			//清除所有数据
+			$mem->flush();
+			$val2 = $mem->get('key2');
+			echo "Get key2 value: ";
+			print_r($val2);
+			echo "<br />";*/
+
+			//关闭连接
+			$mem->close();
 		}
 
 		public function curl() {

@@ -38,15 +38,18 @@
             });
         }
 
-         function delete_cart_item(id) {
-            $.post('<?php echo base_url() ?>good/delete_cart_item', {'cart_id':id}, function(data, status){
-                        if ('success' == status) {
-                            alert(data);
-                            location.href="<?php echo base_url() ?>user/cart_list";
+         function cancel_order(id) {
+            $.get('<?php echo base_url()?>order/cancel_order/' + id, function(data, status){
+                        if (status == 'success') {
+                          if (data == '取消订单成功') {
+                            location.href="<?php echo base_url()?>order/user_order"
+                          } else {
+                            alter('取消订单失败');
+                          }
                         } else {
-                            alert("删除购物车失败");
+                          alter('取消订单失败');
                         }
-            });
+                    });
         }
 
 
@@ -114,6 +117,7 @@
                                         <td id="demand_title">订单：<?php echo $order_item['order_id']; ?></td>
                                         <td id="demand_price">时间：<?php echo $order_item['create_time']; ?></td>
                                         <td id="demand_time">状态: <?php echo $order_item['status']; ?></td>
+                                        <td><button onclick="cancel_order(<?php echo $order_item['order_id']?>)">取消订单</button></td>
                                     </tr>
                     <?php foreach ($order_item['carts'] as $cart_item):?>
                          <table id="table_demand")">

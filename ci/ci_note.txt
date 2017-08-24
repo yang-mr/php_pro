@@ -8,7 +8,7 @@
 数据库：
 	database ci_fitment;
 
-//用户表  sex: true 为男 ， type: 0 需要装修的人; 1 装修师傅; 2 设计师
+//用户表  sex: true 为男 ， type: 0 需要装修的人; 1 装修师傅; 2 设计师  ry_token 融云的token  avatar 头像字段
 	create table fitment_user(
 		id int auto_increment primary key,
 		username varchar(40) not null unique,
@@ -16,9 +16,12 @@
 		password varchar(40) not null,
 		phone varchar(10) not null, 
 		email varchar(10),
+		ry_token varchar(40) not null,
 		type varchar(1) not null default '0',
 		ip_address varchar(20) not null,
-		register_date datetime not null
+		avatar_id int,
+		register_date datetime not null,
+		constraint fk_user_res foreign key(avatar_id) references fitment_res(image_id)
 	);
 
 //需要装修的人的需求表   price : 装修预算 publicdata :发布时间   增:type 0:被删除  1:没删除
@@ -78,7 +81,7 @@
 		worker_id int,
 		designer_id int,
 		public_time datetime not null,
-		number int default 1,
+		numberbubum int default 1,
 		type int default 1,
 		order_id int,
 		constraint fk_cart_user foreign key(user_id) references fitment_user(id),

@@ -530,3 +530,8 @@ $config['qiniu_domain'] = 'http://ogmbfybyn.bkt.clouddn.com/';
 
 //分页
 $config['per_page'] = 3;
+
+//融云
+$config['ry_app_key'] = '0vnjpoad0gv6z';
+$config['ry_app_secret'] = 'DOobGC3j4wpLl';
+

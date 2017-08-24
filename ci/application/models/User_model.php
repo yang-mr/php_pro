@@ -41,6 +41,8 @@
 				 */
 				setcookie('id', $id . '', time() + 60 * 60 * 24 * 7, "/");
 				setcookie('username', $username, time() + 60 * 60 * 24 * 7, "/");
+				/*session_start();
+				$_SESSION['username'] = $username;*/
 				setcookie('type', $type . '', time() + 60 * 60 * 24 * 7, "/");
 				return true;
 			} else {

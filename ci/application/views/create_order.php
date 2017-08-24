@@ -21,6 +21,7 @@
                             if (tip == '生成订单成功') {
                                  var order_id = data.substring(6, data.length);
                                  location.href="<?php echo base_url() ?>order/order_detail/" + order_id;
+                                 return;
                             }
                         }
                         alert("生成订单失败");

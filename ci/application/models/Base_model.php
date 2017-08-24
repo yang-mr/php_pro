@@ -21,4 +21,10 @@
 			}
 			return $this->db->query($sql)->row_array()['a'];
 		}
+
+		public function getMemcache() {
+			$mem = new Memcache();
+			$mem->connect('127.0.0.1', 11211);
+			return $mem;
+		}
 	}

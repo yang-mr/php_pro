@@ -9,6 +9,10 @@
     <title>地址列表</title>
     <script>   
          function address_item(id) {
+            var $carts = <?php echo $carts?>;
+            if ($carts == '') {
+              return;
+            }
             location.href="<?php echo base_url() ?>order/create_order/" + id + "/<?php echo $carts?>";
         }
 

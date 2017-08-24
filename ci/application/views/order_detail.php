@@ -18,7 +18,7 @@
                     $.get('<?php echo base_url()?>order/cancel_order/<?php echo $order_id?>', function(data, status){
                         if (status == 'success') {
                           if (data == '取消订单成功') {
-                            
+                                location.href="<?php echo base_url()?>order/user_order"
                           } else {
                             alter('取消订单失败');
                           }

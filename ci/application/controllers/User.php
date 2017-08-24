@@ -121,9 +121,7 @@ class User extends CI_Controller {
 		$config['per_page'] = $this->config->item('per_page');
 		$this->pagination->initialize($config);
 		$data['pages'] = $this->pagination->create_links();
-		if ('' != $carts) {
-			$data['carts'] = $carts;
-		}
+		$data['carts'] = $carts;
 		$this->load->view('user_address', $data);
 	}
 
