@@ -261,16 +261,25 @@
 
 
 Composer:
-	composer install 
-	composer update  		以上2个命令会更新所有的扩展包，谨慎使用；
+	基本命令
+		composer install 
+		composer update  		以上2个命令会更新所有的扩展包，谨慎使用；
 
-	composer require monolog/monolog  推荐使用该命令安装扩展包；
+		composer require monolog/monolog  推荐使用该命令安装扩展包；
 
-	composer update monolog/monolog  
-	更新某个包
+		composer update monolog/monolog  
+		更新某个包
 
-	composer remove monolog/monolog
-	移除某个包
+		composer remove monolog/monolog
+		移除某个包
+	自动加载机制
+		classmap 加载development相关
+		psr-0(autoload_namespaces)  已弃用
+		psr-4  加载项目代码
+		files  加载helper
+
+
+
 
 monolog 日志库：
 	handle日志管理器

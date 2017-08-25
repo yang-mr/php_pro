@@ -7,8 +7,47 @@
                 <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js">
                 </script>
                                     <script language="JavaScript" src="<?php echo base_url() ?>public/js/user_center.js"></script>
+                                    <script src="https://cdn.ronghub.com/RongIMLib-2.2.7.min.js"></script> 
     <title>个人中心</title>
     <script>
+        function startInit(){
+            var ak = "?php echo $this->config->item('ry_app_key');?>";
+            var params = {
+                appKey : ak,
+                token : "<?php echo get_data_from_cookie('ry_token')?>",
+                navi : ''
+            };
+            var userId = "";
+            var callbacks = {
+                getInstance : function(instance){
+                    RongIMLib.RongIMEmoji.init();
+                    //instance.sendMessage
+                },
+                getCurrentUser : function(userInfo){
+                    console.log(userInfo.userId);
+                    userId = userInfo.userId;
+                    alert("链接成功；userid=" + userInfo.userId);
+                },
+                receiveNewMessage : function(message){
+                    //判断是否有 @ 自己的消息
+                    var mentionedInfo = message.content.mentionedInfo || {};
+                    var ids = mentionedInfo.userIdList || [];
+                    for(var i=0; i < ids.length; i++){
+                        if( ids[i] == userId){
+                            alert("有人 @ 了你！");
+                        }
+                    }
+                    showResult("show1",message);
+                    messageOutput(message);
+                }
+            };
+            init(params,callbacks);
+        }
+
+        function getValue(id){
+            return document.getElementById(id).value;
+        }
+
         function jss_delete(id) {
             $.get("<?php echo base_url() ?>user/delete_message/" + id, function(data, status){
                 if (status == 'success') {
@@ -101,6 +140,7 @@
             发布新作品
         <?php }?>
         </a></p>
+        <button onclick="startInit()">我的消息</button>
     </header>
     <div id="context">
         <nav>

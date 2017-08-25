@@ -7,7 +7,7 @@
  * v2.0.1
  */
 include 'SendRequest.php';
-include 'methods/User.php';
+include 'methods/Ry_User.php';
 include 'methods/Message.php';
 include 'methods/Wordfilter.php';
 include 'methods/Group.php';
@@ -28,7 +28,7 @@ class RongCloud
     }
     
     public function User() {
-        $User = new User($this->SendRequest);
+        $User = new Ry_User($this->SendRequest);
         return $User;
     }
     

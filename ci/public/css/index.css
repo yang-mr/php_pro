@@ -1,18 +1,25 @@
-body {
+* {
     margin: 0px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    padding: 0px;
+}
+
+#wrapper {
+    min-width: 960px;
+    max-width: 1260px;
+    margin: 0 auto;
 }
 
 header {
-    flex: 0 0 2em;
     background-color: gray;
+    padding: 10px;
+    text-align: center;
 }
 
 footer {
-    flex: 0 0 2em;
-    background-color: red;
+    clear: both;
+    background-color: gray;
+    padding: 10px;
+    text-align: center;
 }
 
 header p a {
@@ -20,23 +27,21 @@ header p a {
     margin-right: 20px;
 }
 
-#context {
-    flex: 8;
-    display: flex;
-    flex-flow: row wrap;
-}
-
 #context nav {
-    flex: 1;
+    float: left;
+    width: 100px;
 }
 
 #context main {
-    flex: 7;
+    float: left;
+    width: 800px;
     background-color: gray;
 }
 
-#context aside {
-    flex: 1;
+aside {
+    float: left;
+    width: 360px;
+    background-color: gray;
 }
 
 input.text { margin-bottom:12px; width:95%; padding: .4em; }

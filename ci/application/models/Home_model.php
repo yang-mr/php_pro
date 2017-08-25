@@ -25,8 +25,6 @@
 			$mem = parent::getMemcache();
 			$result = $mem->get('index');
 			if ($result) {
-				var_dump($result);
-				exit;
 				return $result;
 			}
 

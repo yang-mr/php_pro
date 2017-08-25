@@ -1,6 +1,6 @@
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>public/css/user_center.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>public/css/index.css" />
                 <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js">
                 </script>
     <link href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css" rel="stylesheet">
@@ -49,21 +49,22 @@
  </script>
 </head>
 <body>
-    <header>
-        <?php if (is_login()) {?>
-             <div id="user_name">
-              <a href="<?php echo base_url() ?>user/user_center">
-              <?php echo get_data_from_cookie('username'); ?></a>
-              <a href="#" id='post_message'>
-              <?php if(get_data_from_cookie('type') == 0) {?> 发布新需求<?php } else {?>
-              发布新作品<?php }?> </a>
-            </div>
-       <?php } else {?>
-                <a href="<?php echo base_url()?>user/login">登陆</a>
-                <a href="<?php echo base_url()?>user/register">注册</a>
-       <?php }?>
-    </header>
-    <div id="context">
+    <div id="wrapper">
+           <header>
+                <?php if (is_login()) {?>
+                     <div id="user_name">
+                      <a href="<?php echo base_url() ?>user/user_center">
+                      <?php echo get_data_from_cookie('username'); ?></a>
+                      <a href="#" id='post_message'>
+                      <?php if(get_data_from_cookie('type') == 0) {?> 发布新需求<?php } else {?>
+                      发布新作品<?php }?> </a>
+                    </div>
+               <?php } else {?>
+                        <a href="<?php echo base_url()?>user/login">登陆</a>
+                        <a href="<?php echo base_url()?>user/register">注册</a>
+               <?php }?>
+        </header>
+         <div id="context">
         <nav>
             <ul>
                 <li>我的订单</li>
@@ -120,9 +121,11 @@
                     </div>
                 </div>
         </main>
-        <aside></aside>
+           <aside>我在右边</aside>
     </div>
-    <!-- <footer>
-    </footer> -->
+    <footer>
+        @1024 版权
+    </footer>
+    </div>
 </body>
 </html>

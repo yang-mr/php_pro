@@ -16,7 +16,7 @@
 		password varchar(40) not null,
 		phone varchar(10) not null, 
 		email varchar(10),
-		ry_token varchar(40) not null,
+		ry_token varchar(256),
 		type varchar(1) not null default '0',
 		ip_address varchar(20) not null,
 		avatar_id int,

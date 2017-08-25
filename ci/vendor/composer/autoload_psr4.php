@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Qiniu\\' => array($vendorDir . '/qiniu/php-sdk/src/Qiniu'),
+    'Rongyun\\' => array($vendorDir . '/rongyun')
 );

@@ -1,10 +1,12 @@
 <?php
 	require_once './vendor/autoload.php';
 	require_once 'Base_model.php';
+	require_once './vendor/rongyun/RongCloud.php';
 
 	use Qiniu\Auth;
-    	use Qiniu\Storage\UploadManager;
-    	use Qiniu\Storage\BucketManager;
+	use Qiniu\Storage\UploadManager;
+	use Qiniu\Storage\BucketManager;
+
 	class User_model extends Base_model {
 		public  function __construct() {
 			parent::__construct();
@@ -13,8 +15,9 @@
 		public function insert_user() {
 			$pwd = $this->input->post('password');
 			$tmp = $pwd . $this->config->item('pwd_salt');
+			$username = $this->input->post('username');
 			$array = array(
-				'username'=>$this->input->post('username'),
+				'username'=>$username,
 				'password'=>md5($tmp),
 				'sex'=>$this->input->post('fitment_sex'),
 				'phone'=>$this->input->post('phone'),
@@ -22,14 +25,33 @@
 				'ip_address'=>$_SERVER["REMOTE_ADDR"],
 				'register_date'=>date('Y-m-d H:i:sa')
 			);
-			return $this->db->insert('fitment_user', $array);
+			if ($this->db->insert('fitment_user', $array)) {
+				$id = $this->db->query('select max(id) id from fitment_user')->row_array()['id'];
+				$ry_ak = $this->config->item('ry_app_key');
+				$ry_sk = $this->config->item('ry_app_secret');
+				$ry = new RongCloud($ry_ak, $ry_sk);
+				$ry_token = $ry->User()->getToken($id, $username, 'http://www.rongcloud.cn/images/logo.png');
+				/*
+				{
+				    "code": 200,
+				    "userId": "40",
+				    "token": "7wBxwSR/xUOdp71lK8vLD3z8FflHeXrLsd7/PbzxmiU17UDe2xUEovKRrlhnuietzlhoxYcvNHf3DVyJbWV/YQ=="
+				}
+				 */
+				$this->db->query('update fitment_user set ry_token = ' . "'" . json_decode($ry_token, true)['token'] . '\' where id = ' . $id);
+				if ($this->db->affected_rows() > 0) {
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
 
 		public function login_user() {
 			$pwd = $this->input->post('password');
 			$username = $this->input->post('username');
-			$sql = "select type, password, id from fitment_user where username='" . $username . "'";
-			$data = $this->db->query($sql)->row_array();
+			$sql = "select ry_token, type, password, id from fitment_user where username='" . $username . "'";
+			$data = $this->db->query($sql)->row_array();	
 			if (empty($data)) {
 				return false;
 			} else if ($pwd === $data['password']){
@@ -44,6 +66,7 @@
 				/*session_start();
 				$_SESSION['username'] = $username;*/
 				setcookie('type', $type . '', time() + 60 * 60 * 24 * 7, "/");
+				setcookie('ry_token', $data['ry_token'], time() + 60 * 60 * 24 * 7, "/");
 				return true;
 			} else {
 				return false;

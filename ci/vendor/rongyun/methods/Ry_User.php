@@ -1,6 +1,6 @@
 <?php
 
-class User{
+class Ry_User{
 
 	private $SendRequest;
 	
