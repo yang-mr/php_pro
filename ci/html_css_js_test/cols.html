@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = 'utf-8'/>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		div.wrapper {
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		#header {
+			padding: 10px 10px;
+			background: #000;
+		}
+
+		#header h1 {
+			font-size: 2em;
+			color:red;
+		}
+		#header h2 {
+			font-size: 1em;
+			color: blue;
+		}
+		
+		#col_three {
+			height: 50px;
+			background: gray;
+			padding: 10px;
+			margin: 10px 0;
+		}
+
+		#col_four {
+			float: left;
+			background: gray;
+			width: 100%;
+			padding: 20px 0;
+		}
+
+		#col_four div {
+			float: left;
+			margin-right: -200px;
+			width: 100%;
+		}
+
+		#col_four div > * {
+			margin: 0 20px;
+		}
+
+		#col_four div article:nth-child(1) {
+			width: 200px;
+		}
+		#col_four div article:nth-child(2) {
+			margin-left: 200px;
+			margin-right: 200px;
+			text-align: center;
+		}
+
+		#col_four article{
+			float: left;
+			text-align: center;
+		}
+
+		#col_four article > * {
+			padding: 0 10px;
+		}
+
+		footer {
+			background: red;
+			clear: left;
+		}
+		section#col_five {
+
+		}
+
+		section#col_five article {
+			float: left;
+			width: 33.33%;
+			background: #fff;
+			border-top: 4px solid #f7be84;
+		}
+
+		section#col_five article .inner {
+			padding: 10px 10px;
+			margin: 0 20px;
+			text-align: center;
+			border: 5px solid;
+		}
+
+		section#col_five article:nth-child(1) {
+			background: gray;
+		}
+
+		section#col_five article:nth-child(1) .inner {
+			border-color: red;
+		}
+
+		section#col_five article:nth-child(2) .inner {
+			background: gray;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<div id="header">
+			<h1>我是标题1</header>
+			<h2>我是标题2</header>
+		</div>
+		<div id='col_three'>我是第三滥</div>
+		<div id = "col_four">
+			<div>
+				<article>我是文章01我是文章01我是文章01我是文章01我是文章01我是文章01我是文章01我是文章01我是文章01我是文章01我是文章01</article>
+				<article>我是文章01我是文章01我是文章01我是文章01我是文章01我是文章01</article>
+			</div>
+			<article><p>我是文章01我是文章01我是文章01我是文章01我是文章01</p></article>
+		</div>
+		<section id = "col_five">
+			<article>
+				<div class="inner">
+					<p>我是文章01</p>
+				</div>
+			</article>
+			<article>
+				<div class="inner">
+					<p>我是文章01</p>
+				</div>
+			</article>
+			<article>
+				<div class="inner">
+					<p>我是文章01</p>
+				</div>
+			</article>
+		</section>
+		<footer>我在底部</footer>
+	</div>
+</body>
+</html>

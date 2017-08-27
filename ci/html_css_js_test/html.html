@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>	
+<head>
+<meta charset='utf-8'/>
+	<title></title>
+	<style type="text/css">
+		p em {
+			color:red;
+		}
+		em {
+			color:red;
+		}
+		em[title] {
+			color:blue;
+		}
+
+		#em_id:target {
+			background: red;
+		}
+
+		section {
+			border: 1px solid red;
+			/*float: left;
+			width: 100%;*/
+		}
+
+		footer {
+			border: 1px solid blue;
+			clear: left;
+		}
+
+		img {
+			float: left;
+		}
+
+		.clearfix::after {
+			content: '.';
+			clear: both;
+			display: block;
+		}
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		 p {
+		 	border: 1px solid red;
+		 	padding: 10px;
+		 }
+
+		 .position {
+		 	position: fixed;
+		 	width: 100%;
+		 	left: 10px;
+		 	top: 20px;
+		 }
+
+		 .int {
+		 	border: 1px solid red;
+		 	position: absolute;
+		 	left: 20px;
+		 }
+
+		 .out {	
+		 	border: 1px solid blue;
+		 	margin: 10px;
+		 }
+
+		 a {
+		 	display: block;
+		 	margin: 3em;
+		 	text-decoration: none;
+		 }
+		 a:hover {
+		 	text-decoration: underline;
+		 }
+
+		 h1 {
+		 	line-height: 1;
+		 }
+	</style>
+</head>
+<body>
+	<!-- <a href="#em_id">我要去目标</a>
+	<p>我是块<strong>级元素</strong>
+	我是<em>块<em id="em_id">级</em></em>元素我是<addr>块级元素我是块级元素我是
+	</addr title="kdjfk ">      !!块级元素 </p> -->
+	
+	<!-- <section class='clearfix'>
+	<img src="https://img12.360buyimg.com/n7/jfs/t6019/344/6397701285/139852/47a4502d/5972efc5N24897de6.jpg"/>
+	<p>我是标题</p>
+	</section>
+	<footer>我在底部</footer> -->
+	<!-- <p>我是1111</p>
+	<p class="position">我是1111</p>
+	<p>我是1111</p>
+	<p>我是1111</p> -->
+	<!-- <div class="out">
+		<div class='int'>我是int</div>
+	</div>
+	<a href="#">fdkj</a> -->
+	<h1>万是尖端科技</h1>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type='text/css'>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        figure {
+            display: block;
+            float: left;
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+
+        figcaption h3 {
+            display: block;
+        }
+
+        figcaption {
+            display: none;
+            position: absolute;
+            top: 17px;
+            left: 73%;
+            border: 1px solid red;
+            background-color: gray;
+            width: 200px;
+            padding: 10px;
+            width:130px; /* width of popup */
+        }
+
+        figure:hover figcaption{
+            display: block;
+            z-index: 2;
+        }
+
+        figcaption:after {
+            content: "";
+            border: 12px solid;
+            border-color: transparent blue transparent transparent;
+            position: absolute;
+            right: 100%;
+            top: 17px;
+            width: 0px;
+            height: 0px;
+        }
+
+    </style>
+</head>
+<body>
+    <figure>
+        <img src="../uploads/btn_account_press.jpg" alt="pink heels" />
+        <figcaption>
+            <h3>Pink Platforms</h3>
+            <a href="#">More info</a>
+        </figcaption>
+    </figure>
+    <figure class="click_me">
+        <img src="../uploads/btn_account_press.jpg" alt="leopard heels" />
+        <figcaption>
+            <h3>ard Platforms</h3>
+            <a href="#">More info</a>
+        </figcaption>
+    </figure>
+    <figure class="click_me">
+        <img src="../uploads/btn_account_press.jpg" alt="red heels" />
+        <figcaption>
+            <h3>Red Platforms</h3>
+            <a href="#">More info</a>
+        </figcaption>
+    </figure>
+</body>
+</html>

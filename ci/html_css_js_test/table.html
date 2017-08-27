@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+		* {
+			margin :0px;
+			padding: 0px;
+		}
+
+		header {
+			width: 1000px;
+			margin:0 auto;
+			border:1px solid red;
+		}
+		section {
+			padding: 30px 10px;
+			overflow: hidden;
+		}
+
+		section label {
+			display: none;
+		}
+
+		section input {
+			float: right;
+			width: 50px;
+			transition: 2s width;
+			outline:none;
+		}
+
+		section input:focus {
+			width: 200px;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<form>
+			<section>
+				<label for="user_name">User Name</label>
+				<input type="search" id="user_name" name="user_name" /> <p>Please select a user name</p>
+			</section>
+		</form>
+	</header>
+</body>
+</html>

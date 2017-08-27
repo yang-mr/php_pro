@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		div.wrapper {
+			min-width: 600px;
+			max-width: 1400px;
+			margin: 0 auto;
+			background: url(../uploads/btn_account_press.jpg) repeat-y #eee;
+		}
+
+		header {
+			padding: 5px 10px;
+			background: #000;
+		}
+		div#threecolwrap {
+			float: left;
+			width: 100%;
+			background: url(./uploads/btn_account_press.jpg) top right repeat-y;
+		}
+
+		div#twocolwrap {
+			float: left;
+			width: 100%;
+			margin-right: -210px;
+		}
+
+		nav {
+			width: 100px;
+			float: left;
+			padding: 20px 0;
+			border: 1px solid blue;
+		}
+
+		nav > * {
+			margin: 0 10px;
+		}
+
+		article {
+			width: auto;
+			background: gray;
+			margin-left: 100px;
+			margin-right: 210px;
+			padding: 10px 10px;
+		}
+
+		article > * {
+			margin: 0 20px;
+		}
+
+
+		footer {
+			background: red;
+			clear: left;
+		}
+
+		aside {
+			width: 210px;
+			float: left;
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<header>我是标题</header>
+		<div id="threecolwrap">
+			<div id="twocolwrap">
+				<nav>
+					<ul>
+					<li>
+						连接1
+					</li>
+					<li>
+						连接1
+					</li><li>
+						连接1
+					</li><li>
+						连接1
+					</li>
+					</ul>
+				</nav>
+				<article>
+
+					<p>我是p！！！！</p>
+				html
+	闭合标签
+		<p></p>
+	自闭标签
+		<img src="#" />
+	块级标签
+		h1-h6, p, ol, li ...
+	行内标签
+		a, img, em...
+	html实体
+		&开头;结尾 ps: &ldquo; 表示左双引号
+
+css
+	选择符
+		上下文选择符  注意：以空格作为分隔符，而分组选择符以逗号作为分隔符
+			子选择符 >
+			紧邻同胞选择符+
+			一般同胞选择符~
+			通用选择符*
+
+		ID和类选择符
+			标签带类选择符 ps：body.p{};
+
+			注意：两个类之间没有空格
+		属性选择符
+			ps: img[title] {}
+	伪类
+		UI伪类
+			链接伪类
+			:focus伪类
+			:target伪类
+		结构化伪类
+			:first-child
+			:last-child
+			:nth-child
+	伪元素
+		::before
+		::after  ps: p.age::after {content: " year";}
+
+	继承
+		能继承: 字体，颜色，字号
+		不会继承：边框，内边距，外边距
+
+	层叠
+		样式来源
+		层叠规则
+	规则声明
+		文本值
+		数字值
+			em，ex, %
+		颜色值
+
+	盒子边框
+		宽度border-width
+		样式border-type
+		颜色border-color
+		叠加外边距（垂直方向的叠加，水平的不叠加）
+	浮动
+		注意：
+			浮动非图片元素，必须设置宽度；
+		围住浮动元素的三种方法
+			1.为父元素添加 overflow:hidden;属性
+			2.同时浮动父元素
+			3.
+			.clearfix::after {
+				content: '.';
+				clear: both;
+				display: block;
+				height: 0;
+				display: hidden;
+			}
+	定位
+		静态定位  static(默认)
+		相对定位 （相对文档流中默认位置）
+		绝对定位  (相对上下文)
+		固定定位 fixed （相对窗口固定）
+	字体
+		字体族
+			font-family
+		字体大小
+			font-size  em 相对大小(会产生连锁反应) rem(相对的html根元素)
+		字体样式
+			font-style italic斜体 oblique normal
+	文本
+		文本缩进
+			text-indent 可以被子元素继承
+		字符间隔
+			letter-spacing
+		单词间隔
+			word-spacing
+		文本修饰
+			text-decoration : underline overline line-through blink none
+		文本对齐(控制文本在水平方向对齐)
+			text-align : left right center justify(两端对齐)
+		行高
+			line-height
+		文本转换
+			text-transform: none, uppercase, lowercase, capitalize(首字母转为大写)
+		垂直对齐
+			vertical-align
+	设定web字体的方式
+		公共字体库
+		
+
+				</article>
+			</div>
+			<aside>我在右边</aside>
+		</div>
+		<footer>我在底部</footer>
+	</div>
+</body>
+</html>
