@@ -1,0 +1,13 @@
+一.	
+	retail性状
+		use MyRetail; 引用性状
+
+	yield生成器
+
+
+	闭包
+	
+	一些方法：
+		defined($name) //检查常量是否存在
+		isset($name);  //检查变量是否存在
+		function_exists();//检查方法是否存在
