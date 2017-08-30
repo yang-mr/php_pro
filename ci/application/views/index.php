@@ -1,12 +1,12 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>public/css/index.css" />
-                <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js">
+<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js">
                 </script>
-    <link href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css" rel="stylesheet">
-                <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js">
+<link href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css" rel="stylesheet">
+ <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js">
                 </script>
-                <script language="JavaScript" src="<?php echo base_url() ?>public/js/user_center.js"></script>
+<script language="JavaScript" src="<?php echo base_url() ?>public/js/user_center.js"></script>
     <title>个人中心</title>
     <script>
         function jss_delete(id) {
@@ -51,18 +51,18 @@
 <body>
     <div id="wrapper">
            <header>
+                <ul>
                 <?php if (is_login()) {?>
-                     <div id="user_name">
-                      <a href="<?php echo base_url() ?>user/user_center">
-                      <?php echo get_data_from_cookie('username'); ?></a>
-                      <a href="#" id='post_message'>
+                      <li><a href="<?php echo base_url() ?>user/user_center">
+                      <?php echo get_data_from_cookie('username'); ?></a></li>
+                      <li><a href="#" id='post_message'>
                       <?php if(get_data_from_cookie('type') == 0) {?> 发布新需求<?php } else {?>
-                      发布新作品<?php }?> </a>
-                    </div>
+                      发布新作品<?php }?> </a></li>
                <?php } else {?>
-                        <a href="<?php echo base_url()?>user/login">登陆</a>
-                        <a href="<?php echo base_url()?>user/register">注册</a>
+                        <li><a href="<?php echo base_url()?>user/login">登陆</a></li>
+                        <li><a href="<?php echo base_url()?>user/register">注册</a></li>
                <?php }?>
+               </ul>
         </header>
          <div id="context">
         <nav>
@@ -124,7 +124,11 @@
            <aside>我在右边</aside>
     </div>
     <footer>
-        @1024 版权
+        <p>@2017版权所有</p>
+        <nav>
+            <ul><a href="#">关于我们</a></ul>
+            <ul><a href="#">联系我们</a></ul>
+        </nav>
     </footer>
     </div>
 </body>

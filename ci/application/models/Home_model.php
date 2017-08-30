@@ -22,11 +22,11 @@
 		}
 		
 		public function index($demand_startpage=0, $type=0) {
-			$mem = parent::getMemcache();
+			/*$mem = parent::getMemcache();
 			$result = $mem->get('index');
 			if ($result) {
 				return $result;
-			}
+			}*/
 
 			$per_page = $this->config->item('per_page');
 			$result = array();
@@ -43,7 +43,7 @@
 				$sql2 = "select worker_id id, title, description, pro_time, public_time from fitment_worker limit " . $demand_startpage . "," . $per_page;
 				$result['workers'] = $this->db->query($sql2)->result_array();
 			}
-			$mem->set('index', $result);
+			//$mem->set('index', $result);
 			return $result;
 		}
 	}
