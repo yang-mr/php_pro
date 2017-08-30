@@ -11,11 +11,12 @@ body {
 
 header {
     background-color: gray;
-    padding: 10px;
+    padding: 12px;
+    height: 2em;
 }
 
 header ul {
-    float: left;
+    float: right;
     width: 300px;
 }
 
@@ -24,8 +25,14 @@ header li {
     float: left;
 }
 
-header a {
+header li a {
     text-decoration: none;
+    padding: 0px 10px;
+    color: #fff;
+}
+
+header li a:hover {
+    color: blue;
 }
 
 footer {
@@ -35,20 +42,42 @@ footer {
     text-align: center;
 }
 
-#context nav {
+footer p {
+    color:red;
+}
+
+footer nav {
+
+}
+
+footer li {
+    list-style-type: none;
     float: left;
+}
+
+#context nav {
+    display: table-cell;
     width: 100px;
+    background-color: gray;
+    padding: 0px 10px;
+}
+
+#context nav ul {
+}
+
+#context nav ul li {
+    list-style-type: none;
+    padding: 10px 0px;
 }
 
 #context main {
-    float: left;
-    width: 800px;
-    background-color: gray;
+    display: table-cell;
+    margin: 10px 10px;
 }
 
-aside {
-    float: left;
-    width: 360px;
+#context aside {
+    display: table-cell;
+    width: 160px;
     background-color: gray;
 }
 
@@ -60,4 +89,4 @@ main #table_demand {
     background-color: white;
     color: black;
     margin-bottom: 20px;
- }
+}

@@ -40,7 +40,7 @@ class Home extends CI_Controller {
 		$demands['workers_pages'] = $this->pagination->create_links();
 		$demands['workers_type'] = "1";
 		//开启缓存
-		$this->output->cache(1);
+		//$this->output->cache(1);
 		$this->load->view('index', $demands);
 		
 	}

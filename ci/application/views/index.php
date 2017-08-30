@@ -1,3 +1,4 @@
+<html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>public/css/index.css" />
@@ -126,8 +127,10 @@
     <footer>
         <p>@2017版权所有</p>
         <nav>
-            <ul><a href="#">关于我们</a></ul>
-            <ul><a href="#">联系我们</a></ul>
+            <ul>
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
         </nav>
     </footer>
     </div>
