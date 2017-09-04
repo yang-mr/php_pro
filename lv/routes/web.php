@@ -14,3 +14,16 @@
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::get('/{id}', function ($id) {
+//     return $id;
+// })->middleware('checkid:10');
+
+// Route::get('/', function () {
+// 	$url = route('test');
+// 	return $action = Route::currentRouteName();
+// })->name('test');
+
+/*
+	注册用户
+ */
+Route::post('/register', 'User@register');

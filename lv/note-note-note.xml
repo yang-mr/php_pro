@@ -1,0 +1,19 @@
+lv数据库
+	users用户表
+	create table users (
+		id int auto_increment primary key,
+		username varchar(40) not null unique,
+		password varchar(256) not null,
+		phone varchar(20) not null,
+		email varchar(40) not null,
+		sex varchar(2) not null default '0',
+		avatar varchar(30),
+		birthday datetime not null,
+		height varchar(3) not null,
+		income tinyint not null,
+		edu tinyint not null,
+		marriage tinyint not null,
+		province varchar(10) not null,
+		city varchar(10) not null,
+		district varchar(10) not null
+	);

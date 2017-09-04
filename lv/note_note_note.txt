@@ -1,0 +1,8 @@
+服务容器
+
+服务提供者
+
+门面Facades(静态类)
+	其实， Cache facade 是继承了 Facade 基类，并且定义了 getFacadeAccessor() 方法。这个方法的作用是返回服务容器中对应名字的绑定内容。当用户调用 Cache facade 中的任何静态方法时， Laravel 会解析到服务容器中绑定的键值为 cache 实例对象，并调用这个对象对应的方法（在这个例子中就是 get 方法）。
+
+契约(contracts)-->接口？
