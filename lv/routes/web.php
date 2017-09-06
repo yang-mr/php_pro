@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	session(['name.last' => 'yw']);
+	session(['name.first' => 'rose']);
+
+	var_dump(session('name'));
+   // return view('welcome');
 });
 // Route::get('/{id}', function ($id) {
 //     return $id;
@@ -26,4 +30,8 @@ Route::get('/', function () {
 /*
 	注册用户
  */
-Route::post('/register', 'User@register');
+Route::post('/show', 'UserController@show');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

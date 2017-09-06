@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\model\Lv_user;
+use App\Model\User;
 
 class UserController extends Controller
 {
@@ -28,8 +28,8 @@ class UserController extends Controller
             // var_dump($lv_user);
 
          //Lv_user::destroy(5);
-        $flight = Lv_user::find(11);
-        var_dump($flight->toJson());
+        $flight = User::find(11);
+        var_dump($flight);
         // $flights = Lv_user::withTrashed()->get();
         // var_dump($flights);
         // $result =  Lv_user::withoutGlobalScope(Agecope::class)->get();

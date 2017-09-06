@@ -12,8 +12,6 @@ class User extends Model
 	//use SoftDeletes;
 	//public $dates = ['deleted_at']; //软删除
 
-	public $primaryKey="user_id";
-
 	protected $hidden = ['password'];
 
 	protected $appends = ['is_admin'];
