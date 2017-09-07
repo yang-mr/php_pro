@@ -31,3 +31,15 @@ lv数据库
 		city varchar(10) not null,
 		district varchar(10) not null
 	);
+
+	attentions关注表
+	create table attentions (
+		id int auto_increment primary key,
+		user_id int not null,
+		other_user_id int not null
+	);
+
+	looks看过表
+	create table looks (
+		
+	);

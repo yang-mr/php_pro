@@ -35,3 +35,9 @@ Route::post('/show', 'UserController@show');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/edit_msg', function () {
+	return view('edit_msg');
+});
+
+Route::post('/commit_msg', 'UserController@editUserMsg');

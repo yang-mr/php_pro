@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Laravel</title>
 
         <!-- Fonts -->
@@ -61,15 +61,20 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            form textarea {
+                width: 200px;
+
+            }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    注册
+                    编辑资料
                 </div>
-                @if (count($errors) > 0)
+               <!--  @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -77,20 +82,38 @@
                             @endforeach
                         </ul>
                     </div>
+                @endif -->
+                @if ($errors->has('error'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('error') }}</strong>
+                        </span>
                 @endif
                 <div class="register_content">
-                    <form>
+                    <form action="./commit_msg" method="post">
+                    {{ csrf_field() }}
                         <fieldset> 
                         <legend>
                             <span>Sign In for Code and Updates</span>
                         </legend> 
                         <section>
-                            <label for="username">用户名</label>
-                            <input type="text" name="username" />
+                            <label for="description">自我评价</label>
+                            <textarea name="description" rows="" cols="" >
+                            {{ old('description') }}
+                            </textarea>
+                             @if ($errors->has('description'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                            @endif
                         </section>
                          <section>
-                            <label for="password">密码</label>
-                            <input type="text" name="password" />
+                            <label for="requist">要求</label>
+                            <input type="text" name="requist" value="{{ old('requist') }}" />
+                            @if ($errors->has('requist'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('requist') }}</strong>
+                                    </span>
+                            @endif
                         </section>
                          <section>
                             <input type="submit" name="password" value="注册"/>
