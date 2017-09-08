@@ -2,26 +2,30 @@
 	width: 100%;
 }
 header {
-	height: 3em;
+	height: 40px;
 	background-color: gray;
-	text-align: center;
 	display: block;
-	padding: 0px;
 }
 
 header ul {
 	display: hidden;
+	padding: 10px 10px;
+
 }
 
 header li {
 	float: left;
-	width: 100px;
+	
 	list-style-type: none;
 }
 
 header a {
+	padding: 0px 20px;
+	width: 100px;
+	text-align: center;
 	text-decoration: none;
 	background-color: gray;
+	color: red;
 }
 
 #nav {
@@ -30,8 +34,11 @@ header a {
 	width: 160px;
 }
 
-#nav img {
+img {
 	display: block;
+	width: 100px;
+	height: 100px;
+	text-align: center;
 }
 
 #nav div {

@@ -108,7 +108,7 @@
                         </section>
                          <section>
                             <label for="requist">要求</label>
-                            <input type="text" name="requist" value="{{ old('requist') }}" />
+                            <input type="text" name="requist" value="{{ old('requist') }}" required autofocus>
                             @if ($errors->has('requist'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('requist') }}</strong>
@@ -120,6 +120,29 @@
                                 <p class="signup">Not signed in? 
                                     <a href="#">登录! </a>
                                </p>
+                        </section>
+                        </fieldset>
+                    </form>
+                </div>
+
+                 <div class="upload_avator">
+                    <form action="./upload_avatar" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                        <fieldset> 
+                        <legend>
+                            <span>Sign In for Code and Updates</span>
+                        </legend> 
+                        <section>
+                            <img src="{{ asset('img/default_avator.png') }}">
+                            <input name="file" type="file">
+                             @if ($errors->has('file'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('file') }}</strong>
+                                    </span>
+                            @endif
+                        </section>
+                         <section>
+                            <input type="submit" name="password"  value="上传头像"/>
                         </section>
                         </fieldset>
                     </form>

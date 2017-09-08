@@ -13,7 +13,10 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-
+    'qiniu_ak' => env('QINIU_AK'),
+    'qiniu_sk' => env('QINIU_SK'),
+    'qiniu_bucket' => env('QINIU_BUCKET'),
+    'qiniu_domain' => env('QINIU_DOMAIN'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

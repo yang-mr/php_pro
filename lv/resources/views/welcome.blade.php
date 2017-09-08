@@ -89,6 +89,9 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                @foreach ($users as $user)
+                    <p>此用户为 {{ $user['name']}}</p>
+                @endforeach
             </div>
         </div>
     </body>

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
 
+use Qiniu\Storage\UploadManager;
+use Qiniu\Auth;
+
 class UserController extends Controller
 {
 
@@ -97,32 +100,34 @@ class UserController extends Controller
         }
     }
 
-    public function editAvator() {
-        $accessKey = $this->config->item('qiniu_ak');
-          $secretKey = $this->config->item('qiniu_sk');
-          $auth = new Auth($accessKey, $secretKey);
-          $bucket = 'test2';
-          // 生成上传Token
-          $token = $auth->uploadToken($bucket);
-          // 构建 UploadManager 对象
-          $uploadMgr = new UploadManager();
-          for ($i=0; $i < count($file); $i++) {
-                $name = $file['name'][$i];
-                if ("" != $name) {
-                    $type = substr($file['type'][$i], 0, 5) == 'image' ? 0 : 1;
-                    $exp_name = explode('.', $name);
-                    $suffix = $exp_name[count($exp_name) - 1];
-                    $uploadresult = $uploadMgr->putFile($token, $i . 'fitment_' . mt_rand() . time() . '.' . $suffix, $file['tmp_name'][$i]);
-                    $upload = array(
-                        'worker_id'=>$worker_id,
-                        'type'=>$type,
-                        'res_url'=>$uploadresult[0]['key'],
-                        'res_time'=>date('Y-m-d H:i:s')
-                        );
-                    if (!$this->db->insert('fitment_res', $upload)) {
-                        //$result['result'] = '有些图片上传失败';
-                    }
-                 } 
-          }
-    }
+    public function editAvatar(Request $request) {
+        $file = @$_FILES['file']; 
+        $id = auth()->user()->id;
+        if ("" != $file) {
+            $accessKey = config('app.qiniu_ak', 'Laravel');
+            $secretKey = config('app.qiniu_sk', 'Laravel');
+            $bucket = config('app.qiniu_bucket', 'test');
+            $auth = new Auth($accessKey, $secretKey);
+            
+            // 生成上传Token
+            $token = $auth->uploadToken($bucket);
+            // 构建 UploadManager 对象
+            $uploadMgr = new UploadManager();
+            $uploadresult = $uploadMgr->putFile($token, 'lv_avatar' . mt_rand() . time() . '.' . $file['name'], $file['tmp_name']);
+            $data = array(
+                $id,
+                $uploadresult[0]['key'],
+                0,
+                date('Y-m-d H:i:sa')
+                );
+            $result = DB::insert('insert into imgs(user_id, img_url, type, created_at) values (?, ?, ?, ?)', $data);
+            if ($result) {
+              return '上传成功';
+            } else {
+              return redirect()->back()
+                ->withInput($request->only('file', 'remember'))
+                ->withErrors(array('error'=>'提交失败'));
+            }
+      }
+   }
 }

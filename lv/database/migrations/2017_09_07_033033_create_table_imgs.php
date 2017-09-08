@@ -7,9 +7,10 @@ use Illuminate\Database\Migrations\Migration;
 class CreateTableImgs extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
+     * @Author   jack_yang
+     * @DateTime 2017-09-08T11:16:49+0800
+     * type=0 表示用户头像
+     * @return   [type]                   [description]
      */
     public function up()
     {
@@ -17,6 +18,7 @@ class CreateTableImgs extends Migration
             Schema::create('imgs', function (Blueprint $table) {
             $table->increments('id');
             $table->smallInteger('type')->nullable();
+            $table->string('img_url')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();  //用于软删除

@@ -11,13 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-	session(['name.last' => 'yw']);
-	session(['name.first' => 'rose']);
+Route::get('/', 'HomeController@home');
 
-	var_dump(session('name'));
-   // return view('welcome');
-});
 // Route::get('/{id}', function ($id) {
 //     return $id;
 // })->middleware('checkid:10');
@@ -36,8 +31,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/edit_msg', function () {
+Route::get('home/edit_msg', function () {
 	return view('edit_msg');
 });
 
 Route::post('/commit_msg', 'UserController@editUserMsg');
+
+Route::post('home/upload_avatar', 'UserController@editAvatar');
