@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use App\User;
+use App\Model\Attention;
 
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
@@ -52,13 +54,6 @@ class UserController extends Controller
 
     public function __invoke($id) {
     	return $id;
-    }
-
-        //跳到注册界面
-    public function register(Request $request) {
-        var_dump($request);
-        exit;
-        return View('register');
     }
 
     //创建用户  bail: 没验证通过不会进行下一项验证
@@ -129,5 +124,65 @@ class UserController extends Controller
                 ->withErrors(array('error'=>'提交失败'));
             }
       }
+   }
+
+   public function user_desc($id = null) {
+        if ($id != null) {
+            $user = User::find($id);
+
+            //事务
+            DB::transaction(function () use ($id, $user) {
+            $img_result = DB::select('select img_url from imgs where user_id = :id and type = 0', [$id]);
+              if (empty($img_result)) {
+                $user['img_avatar'] = asset('img/default_avatar.png');
+            } else {
+                $user['img_avatar'] = $img_result['img_url'];
+            }
+
+            $user_id = auth()->user()->id;
+        //    $attention_result = DB::select('select count(*) count from attentions where user_id = :user_id and other_id = :other_id', [$user_id, $id]);
+            $attention_result = Attention::where('user_id', $user_id)->where('other_id', $id)->get();
+
+            if (count($attention_result->toArray()) > 0) {
+                $user['attention'] = true;
+            } else {
+                $user['attention'] = false;
+            }
+            return $user;
+            }, 5);
+
+            var_dump($user->toArray());
+            return view('user_desc', $user);
+        }
+   }
+
+    public function attention($other_id = null) {
+        if ($other_id != null) {
+            $user_id = auth()->user()->id;
+            $result = DB::insert("insert into attentions (user_id, other_id, created_at) values (?, ?, ?)", [$user_id, $other_id, Carbon::now()]);
+            if ($result) {
+                return '1';
+            }
+        }
+        return '0';
+   }
+
+     public function cancel_attention($other_id = null) {
+        if ($other_id != null) {
+            $user_id = auth()->user()->id;
+            $del_count = Attention::onlyTrashed()
+                ->where('user_id', $user_id)
+                ->where('other_id', $other_id)
+                ->get();
+            if (count($del_count->toArray()) > 0) {
+                    DB::delete('delete from attentions where user_id = :user_id and other_id = :other_id', [$user_id, $other_id]);
+            } else {
+                     $deleResult = Attention::where('user_id', $user_id)
+                        ->where('other_id', $other_id)
+                        ->delete();
+            }
+            return '1';
+        }
+        return '0';
    }
 }

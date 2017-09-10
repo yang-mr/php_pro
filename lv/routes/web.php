@@ -13,6 +13,12 @@
 
 Route::get('/', 'HomeController@home');
 
+Route::get('home/user_desc/{id}', 'UserController@user_desc');
+
+Route::get('home/attention/{id}', 'UserController@attention');
+
+Route::get('home/cancel_attention/{id}', 'UserController@cancel_attention');
+
 // Route::get('/{id}', function ($id) {
 //     return $id;
 // })->middleware('checkid:10');

@@ -12,7 +12,7 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/webcome.css') }}" rel="stylesheet">
-
+        <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         <style>
             html, body {
                 background-color: #fff;
@@ -66,9 +66,40 @@
             }
         </style>
         <script >
-            function look_user_desc(id) {
-                location.href = 'home/user_desc/' + id;
-            }
+            $(function() {
+                $('#bt_attention').click(function() {
+                    var hint = $('#bt_attention').text();
+                     if (hint == '取消关注') {
+                            $.get('../cancel_attention/{{ $id }}', function(data, status){
+                             //   alert(data + "--" + status);
+                                if ('success' == status) {
+                                    if (data == 1) {
+                                        $('#bt_attention').text('添加关注');
+                                        return;
+                                    }
+                                }
+                                alert('取消失败');
+                            });
+                    } else {
+                        $.get('../attention/{{ $id }}', function(data, status){
+                        if ('success' == status) {
+                            if (data  > 0) {
+                                $('#bt_attention').text('取消关注');
+                                return;
+                            }
+                        }
+                        alert('关注失败');
+                    });
+                    }
+                });
+
+
+            });
+
+
+                function bt_attention(attention) {
+                      
+                }
         </script>
     </head>
     <body>
@@ -88,19 +119,19 @@
                 <div class="title m-b-md">
                     Laravel
                 </div>
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-                @foreach ($users as $user)
-                    <div class="user_div" onClick="look_user_desc({{$user['id']}})">
-                        <img src="{{ $user['img_avatar'] }}"/>
-                        <p>此用户为 {{ $user['name']}}</p>
+               
+                    <div class="user_div">
+                        <p>{{ $name }} </p>
+                        <img src="{{ $img_avatar }}"/>
+                        <div>
+                            @if( $attention)
+                            <button id='bt_attention' onClick="bt_attention( {{ $attention }})">取消关注</button>
+                            @else 
+                             <button id='bt_attention' onClick="bt_attention( {{ $attention }})">添加关注</button>
+                            @endif
+                            <button id='bt_sendemail'>发送邮件</button>
+                        </div>
                     </div>
-                @endforeach
             </div>
         </div>
     </body>

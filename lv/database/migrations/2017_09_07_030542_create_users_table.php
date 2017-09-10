@@ -13,8 +13,8 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        /*var_dump(Schema::hasTable('users'));
-        exit;
+        // var_dump(Schema::hasTable('users'));
+        // exit;
         if (!Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
@@ -24,16 +24,15 @@ class CreateUsersTable extends Migration
             $table->string('remember_token', 100)->nullable()->default('null');
             $table->timestamps();
             });
-        } else {*/
+        } else {
             //增加字段
             Schema::table('users', function (Blueprint $table) {
-                $table->string('phone');
-                $table->string('description');
-                $table->string('requist');
-         //   });
-        }
+               // $table->string('phone');
+               // $table->string('description');
+               // $table->string('requist');
+            });
     }
-
+    }
     /**
      * Reverse the migrations.
      *
