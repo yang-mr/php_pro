@@ -97,9 +97,6 @@
             });
 
 
-                function bt_attention(attention) {
-                      
-                }
         </script>
     </head>
     <body>
@@ -129,7 +126,8 @@
                             @else 
                              <button id='bt_attention' onClick="bt_attention( {{ $attention }})">添加关注</button>
                             @endif
-                            <button id='bt_sendemail'>发送邮件</button>
+                            <button id='bt_sendemail' onClick="send_email({{ $id }})">发送邮件</button>
+                            <a href="../send_email/{{ $id }}">发送邮件</a>
                         </div>
                     </div>
             </div>

@@ -4,7 +4,7 @@
 <div class="container">
 	<header>
 		<ul>
-			<li><a href="./index">首页</a></li>
+			<li><a href="../public">首页</a></li>
 			<li><a href="./home" id="person_center">个人中心</a></li>
 			<li><a href="#">1111</a></li>
 			<li><a href="#">1111</a></li>
@@ -16,11 +16,32 @@
         <div class="user_description">
         	<p>{{$user_description}}</p>
         </div>
-        <div class="handle_env">
-        	<a href="#">关注过我的人</a>
-        	<a href="#">看过我的人</a>
-        </div>
     </nav>
-    <div></div>
+    <div id="content">
+         <div class="handle_env">
+            <a href="#">我关注的人</a>
+            @if (count($myAttentions) === 0)
+                暂无
+            @else
+                 @foreach ($myAttentions as $attention)
+                    <div onClick="">
+                        <img src="{{ $attention['img_avatar'] }}" />
+                        <p>用户名: {{ $attention['name'] }}</p>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+        <div>
+              <a href="#">我看过的人</a>
+               @if (count($myLooks) === 0)
+                暂无
+               @else
+                     @foreach ($myLooks as $look)
+                    <img src="{{ $look['img_avatar'] }}" />
+                    <p>用户名: {{ $look['name'] }}</p>
+                    @endforeach
+                @endif
+        </div>
+    </div>
 </div>
 @endsection

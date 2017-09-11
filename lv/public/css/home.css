@@ -51,3 +51,6 @@ img {
 	color: blue;
 }
 
+#content {
+	float: left;
+}

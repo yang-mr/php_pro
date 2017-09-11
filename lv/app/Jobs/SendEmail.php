@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tries   = 5;
+
     /**
      * Create a new job instance.
      *

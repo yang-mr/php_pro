@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use App\User;
 use App\Model\Attention;
+use App\Model\Look;
+use App\Mail\UserSend;
+use Illuminate\Support\Facades\Mail;
+
 
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
@@ -148,6 +152,22 @@ class UserController extends Controller
             } else {
                 $user['attention'] = false;
             }
+
+            //记录谁看过我
+            $count = Look::where('user_id', $user_id)
+                    ->where('other_id', $id)
+                    ->count();
+            if ($count != 0) {
+                Look::where('user_id', $user_id)
+                    ->where('other_id', $id)
+                    ->update(['updated_at' => Carbon::now()]);
+            } else {
+                $look = new Look;
+                $look->user_id = $user_id;
+                $look->other_id = $id;
+                $look->save();
+            }
+
             return $user;
             }, 5);
 
@@ -184,5 +204,17 @@ class UserController extends Controller
             return '1';
         }
         return '0';
+   }
+
+   public function send_email($other_id = null) {
+        if (null != $other_id) {
+           /*  $result = Mail::to('3180518198@qq.com')
+                ->send(new UserSend());*/
+
+             $result = Mail::to('3180518198@qq.com')
+                ->queue(new UserSend());  //加入队列
+
+            var_dump($result);
+        }
    }
 }

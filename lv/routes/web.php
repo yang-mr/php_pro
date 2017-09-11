@@ -15,6 +15,10 @@ Route::get('/', 'HomeController@home');
 
 Route::get('home/user_desc/{id}', 'UserController@user_desc');
 
+//发送邮件
+Route::get('home/send_email/{id}', 'UserController@send_email');
+
+
 Route::get('home/attention/{id}', 'UserController@attention');
 
 Route::get('home/cancel_attention/{id}', 'UserController@cancel_attention');
