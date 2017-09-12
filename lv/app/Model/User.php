@@ -40,4 +40,17 @@ class User extends Model
 	public function getIsAdminAttribute() {
 		return '222';
 	}
+
+	/**
+	 * 登录验证规则
+	 * @return [type] [description]
+	 */
+	protected static function rules()
+	{
+		return [
+			'name' => 'required',
+            'password' => 'required'
+            ];
+	}
+
 }

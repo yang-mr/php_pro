@@ -25,4 +25,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * 登录验证规则
+     * @return [type] [description]
+     */
+    protected static function rules()
+    {
+        return [
+            'name' => 'required',
+            'password' => 'required'
+            ];
+    }
+
 }

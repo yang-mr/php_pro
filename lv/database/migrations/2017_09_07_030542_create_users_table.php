@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
                // $table->string('phone');
                // $table->string('description');
                // $table->string('requist');
+               $table->boolean('is_admin')->default(0);
             });
     }
     }

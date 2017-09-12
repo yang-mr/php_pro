@@ -48,3 +48,21 @@ Route::get('home/edit_msg', function () {
 Route::post('/commit_msg', 'UserController@editUserMsg');
 
 Route::post('home/upload_avatar', 'UserController@editAvatar');
+
+/**
+ * 管理员中心
+ */
+Route::get('/admin/login', function () {
+	return view('admin.login');
+})->name('admin_login');
+
+Route::post('admin/checkLogin', 'Admin\AdminController@checkLogin')->name('admin_login_check');
+
+Route::get('admin/adminCenter', 'Admin\AdminController@adminCenter')->name('admin_center');
+
+/**
+ * 得到所有的服务订单资源 
+ */
+Route::get('admin/adminVips', 'Admin\AdminController@adminVips')->name('admin_vip');
+
+
