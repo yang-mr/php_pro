@@ -151,7 +151,7 @@ class UserController extends Controller
                 $user['attention'] = true;
             } else {
                 $user['attention'] = false;
-            }
+            }              
 
             //记录谁看过我
             $count = Look::where('user_id', $user_id)

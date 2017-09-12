@@ -31,7 +31,6 @@ class UserSend extends Mailable
         // $id = auth()->user()->id;
         // var_dump($id);
         return $this->from('yang971460565@163.com')
-            ->subjeck('测试邮件')
             ->markdown('emails.user_send');
     }
 }
