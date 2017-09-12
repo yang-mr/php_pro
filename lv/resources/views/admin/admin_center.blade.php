@@ -49,6 +49,11 @@
                         <p>{{ $vip['description'] }}</p>
                     </div>
                 @endforeach
+                 <div id="pull_right">
+                       <div class="pull-right">
+                          {{ $vips->links() }}
+                       </div>
+                 </div>
             </div>
             @endif
         </div>

@@ -68,11 +68,11 @@ class AdminController extends Controller
      */
     public function adminVips()
     {
-        $vips = Vip::all(['id', 'type', 'title', 'description', 'price', 'discount'])->toArray();
+        $vips = Vip::paginate(2);
         $data = array(
             'vips' => $vips,
             );
-     //   var_dump($data);
+        //var_dump($data);
         return view('admin.admin_center', $data);
     }
 }
