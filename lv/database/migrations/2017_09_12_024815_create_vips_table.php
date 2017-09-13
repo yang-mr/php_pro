@@ -14,15 +14,15 @@ class CreateVipsTable extends Migration
     public function up()
     {
         if (!Schema::hasTable('vips')) {
-            Schema::create('vips', function (Blueprint $table) {
-            $table->increments('id');
-            $table->smallInteger('type')->nullable();
-            $table->string('title')->nullable();
-            $table->string('description')->nullable();
-            $table->double('price')->nullable();
-            $table->float('discount')->nullable()->default(10);
-            $table->softDeletes();  //用于软删除
-            $table->timestamps();
+                Schema::create('vips', function (Blueprint $table) {
+                $table->increments('id');
+                $table->smallInteger('type')->nullable();
+                $table->string('title')->nullable();
+                $table->string('description')->nullable();
+                $table->double('price')->nullable();
+                $table->float('discount')->nullable()->default(10);
+                $table->softDeletes();  //用于软删除
+                $table->timestamps();
             });
         }
     }

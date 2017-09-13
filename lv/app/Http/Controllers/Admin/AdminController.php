@@ -20,7 +20,12 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+       // $this->middleware('checkAdmin');
+    }
+
+    public function logout() {
+        Auth::logout();
+        return Redirect::route('admin_login');
     }
 
     /**
@@ -34,16 +39,16 @@ class AdminController extends Controller
         $password = $request->input('password');
 
         if (Auth::attempt(['name' => $name, 'password' => $password], $request->get('remember'))) {
-            if (!Auth::user()->is_admin) {
+            if (Auth::user()->is_admin) {
                 return Redirect::route('admin_center');
             } 
         }
         return Redirect::route('admin_login')
                 ->withInput()
-                ->withErrors('用户名或者密码不正确，请重试！');
-        var_dump($request->input('name'));
-        exit;
-        return view('admin.login');
+                ->withErrors(['name' => '用户名或者密码不正确，请重试！']);
+      /*  var_dump($request->input('name'));
+        exit;*/
+       // return view('admin.login');
     }
 
 /**
@@ -54,10 +59,11 @@ class AdminController extends Controller
     public function adminCenter()
     {
 
-        $users = User::where('is_admin', 0)->get(['id', 'name', 'email'])->toArray();
+        $users = User::where('is_admin', 0)->paginate(6);
         $data = array(
             'users' => $users,
             );
+        //var_dump($data);
         return view('admin.admin_center', $data);
     }
 

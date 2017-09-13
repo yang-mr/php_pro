@@ -20,7 +20,7 @@
         <header>
             <div class="inner">
                 <p>管理员中心</p>
-                <a href="#">退出</a>
+                <a href="./logout">退出</a>
             </div>            
         </header>
         <nav>
@@ -35,8 +35,35 @@
             @if(!empty($users))
             <div id="content_users">
                 @foreach ($users as $user)
-                <li>{{ $user['name'] }}</li>
+                  <div class="user" onclick="lookUserDesc({{ $user->id }})">
+                      <img src="{{ $user->avatar_url or asset('img/default_avatar.png') }}" />
+                      <div class="title_desc">
+                        <div class="title">
+                          {{ $user->name }} {{ $user->city }} {{ $user->area }}
+                        </div>
+                        <div class="desc">
+                          {{ $user->description }}
+                        </div>
+                      </div>
+                       <div class="admin_operate">
+                          <ul> 
+                            <li>
+                              <a href="#">发短信</a>
+                            </li>
+                            <li>
+                              <a href="#">发邮件</a>
+                            </li>
+                            <li>
+                              <a href="#">赠礼物</a>
+                            </li>
+                          </ul>
+                        </div>
+                  </div>
+                  <div class="clear"></div>
                 @endforeach
+                 <div class="pull-right">
+                          {{ $users->links() }}
+                 </div>
             </div>
             @else
             <div id="content_vips">

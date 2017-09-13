@@ -13,7 +13,7 @@ class CreateAttentions extends Migration
      */
     public function up()
     {
-      //  if (!Schema::hasTable('attentions')) {
+        if (!Schema::hasTable('attentions')) {
              Schema::create('attentions', function (Blueprint $table) {
                 $table->increments('id');
                 $table->unsignedInteger('user_id')->nullable();
@@ -23,7 +23,7 @@ class CreateAttentions extends Migration
                 $table->softDeletes();  //创建软删除 字段
                 $table->timestamps();
             });
-        //}
+        }
     }
 
     /**

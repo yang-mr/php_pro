@@ -25,8 +25,8 @@ class User extends Model
 	}
 
 	protected $events = [
-		'saved' => Lv_userSaved::class,
-		'deleted' =>Lv_userDeleted::class
+		//'saved' => Lv_userSaved::class,
+		//'deleted' =>Lv_userDeleted::class
 	];
 
 	public function getusernameAttribute($value) {
@@ -52,5 +52,4 @@ class User extends Model
             'password' => 'required'
             ];
 	}
-
 }

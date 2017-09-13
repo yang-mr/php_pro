@@ -10,10 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+/**
+ * 首页
+ */
+Route::get('/', 'IndexController@index');
 
-Route::get('/', 'HomeController@home');
+// Route::get('/', 'HomeController@home');
 
-Route::get('home/user_desc/{id}', 'UserController@user_desc');
+Route::get('user/user_desc/{id}', 'UserController@user_desc')->name('user_desc');
 
 //发送邮件
 Route::get('home/send_email/{id}', 'UserController@send_email');
@@ -56,13 +60,15 @@ Route::get('/admin/login', function () {
 	return view('admin.login');
 })->name('admin_login');
 
+Route::get('/admin/logout', 'Admin\AdminController@logout')->name('admin_logout');
+
 Route::post('admin/checkLogin', 'Admin\AdminController@checkLogin')->name('admin_login_check');
 
-Route::get('admin/adminCenter', 'Admin\AdminController@adminCenter')->name('admin_center');
+Route::get('admin/adminCenter', 'Admin\AdminController@adminCenter')->name('admin_center')->middleware('checkAdmin');
 
 /**
  * 得到所有的服务订单资源 
  */
-Route::get('admin/adminVips', 'Admin\AdminController@adminVips')->name('admin_vip');
+Route::get('admin/adminVips', 'Admin\AdminController@adminVips')->name('admin_vip')->middleware('checkAdmin');
 
 

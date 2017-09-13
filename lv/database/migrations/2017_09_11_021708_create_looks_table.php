@@ -26,9 +26,6 @@ class CreateLooksTable extends Migration
         } else {
             //增加字段
             Schema::table('looks', function (Blueprint $table) {
-               // $table->string('phone');
-               // $table->string('description');
-               // $table->string('requist');
             });
         }
     }

@@ -18,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+       // $this->middleware('auth');
     }
 
     /**
@@ -83,27 +83,6 @@ class HomeController extends Controller
 
     public function home()
     {
-        $id = auth()->user()->id;
-        $obj = User::all(['name', 'description', 'id'])->where('id', '!=', $id);
-        $users = $obj->toArray();
-       
-        for ($i = 1; $i <= count($users); $i++) {
-            $user_id = $users[$i]['id'];
-            $avatar_result = DB::select('select img_url from imgs where user_id = :user_id and type = :type', [$user_id, 0]);
-         //   $users[$i]['id'] = $user_id;
-            if (!empty($avatar_result)) {
-                  $img_avatar = $avatar_result[0]->img_url;
-                  $users[$i]['img_avatar'] = $img_avatar;
-            } else {
-                  $users[$i]['img_avatar'] = asset('img/default_avatar.png');
-            }
-        }
-
-        $data = array(
-            'users' => $users,
-            );
-        var_dump($data);
-    //    exit();
-        return view('welcome', $data);
+      
     }
 }
