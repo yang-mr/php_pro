@@ -13,7 +13,7 @@
 /**
  * 首页
  */
-Route::get('/', 'IndexController@index');
+Route::get('/', 'IndexController@index')->name('index');
 
 // Route::get('/', 'HomeController@home');
 
@@ -71,4 +71,8 @@ Route::get('admin/adminCenter', 'Admin\AdminController@adminCenter')->name('admi
  */
 Route::get('admin/adminVips', 'Admin\AdminController@adminVips')->name('admin_vip')->middleware('checkAdmin');
 
+/**
+ * vip 业务
+ */
+Route::get('/vip/index', 'VipController@index')->name('vip_index');
 

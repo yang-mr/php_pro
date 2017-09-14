@@ -75,8 +75,8 @@
         </nav>
         <header>
         <ul>
-            <li><a href="../public">首页</a></li>
-            <li><a href="./home" id="person_center">个人中心</a></li>
+            <li><a href="{{ route('index') }}">首页</a></li>
+            <li><a href="{{ route('home') }}" id="person_center">个人中心</a></li>
             <li><a href="#">1111</a></li>
             <li><a href="#">1111</a></li>
             <li><a href="#">1111</a></li>

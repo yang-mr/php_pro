@@ -1,0 +1,53 @@
+* {
+	padding: 0px;
+	margin: 0px;
+}
+
+.container {
+	min-width: 960px;
+	max-width: 1690px;
+	margin: 0px 100px;
+}
+
+.content_left {
+	width: 79%;
+	padding: 10px;
+	background-color: white;
+	border: 1px gray solid;
+	float: left;
+}
+
+.content_right {
+	padding: 10px;
+	margin-left: 1%;
+	width: 20%;
+	background-color: white;
+	border: 1px gray solid;
+	float: left;
+}
+
+.vip_item {
+	padding: 10px;
+	margin-bottom: 10px;
+	background-color: gray;
+}
+
+.vip_item_title {
+	display: block;
+	text-align: center;
+}
+
+.vip_item_title p {
+	display: inline;
+	margin-right: 60px;
+}
+
+.vip_item_price {
+		display: block;
+		text-align: center;
+}
+
+.vip_item_description {
+	text-align: center;
+
+}

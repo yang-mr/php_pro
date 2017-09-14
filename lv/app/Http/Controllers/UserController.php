@@ -17,7 +17,6 @@ use Qiniu\Auth;
 
 class UserController extends Controller
 {
-
 	public function __construct() {
 		//$this->middleware('checkid:10')->only('invoke');
 	    $this->middleware('auth');

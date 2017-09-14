@@ -1,6 +1,4 @@
-.container {
-	width: 100%;
-}
+
 header {
 	margin-bottom: 10px;
 	padding: 10px;
@@ -28,29 +26,90 @@ header a {
 	color: red;
 }
 
-#nav {
-	margin-top: 10px;
-	background-color: white;
-	width: 160px;
+.container {
+	margin: 0px 240px;
+	min-width: 960px;
+	max-width: 1690px;
 }
 
-img {
+#nav {
+	float: left;
+	width: 15%;
+}
+
+.nav_top {
+	padding: 10px;
+	margin-top: 10px;
+	background-color: white;
+	border: 1px gray solid;
+}
+
+#nav .user_descripiton {
 	display: block;
-	width: 100px;
-	height: 100px;
 	text-align: center;
 }
 
-#nav div {
-	display: block;
+img {
+	width: 150px;
+	height: 150px;
+	margin-bottom: 10px;
+	text-align: center;
 }
 
-.user_descripiton {
-	padding: 10px;
+#nav .operate {
 	margin-top: 10px;
-	color: blue;
+	text-align: center;
 }
+
+#nav .operate strong {
+	color: red;
+}
+
+.nav_bottom {
+	padding: 10px;
+	float: left;
+	width: 100%;
+	margin-top: 10px;
+	background-color: white;
+	border: 1px gray solid;
+}
+
+.nav_bottom .gift_enter {
+	margin-right: 10px;
+}
+
 
 #content {
 	float: left;
+	margin-left: 10px;
+	width: 84%;
+}
+
+#content .content_left {
+	float: left;
+	padding: 10px;
+	background-color: white;
+	border: 1px gray solid;
+	width: 79%;
+}
+
+.content_left_head {
+	width: 100%;
+}
+
+.content_left_head p {
+	display: inline;
+}
+
+.content_left_head a {
+	float: right;
+}
+
+.content_right {
+	margin-left: 1%;
+	background-color: white;
+	float: left;
+	width: 20%;
+	padding: 10px;
+	border: 1px gray solid;
 }

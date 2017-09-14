@@ -18,10 +18,10 @@ class IndexController extends Controller
         $user = auth()->user();
         if (null != $user) {
             $id = auth()->user()->id;
-            $users = User::where('id', '!=', $id)->paginate(16);
+            $users = User::where('id', '!=', $id)->where('name', '!=', 'admin')->paginate(16);
             return view('welcome', ['users' => $users]);
         } else {
-            $users = User::paginate(16);
+            $users = User::where('name', '!=', 'admin')->paginate(16);
             return view('welcome', ['users' => $users]);
         }
     }
