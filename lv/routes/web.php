@@ -55,6 +55,8 @@ Route::post('home/upload_avatar', 'UserController@editAvatar');
 
 /**
  * 管理员中心
+ *
+ * 
  */
 Route::get('/admin/login', function () {
 	return view('admin.login');
@@ -66,13 +68,22 @@ Route::post('admin/checkLogin', 'Admin\AdminController@checkLogin')->name('admin
 
 Route::get('admin/adminCenter', 'Admin\AdminController@adminCenter')->name('admin_center')->middleware('checkAdmin');
 
-/**
- * 得到所有的服务订单资源 
- */
 Route::get('admin/adminVips', 'Admin\AdminController@adminVips')->name('admin_vip')->middleware('checkAdmin');
+
+Route::get('admin/adminGifts', 'Admin\AdminController@adminGifts')->name('admin_gift')->middleware('checkAdmin');
+
+Route::post('admin/add_gift', 'Admin\AdminController@addGift')->name('admin_add_gift');
+
+Route::post('admin/edit_gift', 'Admin\AdminController@editGift')->name('admin_edit_gift');
 
 /**
  * vip 业务
  */
 Route::get('/vip/index', 'VipController@index')->name('vip_index');
+
+/**
+ * gift 业务
+ */
+Route::get('/gift/index', 'GiftController@index')->name('gift_index');
+
 

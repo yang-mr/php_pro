@@ -193,6 +193,12 @@ ajax
 				});
 		});
 		</script>
+jquery Ajax解析返回的Json数据
+		返回的数据:{'name':'roser'}
+
+		解析: var json = eval("(" + data + ")");
+			  //or var json = $.parsejson(data);
+			  alert(json.name);
 CURL command
 	curl http://baidu.com    //在终端输出网页信息
 	curl -o[O] savefilename.txt http://baidu.com 将网页保存到文件
