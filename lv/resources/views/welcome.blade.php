@@ -1,13 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.auto_app')
 
-@section('content')
 <link href="{{ asset('/css/index.css') }}" rel="stylesheet" type="text/css">
-<div id="content">
+@section('left_content')
     <nav id="nav_left">
         <div class="inner">
             fdfd
         </div>
     </nav>
+@endsection
+
+@section('content')
     <div class="content">
         <div id="content_area">
              @foreach ($users as $user)
@@ -22,6 +24,10 @@
         <div class="paginate">
             {{$users->links()}}
         </div>
-    </div>
+</div>
+@endsection
+@section('right_content')
+    <div class="content">
+       
 </div>
 @endsection

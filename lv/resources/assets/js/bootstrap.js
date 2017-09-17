@@ -43,11 +43,19 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
+import Echo from 'laravel-echo';
 
-// window.Pusher = require('pusher-js');
+window.Pusher = require('pusher-js');
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '02a1cc0f2b863b11a348'
+});
+
+Echo.channel('UserAttention.19')
+    .listen('AttentionEvent', (e) => {
+        window.alert(e);
+        console.log(e);
+    });
+
+   

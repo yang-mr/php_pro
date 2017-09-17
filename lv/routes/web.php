@@ -13,7 +13,7 @@
 /**
  * 首页
  */
-Route::get('/', 'IndexController@index')->name('index');
+Route::get('/', 'IndexController@index')->name('index')->middleware('auth');
 
 // Route::get('/', 'HomeController@home');
 
@@ -22,8 +22,7 @@ Route::get('user/user_desc/{id}', 'UserController@user_desc')->name('user_desc')
 //发送邮件
 Route::get('home/send_email/{id}', 'UserController@send_email');
 
-
-Route::get('home/attention/{id}', 'UserController@attention');
+Route::get('home/attention/{id}', 'UserController@attention')->name('add_attention');
 
 Route::get('home/cancel_attention/{id}', 'UserController@cancel_attention');
 
@@ -85,5 +84,7 @@ Route::get('/vip/index', 'VipController@index')->name('vip_index');
  * gift 业务
  */
 Route::get('/gift/index', 'GiftController@index')->name('gift_index');
+
+Route::get('/gift/type/{type}', 'GiftController@getGiftsFromType')->name('gift_type');
 
 

@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         //$this->call(VipsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        // $this->call(GiftTableSeeder::class);
+        // $this->call(VipsTableSeeder::class);
     }
 }

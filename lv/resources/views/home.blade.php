@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.auto_app')
 
-@section('content')
-<div class="container">
-    <nav id="nav">
+<link href="{{ asset('css/home.css') }}" rel="stylesheet">
+@section('left_content')
+
        <div class="nav_top">
             <a href="./home/edit_msg"><img src="{{ $user_avatar or asset('img/default_avatar.png') }}" onClick="go_personcenter()"/></a>
             <div class="user_description">
@@ -11,19 +11,21 @@
             <div class="operate">
                 <button>我关注谁<strong>({{ count($myLooks) }})</strong></button>
                 <button>谁关注我<strong>({{ count($myAttentions) }})</strong></button>
-                  <button>我看过谁<strong>({{ count($myLooks) }})</strong></button>
+                <button>我看过谁<strong>({{ count($myLooks) }})</strong></button>
                 <button>谁看过我<strong>({{ count($myAttentions) }})</strong></button>
-                 <button>收件箱<strong>({{ count($myAttentions) }})</strong></button>
+                <button>收件箱<strong>({{ count($myAttentions) }})</strong></button>
                 <button>礼物<strong>({{ count($myAttentions) }})</strong></button>
             </div>
        </div>
-
        <div class="nav_bottom">
            <p>服务中心 ></p>
-           <p><a href="{{ route('gift_index')}}" class="gift_enter">礼物商城</a><a href="{{ route('vip_index') }}">充值vip</a></p>
+           <p><a href="{{ route('gift_index')}}/0" class="gift_enter">礼物商城</a>
+            <a href="{{ route('vip_index') }}">充值vip</a></p>
        </div>
-    </nav>
-    <div id="content">
+@endsection
+
+@section('content')
+    <div class="content">
         <div class="content_left">
             <div class="content_left_head">
                 <p>懂你今日推荐</p>
@@ -51,9 +53,7 @@
             </div>
         </div>
 
-        <div class="content_right">
-            
-        </div>
+       
        <!--   <div class="handle_env">
             <a href="#">我关注的人</a>
             @if (count($myAttentions) === 0)
@@ -79,5 +79,29 @@
                 @endif
         </div> -->
     </div>
-</div>
+@endsection
+
+@section('right_content')
+<nav id="nav">
+       <div class="nav_top">
+            <a href="./home/edit_msg"><img src="{{ $user_avatar or asset('img/default_avatar.png') }}" onClick="go_personcenter()"/></a>
+            <div class="user_description">
+                <strong>征友进行中</strong><a href="#">修改</a>
+            </div>
+            <div class="operate">
+                <button>我关注谁<strong>({{ count($myLooks) }})</strong></button>
+                <button>谁关注我<strong>({{ count($myAttentions) }})</strong></button>
+                  <button>我看过谁<strong>({{ count($myLooks) }})</strong></button>
+                <button>谁看过我<strong>({{ count($myAttentions) }})</strong></button>
+                 <button>收件箱<strong>({{ count($myAttentions) }})</strong></button>
+                <button>礼物<strong>({{ count($myAttentions) }})</strong></button>
+            </div>
+       </div>
+
+       <div class="nav_bottom">
+           <p>服务中心 ></p>
+           <p><a href="{{ route('gift_index')}}" class="gift_enter">礼物商城</a>
+            <a href="{{ route('vip_index') }}">充值vip</a></p>
+       </div>
+    </nav>
 @endsection

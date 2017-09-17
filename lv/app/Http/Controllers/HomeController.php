@@ -53,7 +53,7 @@ class HomeController extends Controller
            $userData[$i] = $user;
         }
         $data['myLooks'] = $userData;
-        var_dump($data);
+       // var_dump($data);
         //谁看过我
         //谁关注过我
         return view('home', $data);

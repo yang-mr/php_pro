@@ -10,10 +10,12 @@ use App\Model\Attention;
 use App\Model\Look;
 use App\Mail\UserSend;
 use Illuminate\Support\Facades\Mail;
+use App\Events\AttentionEvent;
 
 
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
+use Pusher\Pusher;
 
 class UserController extends Controller
 {
@@ -175,11 +177,13 @@ class UserController extends Controller
         }
    }
 
-    public function attention($other_id = null) {
+    public function attention($other_id = null) { 
         if ($other_id != null) {
             $user_id = auth()->user()->id;
             $result = DB::insert("insert into attentions (user_id, other_id, created_at) values (?, ?, ?)", [$user_id, $other_id, Carbon::now()]);
             if ($result) {
+                event(new AttentionEvent($other_id));
+                //broadcast(new AttentionEvent($other_id))->toOthers();  //同上 但是可以将当前用户排除
                 return '1';
             }
         }

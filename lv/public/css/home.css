@@ -1,100 +1,23 @@
-
-header {
-	margin-bottom: 10px;
-	padding: 10px;
-	text-align: center;
-	display: block;
-	background-color: white;
-}
-
-header ul {
-	display: hidden;
-	padding: 10px 10px;
-
-}
-
-header li {
-	float: left;
-	list-style-type: none;
-}
-
-header a {
-	padding: 0px 20px;
-	width: 100px;
-	text-align: center;
-	text-decoration: none;
-	color: red;
-}
-
-.container {
-	margin: 0px 240px;
-	min-width: 960px;
-	max-width: 1690px;
-}
-
-#nav {
-	float: left;
-	width: 15%;
-}
-
-.nav_top {
-	padding: 10px;
-	margin-top: 10px;
-	background-color: white;
-	border: 1px gray solid;
-}
-
-#nav .user_descripiton {
-	display: block;
-	text-align: center;
-}
-
 img {
-	width: 150px;
-	height: 150px;
+	width: 140px;
+	height: 140px;
 	margin-bottom: 10px;
 	text-align: center;
-}
-
-#nav .operate {
-	margin-top: 10px;
-	text-align: center;
-}
-
-#nav .operate strong {
-	color: red;
 }
 
 .nav_bottom {
-	padding: 10px;
-	float: left;
-	width: 100%;
+	margin: 10px 0px;
 	margin-top: 10px;
 	background-color: white;
-	border: 1px gray solid;
+	border-top: 1px gray solid;
+}
+
+.nav_bottom p {
+	margin: 10px 0px;
 }
 
 .nav_bottom .gift_enter {
 	margin-right: 10px;
-}
-
-
-#content {
-	float: left;
-	margin-left: 10px;
-	width: 84%;
-}
-
-#content .content_left {
-	float: left;
-	padding: 10px;
-	background-color: white;
-	border: 1px gray solid;
-	width: 79%;
-}
-
-.content_left_head {
-	width: 100%;
 }
 
 .content_left_head p {
@@ -105,11 +28,5 @@ img {
 	float: right;
 }
 
-.content_right {
-	margin-left: 1%;
-	background-color: white;
-	float: left;
-	width: 20%;
-	padding: 10px;
-	border: 1px gray solid;
-}
+
+

@@ -1,0 +1,12 @@
+.selected{font-weight:bold;
+ background: #ff99cc; 
+ color:#fff;
+}
+
+#gift_type {
+	height: 200px;
+}
+.list_li {
+	list-style-type: none;
+	padding: 10px;
+}

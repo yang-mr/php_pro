@@ -12,11 +12,26 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/auto_app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('js/home.js') }}"></script>
-
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script>
+         $(function() {
+                Pusher.logToConsole = true;
+                var pusher = new Pusher('02a1cc0f2b863b11a348', {
+                  cluster: 'eu',
+                  encrypted: true
+                });
+
+                var channel = pusher.subscribe('UserAttention.' + {{ auth()->user()->id }});
+                channel.bind('pusher:subscription_succeeded', function(data) {
+                 // alert(data.message);
+                });
+                channel.bind('App\\Events\\AttentionEvent', function(data) {
+                  alert(data.name);
+                });
+        });
+    </script>
 </head>
 <body>
     <div id="app">
@@ -43,8 +58,7 @@
                     <ul class="nav navbar-nav">
                         &nbsp;
                     </ul>
-                        
-
+                  
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
@@ -73,7 +87,7 @@
                             </li>
                         @endif
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
+                      <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ route('index') }}">首页</a></li>
                         <li><a href="{{ route('home') }}" id="person_center">个人中心</a></li>
                         <li><a href="#">1111</a></li>
@@ -92,6 +106,7 @@
          <dir id="right_content">
             @yield('right_content')
         </dir>
+        <div id="clear"></div>
             <footer>
                 我是底部的。。。
             </footer>
