@@ -30,8 +30,6 @@
             });
           });
 
-
-
         $("#gift_type li").click(function() {
                                    // 添加当前元素的样式
           /*  $(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
@@ -60,13 +58,45 @@
             });*/
         }
 
-        function giveGift() {
+        var gift_id = 0;
+        function giveGift(path) {
              $('#dialogBg').fadeIn(300);
-       $('#dialog').removeAttr('class').addClass('animated bounceInDown').fadeIn();
+             $('#dialog').removeAttr('class').addClass('animated bounceInDown').fadeIn();
+            $.ajax({
+                        cache: true,
+                        type: "GET",
+                        url:path,
+                        async: false,
+                        dataType: 'json',
+                        error: function(request) {
+                            alert('收藏失败');
+                        },
+                        success: function(data) {
+                            this.gift_id = data.data.gift_id;
+                            console.log(data.data.gift_id);
+                             var dataObj = data.data, //返回的result为json格式的数据
+                         con = "";
+                         $.each(dataObj, function(index, item){
+                            var id = item.user_id;
+                            console.log(id);
+                            con += "<div class='item' onClick='goGive(" + id + ")'>";
+                            con += "<img src=\"" + '{{ asset('img/default_avatar.png') }}' + "\"/>"; 
+                            con += "<div>姓名："+item.name+item.sex +"</div>";
+                            con += "</div>"
+                        });
+                       console.log(con);    //可以在控制台打印一下看看，这是拼起来的标签和数据
+                        $("#attention_users").html(con); //把内容入到这个div中即完成
+                       //   $('#attention_users').html(data);
+                        }
+                    });
+        }
+
+        function goGive(id) {
+            alert(id);
+            alert(this.gift_id);
         }
 
         function collectGift(obj, path) {
-           
            // obj=$(this);//回调函数前先写入变量; 
             if ($(obj).text() === '收藏') {  
                 $.ajax({
@@ -115,7 +145,7 @@
               </div>
               @if ($display)
               <div class="item_operate">
-                <a href="#" onClick="giveGift()">赠送</a> 
+                <a href="#" onClick="giveGift('{{ route('gift_attention', $gift['id']) }}')">赠送</a> 
                 @if ($gift['collect'])
                   <em>已收藏</em>
                 @else

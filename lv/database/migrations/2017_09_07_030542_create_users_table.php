@@ -51,6 +51,7 @@ class CreateUsersTable extends Migration
              $table->string('sex', 2)->default('女'); //0:女 1:男
             });
              $table->dateTime('vip')->nullable();
+             $table->smallInteger('lot_money')->default(0);  //缘分币 1:1 rmb;
         } else {
             //增加字段
             Schema::table('users', function (Blueprint $table) {

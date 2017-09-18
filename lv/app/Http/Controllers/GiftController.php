@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Gift;
 use App\Model\UserGift;
 use App\Model\Attention;
+use App\User;
 
 class GiftController extends Controller
 {
@@ -18,7 +19,7 @@ class GiftController extends Controller
     public function index()
     {
 			$data = Gift::paginate(12);
-    		return view('gift.gift', ['data'=>$data, 'type'=>0]);
+    		return view('gift.gift', ['data'=>$data, 'type'=>0, 'display'=>true]);
     }
 
     public function getGiftsFromType($type = 0)
@@ -95,14 +96,21 @@ class GiftController extends Controller
         }
     }
 
-    public function getAttentions()
+    public function getAttentions($gift_id = 0)
     {
         $id = auth()->user()->id;
         $users = Attention::where('user_id', $id)->paginate(4);
+
         foreach ($users as $user) {
-            $tmpUser = User::find($user['id']);
+            $tmpUser = User::find($user['other_id']);
             $user['name'] = $tmpUser['name'];
-            $user['age'] = $tmpUser['birthday'];
+            $user['sex'] = $tmpUser['sex'];
+            $user['age'] = calcAge($tmpUser['birthday']);
+        //     $result += "<div class='item_user'>" . $tmpUser['name'] . $tmpUser['sex'] . "</div>";
+        //      var_dump($result);
+        // exit;
         }
+        $users['gift_id'] = $gift_id;
+        return $users;
     }
 }

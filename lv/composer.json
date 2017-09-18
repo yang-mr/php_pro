@@ -10,8 +10,9 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "pusher/pusher-php-server": "^3.0",
         "qiniu/php-sdk": "^7.2",
-        "pusher/pusher-php-server": "^3.0"
+        "riverslei/payment": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
