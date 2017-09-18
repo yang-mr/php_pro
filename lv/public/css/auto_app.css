@@ -28,7 +28,8 @@
 }
 
 footer {
+	margin-top: 20px;
     background-color: gray;
-    color: red;
+    color: blue;
     text-align: center;
 }

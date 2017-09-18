@@ -87,4 +87,9 @@ Route::get('/gift/index', 'GiftController@index')->name('gift_index');
 
 Route::get('/gift/type/{type}', 'GiftController@getGiftsFromType')->name('gift_type');
 
+Route::get('/gift/collect/{gift_id}', 'GiftController@collectGift')->name('gift_collect');
+
+Route::get('/gift/other_type/{type}', 'GiftController@getGiftsByType')->name('other_type');
+
+Route::get('/gift/attentions/{type}', 'GiftController@getGiftsByType')->name('other_type');
 

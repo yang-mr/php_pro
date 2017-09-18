@@ -19,7 +19,7 @@
        </div>
        <div class="nav_bottom">
            <p>服务中心 ></p>
-           <p><a href="{{ route('gift_index')}}/0" class="gift_enter">礼物商城</a>
+           <p><a href="{{ route('gift_index')}}" class="gift_enter">礼物商城</a>
             <a href="{{ route('vip_index') }}">充值vip</a></p>
        </div>
 @endsection

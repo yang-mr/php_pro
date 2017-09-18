@@ -3,10 +3,223 @@
  color:#fff;
 }
 
+.gift_selected{font-weight:bold;
+ background: gray; 
+ color:#fff;
+}
+
 #gift_type {
-	height: 200px;
+	height: 400px;
+}
+
+.item_select {
+    border-top: 1px gray solid;
+    margin-top: 20px;
 }
 .list_li {
 	list-style-type: none;
 	padding: 10px;
+}
+
+#gift_content {
+    height: 600px;
+}
+
+#gift_items {
+    height: 500px;
+}
+
+.gift_item img {
+    width: 60px;
+    height: 60px;
+}
+
+.gift_item {
+    margin-right: 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.item_operate {
+    margin-top: 4px;
+}
+
+.item_operate a {
+    color: red;
+    background-color: blue;
+    padding: 4px;
+}
+
+.link {
+    display: 
+}
+
+.animated {
+    -webkit-animation-duration: 1.4s;
+    animation-duration: 1.4s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both
+}
+
+/*
+    弹出层 选中赠送礼物的对象
+ */
+@-webkit-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        transform: scale(.3)
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+    70% {
+        -webkit-transform: scale(.9);
+        transform: scale(.9)
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        -ms-transform: scale(.3);
+        transform: scale(.3)
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+    70% {
+        -webkit-transform: scale(.9);
+        -ms-transform: scale(.9);
+        transform: scale(.9)
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+.bounceIn {
+    -webkit-animation-name: bounceIn;
+    animation-name: bounceIn
+}
+
+@-webkit-keyframes bounceInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-2000px);
+        transform: translateY(-2000px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px);
+    }
+
+    80% {
+        -webkit-transform: translateY(-10px);
+        transform: translateY(-10px);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-2000px);
+        -ms-transform: translateY(-2000px);
+        transform: translateY(-2000px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateY(30px);
+        -ms-transform: translateY(30px);
+        transform: translateY(30px);
+    }
+
+    80% {
+        -webkit-transform: translateY(-10px);
+        -ms-transform: translateY(-10px);
+        transform: translateY(-10px);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+.bounceInDown {
+    -webkit-animation-name: bounceInDown;
+    animation-name: bounceInDown;
+}
+
+#dialogBg {
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: .8;
+    filter: alpha(opacity=60);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;
+}
+
+#dialog {
+    width: 800px;
+    height: 540px;
+    margin: 0 auto;
+    display: none;
+    background-color: #ffffff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -120px 0 0 -150px;
+    z-index: 10000;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    box-shadow: 3px 2px 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 3px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dialogTop {
+    width: 90%;
+    margin: 0 auto;
+    border-bottom: 1px dotted #ccc;
+    letter-spacing: 1px;
+    padding: 10px 0;
+    text-align: right;
+}
+
+.dialogIco {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    margin-left: -25px;
 }
