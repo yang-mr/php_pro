@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //$this->call(VipsTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        $this->call(letterModelTableSeeder::class);
         // $this->call(GiftTableSeeder::class);
         // $this->call(VipsTableSeeder::class);
     }

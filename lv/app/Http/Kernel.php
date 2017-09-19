@@ -42,7 +42,7 @@ class Kernel extends HttpKernel
         ],
 
         'vip' => [
-            'checkAdmin',
+            'auth',
             'checkVip',
         ]
     ];

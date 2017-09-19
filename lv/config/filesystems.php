@@ -69,7 +69,7 @@ return [
            'secret_key' => env('QINIU_SK', 'xxxxxxxxxxxxxxxx'),
            'bucket'     => env('QINIU_BUCKET', 'test'),
            'domain'     => env('QINIU_DOMAIN', 'xxx.clouddn.com'), // or host: https://xxxx.clouddn.com
-        ， ],
+        ],
     ],
 
 

@@ -97,7 +97,12 @@ Route::get('/gift/attentions', 'GiftController@getGiftsByType')->name('gift_atte
 /**
  * 写信 业务
  */
-Route::get('/gift/index', function() {
-    return view('')
-});
+Route::get('/letter/index/{id}', 'LetterController@index')->name('write_letter')->middleware('vip');
+
+/**
+ * 错误提示
+ */
+Route::get('/error/no_vip', function() {
+    return view('tip_view.no_vip');
+})->name('no_vip')->middleware('auth');
 

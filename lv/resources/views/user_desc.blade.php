@@ -16,9 +16,6 @@
 
                 },
                 success: function(data) {
-                       
-             
-                
                     alert(data);
                   if (data.status == 1) {
                     //提交成功
@@ -32,8 +29,6 @@
                 }
             });
     }
-
-    
 </script>
 <div id="content">
     <nav id="nav_left">
@@ -43,12 +38,11 @@
                          <p>{{ $city }} {{ $area }}</p> 
                         <div>
                             @if( $attention)
-                            <a href="../send_email/{{ $id }}">写信</a>
                             <button id='bt_attention' ">取消关注</button>
                             @else 
                              <button id='bt_attention' onClick="add_attention('{{ route('add_attention', $id) }}')">添加关注</button>
                             @endif
-                            <a href="../send_email/{{ $id }}">写信</a>
+                            <a href="{{ route('write_letter', $id) }}">写信</a>
                              <a href="../send_email/{{ $id }}">送礼物</a>
                         </div>
                     </div>

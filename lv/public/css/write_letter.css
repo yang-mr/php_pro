@@ -1,0 +1,61 @@
+.letter_content {
+}
+
+.user_desc {
+	background-color: #FFC0CB;
+	border: 1px gray solid;
+	height: 100px;
+	padding: 10px;
+}
+
+.user_desc img {
+	float: left;
+	width: 60px;
+	margin-right: 10px;
+	height: 80px;
+	border: 1px white solid;
+}
+
+.user_desc .img_right {
+	margin-left: 20px;
+	float: left;
+}
+
+.p_hint {
+	margin: 10px 0px;
+}
+
+.letter {
+	border: 1px gray solid;
+}
+
+.letter .letter_top {
+	padding: 10px;
+	height: 40px;
+	width: 100%;
+	border-bottom: 1px gray solid;
+	margin-bottom: 10px;
+}
+
+.letter .letter_top .letter_top_left {
+	float: left;
+	width: 120px;
+}
+
+.letter .letter_top .letter_top_right {
+	float: right;
+	width: 120px;
+}
+
+#letter_form {
+	text-align: center;
+}
+
+.letter_form #letter_form textarea{
+	width: 100%;
+	height: 260px;
+	margin-bottom: 20px;
+}
+
+
+

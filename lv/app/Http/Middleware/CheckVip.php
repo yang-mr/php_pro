@@ -3,6 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Auth;
+use Redirect;
+
 
 class CheckVip
 {
@@ -18,7 +21,7 @@ class CheckVip
         $user = Auth::user();
         if (null == $user || $user->vip == 0) {
             //不是vip不能写信 提示开通vip
-            return '0';
+            return Redirect::route('no_vip');
         }
         return $next($request);
     }
