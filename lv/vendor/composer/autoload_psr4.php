@@ -32,6 +32,8 @@ return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Payment\\' => array($vendorDir . '/riverslei/payment/src'),
+    'Overtrue\\LaravelFilesystem\\Qiniu\\' => array($vendorDir . '/overtrue/laravel-filesystem-qiniu/src'),
+    'Overtrue\\Flysystem\\Qiniu\\' => array($vendorDir . '/overtrue/flysystem-qiniu/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'Laravel\\Tinker\\' => array($vendorDir . '/laravel/tinker/src'),

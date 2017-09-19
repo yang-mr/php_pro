@@ -51,15 +51,19 @@
     });
 
     function addOrUpdate() {
+      alert(type);
       if (type == 0) {
+        var formData = new FormData($('#editForm')[0]);
         //添加gift
          $.ajax({
-                cache: true,
+                cache: false,
                 type: "POST",
                 url:"{{ route('admin_add_gift') }}",
-                data:$('#editForm').serialize(),// 你的formid
+                data:formData,// 你的formid
                 async: false,
+                processData: false,  
                 dataType: 'json',
+                contentType: false,  
                 error: function(request) {
                   alert('添加失败');
                 },
@@ -189,11 +193,13 @@
             <div id="content_vips">
                 @foreach ($vips as $vip)
                     <div class="vip">
-                        <p>{{ $vip['title'] }}</p>
-                        <div class="price_and_discount">
-                            {{ $vip['price'] }} {{ $vip['discount'] }}
+                        <div>
+                          <p>{{ $vip['title'] }}</p>
+                          <div class="price_and_discount">
+                              {{ $vip['price'] }} {{ $vip['discount'] }}
+                          </div>
+                          <p>{{ $vip['description'] }}</p>
                         </div>
-                        <p>{{ $vip['description'] }}</p>
                     </div>
                 @endforeach
                  <div id="pull_right">
@@ -206,18 +212,24 @@
 
             @if (isset($gifts))
             <div><p><a href="javascript:;" class="bounceIn">添加礼物</a></p></div>
-            <div id="content_vips">
+            <div id="content_gifts">
                 @foreach ($gifts as $gift)
-                    <div class="vip">
-                        <p>{{ $gift['title'] }}</p>
-                        <div class="price_and_discount">
-                            {{ $gift['price'] }} {{ $gift['discount'] }}
-                            <div>
-                              <a href="javascript:;" onClick="gift_edit({{ $gift }})">编辑</a>
-                              <a href="#">删除</a>
-                            </div>
+                    <div class="gift">
+                        <img src="{{ $gift['img_url'] }}" />
+                        <div class="gift_bottom">
+                          <p>{{ $gift['title'] }}</p>
+                          <div class="price_and_discount">
+                              {{ $gift['price'] }} {{ $gift['discount'] }}
+                              <div>
+                                <a href="javascript:;" onClick="gift_edit({{ $gift }})">编辑</a>
+                                <a href="#">删除</a>
+                              </div>
+                          </div>
+                          <p>{{ $gift['description'] }}</p>
                         </div>
-                        <p>{{ $gift['description'] }}</p>
+                    </div>
+                    <div class="clear">
+                      
                     </div>
                 @endforeach
                  <div id="pull_right">

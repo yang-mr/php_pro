@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Model\Vip;
 use App\Model\Gift;
@@ -111,23 +112,50 @@ class AdminController extends Controller
         $title = $request->input('title');
         $description = $request->input('description');
         $price = $request->input('price');
-        $type = $request->input('type');
+        $type = $request->input('gifttype');
 
-        if ($title == null || $description == null) {
+       /* if ($title == null || $description == null) {
             $result['status'] = '2';
             return json_encode($result);
-        }
-      
-        $gift = new Gift;
-        $gift->title = $title;
-        $gift->description = $description;
-        $gift->price = $price;
-        $gift->type = $type;
-        if ($gift->save()) {
-            $result['status'] = '1';
-        } else {
-            $result['status'] = '0';
-        }
+        }*/
+
+        $file = $request->file('img_url');
+        if($file->isValid()){  
+            //获取原文件名  
+            $originalName = $file->getClientOriginalName();  
+            //扩展名  
+            $ext = $file->getClientOriginalExtension();  
+            //文件类型  
+            //$type = $file->getClientMimeType();  
+            //临时绝对路径  
+            $realPath = $file->getRealPath();  
+           // var_dump($realPath);
+
+            $disk = Storage::disk('qiniu');
+            $filename = getUploadFileName().uniqid().'.'.$ext;
+            $result_upload = $disk->put($filename, file_get_contents($realPath));
+            if ($result_upload) {
+                $gift = new Gift;
+                $gift->title = $title;
+                $gift->description = $description;
+                $gift->price = $price;
+                $gift->type = $type;
+                $gift->img_url = config('app.qiniu_domain') . $filename;
+                if ($gift->save()) {
+                    $result['status'] = '1';
+                } else {
+                    $result['status'] = '0';
+                }
+            } else {
+                //文件上传失败
+                $result['status'] = '3';
+            }
+         } else {
+             //文件上传失败
+                $result['status'] = '3';
+         }
+         //判断文件是否上传成功  
+       
         return json_encode($result);
     }
 

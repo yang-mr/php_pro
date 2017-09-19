@@ -40,6 +40,11 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+
+        'vip' => [
+            'checkAdmin',
+            'checkVip',
+        ]
     ];
 
     /**
@@ -58,5 +63,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
         'checkAdmin' => \App\Http\Middleware\CheckAdmin::class,
+        'checkVip' => \App\Http\Middleware\CheckVip::class,
     ];
 }

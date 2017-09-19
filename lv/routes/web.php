@@ -91,5 +91,13 @@ Route::get('/gift/collect/{gift_id}', 'GiftController@collectGift')->name('gift_
 
 Route::get('/gift/other_type/{type}', 'GiftController@getGiftsByType')->name('other_type');
 
-Route::get('/gift/attentions/{gift_id}', 'GiftController@getAttentions')->name('gift_attention');
+Route::get('/gift/attentions', 'GiftController@getGiftsByType')->name('gift_attention');
+
+
+/**
+ * 写信 业务
+ */
+Route::get('/gift/index', function() {
+    return view('')
+});
 

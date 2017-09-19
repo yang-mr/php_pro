@@ -129,6 +129,18 @@ a {
     background-color: white;
 }
 
+.gift img {
+  width: 60px;
+  height: 60px;
+  float: left;
+}
+
+.gift .gift_bottom {
+  margin-left: 20px;
+  float: left;
+}
+
+
 
 
 /*

@@ -25,3 +25,9 @@
         }  
         return $age;  
     }
+
+    function getUploadFileName($hint = '')
+    {
+        $time = date('Y/m/d-H:i:s');  
+        return $hint . $time;
+    }
