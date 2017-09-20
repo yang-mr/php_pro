@@ -149,9 +149,9 @@ class UserController extends Controller
             $attention_result = Attention::where('user_id', $user_id)->where('other_id', $id)->get();
 
             if (count($attention_result->toArray()) > 0) {
-                $user['attention'] = true;
+                $user['attention'] = 'cancel_attention';
             } else {
-                $user['attention'] = false;
+                $user['attention'] = 'add_attention';
             }              
 
             //记录谁看过我

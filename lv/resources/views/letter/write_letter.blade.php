@@ -1,35 +1,5 @@
 @extends('layouts.auto_app')
 
-<link href="{{ asset('/css/write_letter.css') }}" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-	// 
-	function select_letter_model() {
-		var n = 0, m = {{ count($models) }} - 1;
-        alert(m);
-		var c = m-n+1; 
-    	var num = Math.floor(Math.random() * c + n);
-        var arr = "{{ json_encode($models, JSON_PRETTY_PRINT)}}";
-		$('#text_letter').val('');
-		var content = arr[num];
-		$('#text_letter').val(content);
-	}
-
-    $(function() {
-        $('.submitBtn').click(function() {
-        
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url:"{{ route('admin_add_gift') }}",
-                data:$('#letter_form').formSerialize(),// 你的formid
-                async: false,
-                processData: false,  
-                dataType: 'json',
-                contentType: false,  
-            });
-        })
-    });
-</script>
 @section('left_content')
     <nav id="nav_left">
         <div class="inner">
@@ -39,6 +9,38 @@
 @endsection
 
 @section('content')
+
+<script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript">
+    jQuery(function() {
+        $('.submitBtn').click(function() {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{{ route('insert_letter') }}",
+                data:$('#letter_form').serialize(),// 你的formid
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                 error: function(request) {
+                  alert('发送失败');
+                },
+                success: function(data) {
+                  if (data == 1) {
+                    //提交成功
+                    alert("发送成功");
+                    window.history.back();
+                  } else if (data == 0) {
+                    alert("发送失败");
+                  }
+                }
+            });
+        });
+    });
+</script>
+<link href="{{ asset('/css/write_letter.css') }}" rel="stylesheet" type="text/css">
+
     <div class="letter_content">
     	<div class="user_desc">
     		<img src="{{ asset('img/default_avatar.png') }}" />
@@ -65,7 +67,8 @@
     		<div class="letter_form">
     			<form id="letter_form">
                 {{ csrf_field() }}
-                  <textarea name="letter_content" id="text_letter"></textarea>
+                  <textarea name="letter_content" id="text_letter" required></textarea>
+                   <input type="hidden" value="{{ $user['id'] }}" name="id" />
                   <input type="button" value="发送" class="submitBtn" />
               </form>
     		</div>

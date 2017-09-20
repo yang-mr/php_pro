@@ -24,7 +24,7 @@ Route::get('home/send_email/{id}', 'UserController@send_email');
 
 Route::get('home/attention/{id}', 'UserController@attention')->name('add_attention');
 
-Route::get('home/cancel_attention/{id}', 'UserController@cancel_attention');
+Route::get('home/cancel_attention/{id}', 'UserController@cancel_attention')->name('cancel_attention');
 
 // Route::get('/{id}', function ($id) {
 //     return $id;
