@@ -50,7 +50,8 @@ class CreateUsersTable extends Migration
              $table->string('avatar_url', 255)->nullable();
              $table->string('sex', 2)->default('女'); //0:女 1:男
             });
-             $table->dateTime('vip')->nullable();
+             $table->dateTime('vip_time')->nullable();
+             $table->smallInteger('vip')->nullable()->default(0);
              $table->smallInteger('lot_money')->default(0);  //缘分币 1:1 rmb;
         } else {
             //增加字段

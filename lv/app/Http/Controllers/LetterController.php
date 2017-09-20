@@ -23,4 +23,9 @@ class LetterController extends Controller
     		return view('letter.write_letter', ['user' => $user, 'models' => $model]);
     	}
     }
+
+    public function insertLetter(Request $request)
+    {
+        
+    }
 }

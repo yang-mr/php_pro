@@ -3,16 +3,32 @@
 <link href="{{ asset('/css/write_letter.css') }}" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	// 
-	var num = 0;
-
 	function select_letter_model() {
 		var n = 0, m = {{ count($models) }} - 1;
+        alert(m);
 		var c = m-n+1; 
-    	this.num = Math.floor(Math.random() * c + n);
+    	var num = Math.floor(Math.random() * c + n);
+        var arr = "{{ json_encode($models, JSON_PRETTY_PRINT)}}";
 		$('#text_letter').val('');
-		var content = '{{ $models[this.num]['content']}}';
+		var content = arr[num];
 		$('#text_letter').val(content);
 	}
+
+    $(function() {
+        $('.submitBtn').click(function() {
+        
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{{ route('admin_add_gift') }}",
+                data:$('#letter_form').formSerialize(),// 你的formid
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                contentType: false,  
+            });
+        })
+    });
 </script>
 @section('left_content')
     <nav id="nav_left">
@@ -50,7 +66,7 @@
     			<form id="letter_form">
                 {{ csrf_field() }}
                   <textarea name="letter_content" id="text_letter"></textarea>
-                  <input type="button" value="发送" class="submitBtn" onClick="addOrUpdate()" />
+                  <input type="button" value="发送" class="submitBtn" />
               </form>
     		</div>
     	</div>
@@ -58,6 +74,6 @@
 @endsection
 @section('right_content')
     <div class="content">
-       
-</div>
+        
+    </div>
 @endsection

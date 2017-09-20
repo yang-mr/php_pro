@@ -99,6 +99,8 @@ Route::get('/gift/attentions', 'GiftController@getGiftsByType')->name('gift_atte
  */
 Route::get('/letter/index/{id}', 'LetterController@index')->name('write_letter')->middleware('vip');
 
+Route::post('/letter/insertLetter', 'LetterController@insertLetter')->name('insert_letter')->middleware('vip');
+
 /**
  * 错误提示
  */
