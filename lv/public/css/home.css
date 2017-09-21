@@ -1,8 +1,28 @@
-img {
-	width: 140px;
-	height: 140px;
+.home_left_content {
+	padding: 10px 20px;
+	width: 100%;
+}
+
+.nav_top {
+	width: 100%;
+    text-align: center;
+}
+
+.operate button {
+	width: 50%;
 	margin-bottom: 10px;
-	text-align: center;
+}
+.operate strong {
+	color: red;
+}
+
+img {
+	 max-width: 120px;
+     max-height: 120px;
+}
+
+.user_description {
+	padding: 10px 0px;
 }
 
 .nav_bottom {
@@ -28,5 +48,40 @@ img {
 	float: right;
 }
 
+.home_right_content {
+	padding: 10px;
+}
 
+.home_right_content_hint {
+	margin-bottom: 10px;
+	padding-top: 10px;
+	width: 100%;
+	float: left;
+	border-bottom: 1px red solid;
+	color: red;
+}
 
+.home_right_content_hint strong {
+	float: left;
+	width: 60%;
+	color: red;
+}
+
+.home_right_content_hint em {
+
+	padding-right: 20px;
+	float: right;
+}
+
+.toattention img {
+	 max-width: 100%;
+     max-height: 80px;
+	text-align: center;
+}
+
+.toattention {
+	width: 40%;
+}
+.name_city_hint {
+	text-align: center;
+}

@@ -101,6 +101,8 @@ Route::get('/letter/index/{id}', 'LetterController@index')->name('write_letter')
 
 Route::post('/letter/insertLetter', 'LetterController@insertLetter')->name('insert_letter')->middleware('vip');
 
+Route::get('/letter/out_box', 'LetterController@out_box')->name('box_letter');
+
 /**
  * 错误提示
  */

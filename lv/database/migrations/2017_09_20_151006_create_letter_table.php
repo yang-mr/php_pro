@@ -13,7 +13,7 @@ class CreateLetterTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('letters')) {
+       /* if (!Schema::hasTable('letters')) {
               Schema::create('letters', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('content');
@@ -21,6 +21,16 @@ class CreateLetterTable extends Migration
                 $table->foreign('from_id')->references('id')->on('users');  //发件人id
                 $table->unsignedInteger('to_id')->nullable(); //收件人id
                 $table->foreign('to_id')->references('id')->on('users');  
+                $table->smallInteger('status')->default(0);  //默认0 未读 1 已读 2 删掉
+                $table->softDeletes();  //用于软删除
+                $table->timestamps();
+            });
+        }*/
+
+         if (!Schema::hasTable('letters')) {
+              Schema::create('letters', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('content');
                 $table->softDeletes();  //用于软删除
                 $table->timestamps();
             });
