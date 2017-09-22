@@ -46,9 +46,9 @@ class User extends Authenticatable
      * @DateTime 2017-09-21T13:55:56+0800
      * @return   [type]                   [我发送的信件]
      */
-    public function letters()
+    public function outLetters()
     {
-        return $this->hasMany('App\Model\Letter', 'from_id');
+        return $this->hasMany('App\Model\OutLetter');
     }
 
     /**
@@ -56,9 +56,9 @@ class User extends Authenticatable
      * @DateTime 2017-09-21T13:59:46+0800
      * @return   [type]                   [我收到的信件]
      */
-    public function toLetters()
+    public function inLetters()
     {
-        return $this->hasMany('App\Model\Letter', 'to_id');
+        return $this->hasMany('App\Model\InLetter');
     }
 
     /**

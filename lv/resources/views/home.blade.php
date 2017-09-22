@@ -9,7 +9,7 @@
                 <strong>征友进行中</strong><a href="#">修改</a>
             </div>
             <div class="operate">
-                <button><a href="{{ route('box_letter')}}" class="gift_enter">收件箱</a><strong>({{ count($toLetters) }})</strong></button>
+                <button><a href="{{ route('in_letter')}}" class="gift_enter">收件箱</a><strong>({{ count($toLetters) }})</strong></button>
                 <button><a href="{{ route('gift_index')}}" class="gift_enter">收到的礼物</a><strong>({{ count($toGifts) }})</strong></button>
             </div>
        </div>

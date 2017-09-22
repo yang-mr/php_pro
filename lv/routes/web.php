@@ -101,7 +101,14 @@ Route::get('/letter/index/{id}', 'LetterController@index')->name('write_letter')
 
 Route::post('/letter/insertLetter', 'LetterController@insertLetter')->name('insert_letter')->middleware('vip');
 
-Route::get('/letter/out_box', 'LetterController@out_box')->name('box_letter');
+Route::get('/letter/in_box', 'LetterController@in_box')->name('in_letter');
+
+Route::get('/letter/out_box', 'LetterController@out_box')->name('out_letter');
+
+Route::get('/letter/look_letter/{letter_id}', 'LetterController@look_letter')->name('look_letter');
+
+//设置信件状态
+Route::get('/letter/set_status/{letter_id}', 'LetterController@set_status')->name('set_status');
 
 /**
  * 错误提示

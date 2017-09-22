@@ -47,3 +47,9 @@ lv数据库
 
 推送
 	workerman Swoole
+
+前端
+	js跳转
+	window.location.href = path;
+	window.location.href(path); 可能浏览器会不兼容
+

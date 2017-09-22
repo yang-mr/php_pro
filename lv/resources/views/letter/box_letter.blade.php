@@ -1,6 +1,6 @@
 @extends('layouts.auto_app')
 
-<link href="{{ asset('/css/gift.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('/css/box.css') }}" rel="stylesheet" type="text/css">
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
     <script type="text/javascript">
      var w,h,className, type = 0;
@@ -35,124 +35,118 @@
           /*  $(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
             $(this).addClass('selected'); */
         });
-       // $('#gift_type').children(':first').addClass('selected');
-        $('#gift_type').children('li').eq({{ $type }}).addClass('selected');
         $('#my_type').children('li').eq({{ $type }}).addClass('selected');
        });
 
-        function getGifts(path) {
-            /* $.ajax({
-                cache: true,
+        function lookLetter(path) {
+            $.ajax({
+                cache: false,
                 type: "GET",
                 url:path,
                 async: false,
+                processData: false,  
                 dataType: 'json',
-                error: function(request) {
-                  alert('失败');
+                 error: function(request) {
+                  alert('发送失败');
                 },
                 success: function(data) {
-                 $("#gift_content").html(data.data);
-
-             //    alert(data.gifts.data.length);
+                  if (data.status == 1) {
+                    //查看成功
+                    $('#attention_users').text(data.content);
+                    $('#dialogBg').fadeIn(300);
+                    $('#dialog').removeAttr('class').addClass('animated bounceIn').fadeIn();
+                  } else if (data == 0) {
+                    alert("查看失败");
+                  } else if (data == 2) {
+                    alert('开通vip');
+                  }
                 }
-            });*/
+            });
         }
 
-        var gift_id = 0;
-        function giveGift(path) {
-             $('#dialogBg').fadeIn(300);
-             $('#dialog').removeAttr('class').addClass('animated bounceInDown').fadeIn();
-            $.ajax({
-                        cache: true,
-                        type: "GET",
-                        url:path,
-                        async: false,
-                        dataType: 'json',
-                        error: function(request) {
-                            alert('收藏失败');
-                        },
-                        success: function(data) {
-                            this.gift_id = data.data.gift_id;
-                            console.log(data.data.gift_id);
-                             var dataObj = data.data, //返回的result为json格式的数据
-                         con = "";
-                         $.each(dataObj, function(index, item){
-                            var id = item.user_id;
-                            console.log(id);
-                            con += "<div class='item' onClick='goGive(" + id + ")'>";
-                            con += "<img src=\"" + '{{ asset('img/default_avatar.png') }}' + "\"/>"; 
-                            con += "<div>姓名："+item.name+item.sex +"</div>";
-                            con += "</div>"
-                        });
-                       console.log(con);    //可以在控制台打印一下看看，这是拼起来的标签和数据
-                        $("#attention_users").html(con); //把内容入到这个div中即完成
-                       //   $('#attention_users').html(data);
-                        }
-                    });
-        }
-
-        function goGive(id) {
-            alert(id);
-            alert(this.gift_id);
-        }
-
-        function collectGift(obj, path) {
-           // obj=$(this);//回调函数前先写入变量; 
-            if ($(obj).text() === '收藏') {  
-                $.ajax({
-                    cache: true,
-                    type: "GET",
-                    url:path,
-                    async: false,
-                    dataType: 'json',
-                    error: function(request) {
-                        alert('收藏失败');
-                    },
-                    success: function(data) {
-                      if (data == 1) {
-                        $(obj).text('已收藏');
-                        $(obj).removeAttr("href");
-                        $(obj).removeClass('item_operate a');
-                        $(obj).addClass('gift_selected');
-                      } else if (data == 0) {
-                        alert('收藏失败');
-                      }
-                    }
+        function set_status(obj, path) {
+            var o = obj;
+            var hint = $(o).text();
+            alert(hint);
+            if (hint == '设为已读') {
+                  $.ajax({
+                cache: false,
+                type: "GET",
+                url:path,
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                 error: function(request) {
+                  alert('设置失败');
+                },
+                success: function(data) {
+                  if (data == 1) {
+                    //查看成功
+                    $(o).text('已读')
+                  } else if (data == 0) {
+                    alert("设置失败");
+                  }
+                }
                 });
-            } 
+            }
         }
     </script>
 @section('left_content')
-    <ul id="gift_type">
-        <li class="list_li" onClick="getGifts('{{ route('gift_type', 0) }}')"><a href="{{ route('gift_type', 0) }}">我收到的信件</a></li>
-        <li class="list_li" onClick="getGifts('{{ route('gift_type', 1) }}')"><a href="{{ route('gift_type', 1) }}">我发送的信件</a></li>
+    <ul id="my_type">
+        <li class="list_li"><a href="{{ route('in_letter') }}">我发送的信件</a></li>
+        <li class="list_li"><a href="{{ route('out_letter') }}">我收到的信件</a></li>
     </ul>
 @endsection
 
 @section('content')
     <div id="gift_content">
         <div id="gift_items">
-           @foreach($letters as $letter)
-           <div class = "gift_item">
-              <img src="{{ asset('img/default_avatar.png')}}" />
-              <div class="item_title">
-                  {{ $gift['title']}} <em>{{ $gift['price'] }}</em>
-              </div>
-              @if ($display)
-              <div class="item_operate">
-                <a href="#" onClick="giveGift('{{ route('gift_attention', $gift['id']) }}')">赠送</a> 
-                @if ($gift['collect'])
-                  <em>已收藏</em>
-                @else
-                  <a href="javascript:;" onClick="collectGift(this, '{{ route('gift_collect', $gift['id']) }}')">收藏</a>
+           @if (count($letters) == 0)
+                @if ($type == 0)
+                    <p>暂无发件过</p>
+                @else 
+                    <p>暂无收到件</p>
                 @endif
-              </div>
-              @endif
-           </div>
-          @endForeach
+            @else
+               @foreach($letters as $letter)
+               <div class = "letter_item">
+                <img src="{{ asset('img/default_avatar.png')}}" />
+                <div class="img_right">
+                    <p>
+                        {{$letter['letter_id']}}
+                        <strong>{{$letter['created_at']}}</strong> 
+                    @if ($letter['user']['status'] == 0)
+                    <em class="letter_status">对方还没查看该信件</em>
+                    @elseif ($letter['user']['status'] == 1)
+                    <em class="letter_status">对方已经查看该信件</em>
+                    @endif
+                    </p>
+                  
+                  <div class="item_title">
+                      {{ $letter['user']['name']}} <em>{{ $letter['user']['city'] }}</em>
+                       <div class="item_operate">
+                        <a href="#">删除</a> 
+                        <a href="javascript:;" onClick="lookLetter('{{ route('look_letter', $letter['letter_id']) }}')">查看信件内容</a>
+                        @if ($type == 1) 
+                        <a href="javascript:;" onClick="set_status(this, '{{ route('set_status', $letter['letter_id'])}}')">
+                             @if ($letter['status'] == 0)
+                             设为已读
+                             @else 
+                             已读
+                             @endif
+                        </a>
+                            
+                        @endif
+                  </div>
+                  </div>
+                 
+                </div>
+                </div>
+              @endForeach
+            @endif
         </div>
         <div class="link">
-            {{ $data->links() }}
+           
         </div>
     </div>
 @endsection
@@ -164,7 +158,6 @@
               <div class="dialogTop">
                 <a href="javascript:;" class="claseDialogBtn">关闭</a>
               </div>
-              <p>赠送给我关注的人</p>
               <div id="attention_users">
                   
               </div>

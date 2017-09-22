@@ -33,6 +33,8 @@
                     window.history.back();
                   } else if (data == 0) {
                     alert("发送失败");
+                  } else if (data == 2) {
+                    alert('请输入信的内容');
                   }
                 }
             });

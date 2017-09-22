@@ -71,7 +71,7 @@ class HomeController extends Controller
         $data['toMyAttentions'] = $userData;
 
         //我收到的信件
-        $data['toLetters'] = $user->toLetters;
+        $data['toLetters'] = $user->outLetters;
 
         //我收到的礼物
         $data['toGifts'] = $user->toGifts;
