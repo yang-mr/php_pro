@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\User;
-use App\Model\Attention;
 use App\Model\Look;
 use App\Mail\UserSend;
 use Illuminate\Support\Facades\Mail;
 use App\Events\AttentionEvent;
-
+use App\Model\Attention;
 
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
@@ -137,19 +136,17 @@ class UserController extends Controller
 
             //事务
             DB::transaction(function () use ($id, $user) {
-            $img_result = DB::select('select img_url from imgs where user_id = :id and type = 0', [$id]);
-              if (empty($img_result)) {
-                $user['img_avatar'] = asset('img/default_avatar.png');
-            } else {
-                $user['img_avatar'] = $img_result['img_url'];
-            }
-
             $user_id = auth()->user()->id;
         //    $attention_result = DB::select('select count(*) count from attentions where user_id = :user_id and other_id = :other_id', [$user_id, $id]);
             $attention_result = Attention::where('user_id', $user_id)->where('other_id', $id)->get();
 
-            if (count($attention_result->toArray()) > 0) {
-                $user['attention'] = 'cancel_attention';
+            if (count($attention_result) > 0) {
+                $status = $attention_result[0]['status'];
+                if ($status == 0) {
+                     $user['attention'] = 'cancel_attention';
+                } else if ($status == 1) {
+                    $user['attention'] = 'add_attention';
+                }
             } else {
                 $user['attention'] = 'add_attention';
             }              
@@ -180,33 +177,49 @@ class UserController extends Controller
     public function attention($other_id = null) { 
         if ($other_id != null) {
             $user_id = auth()->user()->id;
+
+            $attentions = Attention::where('user_id', $user_id)
+                        ->where('other_id', $other_id)
+                        ->get();
+            if (count($attentions) > 0) {
+                $status = $attentions[0]['status'];
+                if ($status == 0) {
+                    //已关注过的
+                    return 2;
+                } else if ($status == 1) {
+                    //已取消的
+                     $result = Attention::where('user_id', $user_id)
+                        ->where('other_id', $other_id)
+                        ->update(['status'=>0]);
+                        if ($result) {
+                            event(new AttentionEvent($other_id));
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                }
+            } 
             $result = DB::insert("insert into attentions (user_id, other_id, created_at) values (?, ?, ?)", [$user_id, $other_id, Carbon::now()]);
             if ($result) {
                 event(new AttentionEvent($other_id));
                 //broadcast(new AttentionEvent($other_id))->toOthers();  //同上 但是可以将当前用户排除
-                return '1';
+                return 1;
             }
         }
-        return '0';
+        return 0;
    }
 
      public function cancel_attention($other_id = null) {
         if ($other_id != null) {
             $user_id = auth()->user()->id;
-            $del_count = Attention::onlyTrashed()
-                ->where('user_id', $user_id)
+            $update_result = Attention::where('user_id', $user_id)
                 ->where('other_id', $other_id)
-                ->get();
-            if (count($del_count->toArray()) > 0) {
-                    DB::delete('delete from attentions where user_id = :user_id and other_id = :other_id', [$user_id, $other_id]);
-            } else {
-                     $deleResult = Attention::where('user_id', $user_id)
-                        ->where('other_id', $other_id)
-                        ->delete();
+                ->update(['status'=>1]);
+            if ($update_result) {
+                return 1;
             }
-            return '1';
         }
-        return '0';
+        return 0;
    }
 
    public function send_email($other_id = null) {

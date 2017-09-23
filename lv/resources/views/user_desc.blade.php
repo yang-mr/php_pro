@@ -61,7 +61,7 @@
 <div id="content">
     <nav id="nav_left">
         <div class="inner">
-              <img src="{{ $img_avatar }}"/>
+              <img src="{{ $avatar_url }}"/>
                          <p>{{ $name }} {{ $sex }}</p> 
                          <p>{{ $city }} {{ $area }}</p> 
                         <div>

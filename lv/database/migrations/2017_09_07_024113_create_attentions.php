@@ -21,6 +21,7 @@ class CreateAttentions extends Migration
                 $table->unsignedInteger('other_id')->nullable();
                 $table->foreign('other_id')->references('id')->on('users');
                 $table->softDeletes();  //创建软删除 字段
+                $table->smallInteger('status')->default(0); //默认是0 已关注 1 取消了关注
                 $table->timestamps();
             });
         }

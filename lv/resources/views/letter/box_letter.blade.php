@@ -1,7 +1,7 @@
 @extends('layouts.auto_app')
 
 <link href="{{ asset('/css/box.css') }}" rel="stylesheet" type="text/css">
-<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script type="text/javascript">
      var w,h,className, type = 0;
     function getSrceenWH(){
@@ -66,7 +66,7 @@
 
         function set_status(obj, path) {
             var o = obj;
-            var hint = $(o).text();
+            var hint = $(o).text().trim();
             alert(hint);
             if (hint == '设为已读') {
                   $.ajax({
