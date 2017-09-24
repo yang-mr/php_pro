@@ -80,8 +80,11 @@ class HomeController extends Controller
         return view('home', $data);
     }
 
-    public function home()
+    /*
+        用户基本资料
+    */
+    public function baseMeans()
     {
-      
+        return view('home.user_msg');
     }
 }

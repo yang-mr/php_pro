@@ -15,22 +15,40 @@
     <link href="{{ asset('css/auto_app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script src='http://cdn.bootcss.com/socket.io/1.3.7/socket.io.js'></script>
     <script>
          $(function() {
-                Pusher.logToConsole = true;
-                var pusher = new Pusher('02a1cc0f2b863b11a348', {
-                  cluster: 'eu',
-                  encrypted: true
-                });
-
-                var channel = pusher.subscribe('UserAttention.' + {{ auth()->user()->id }});
-                channel.bind('pusher:subscription_succeeded', function(data) {
-                 // alert(data.message);
-                });
-                channel.bind('App\\Events\\AttentionEvent', function(data) {
-                  alert(data.name);
-                });
+            // 连接服务端，workerman.net:2120换成实际部署web-msg-sender服务的域名或者ip
+            var socket = io('http://lv.dev:2120');
+            // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
+            uid = {{ auth()->user()->id}};
+            // socket连接后以uid登录
+            socket.on('connect', function(){
+                socket.emit('login', uid);
+            });
+            // 后端推送来消息时
+            socket.on('new_msg', function(msg){
+                alert(msg);
+                console.log("收到消息："+msg);
+            });
+            // 后端推送来在线数据时
+            socket.on('update_online_count', function(online_stat){
+                console.log(online_stat);
+            });
         });
+          // Pusher.logToConsole = true;
+          //       var pusher = new Pusher('02a1cc0f2b863b11a348', {
+          //         cluster: 'eu',
+          //         encrypted: true
+          //       });
+
+          //       var channel = pusher.subscribe('UserAttention.' + {{ auth()->user()->id }});
+          //       channel.bind('pusher:subscription_succeeded', function(data) {
+          //        // alert(data.message);
+          //       });
+          //       channel.bind('App\\Events\\AttentionEvent', function(data) {
+          //         alert(data.name);
+          //       });
     </script>
 </head>
 <body>

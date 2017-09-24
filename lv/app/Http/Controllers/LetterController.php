@@ -10,6 +10,7 @@ use App\Model\InLetter;
 use App\Model\OutLetter;
 use App\Events\AttentionEvent;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendEmail;
 
 class LetterController extends Controller
 {
@@ -35,12 +36,15 @@ class LetterController extends Controller
         $to_id = $request->input('id');
         $content = $request->input('letter_content');
 
+        $result = 0;
+
         if (empty($content)) {
-            return 2;
+            $result = 2;
         }
 
       //  var_dump($to_id);
-       return DB::transaction(function () use ($from_id, $to_id, $content) {
+
+       $result = DB::transaction(function () use ($from_id, $to_id, $content) {
        // var_dump($to_id);
                 $letter = new Letter;
                 $letter->content = $content;
@@ -57,12 +61,22 @@ class LetterController extends Controller
                 $outLetter->letter_id = $letter_id;
                 $outLetter->save();
 
+
                // InLetter::create(['user_id' => $from_id, 'letter_id' => $letter_id]);
                // OutLetter::create(['user_id' => $to_id, 'letter_id' => $letter_id]);
                 return 1;
         });
        
-        return 0;
+        //发送通知
+        if ($result == 1) {
+           //sendMsg($to_id);
+            $toUser = User::find($to_id, ['name']);
+            $msg = $toUser['name'] . " 给你发信啦！";
+            dispatch(new SendEmail($to_id, $msg));
+        } else if ($result != 1 || $result != 2) {
+            $result = 0;
+        }
+        return $result;
        /* $letter = new Letter();
         $letter->from_id = $from_id;
         $letter->to_id = $to_id;

@@ -6,7 +6,7 @@
         <div class="nav_top">
             <a href="./home/edit_msg"><img src="{{ $user_avatar or asset('img/default_avatar.png') }}" onClick="go_personcenter()"/></a>
             <div class="user_description">
-                <strong>征友进行中</strong><a href="#">修改</a>
+                <strong>征友进行中</strong><a href="{{ route('base_mean') }}">修改</a>
             </div>
             <div class="operate">
                 <a href="{{ route('in_letter')}}" class="gift_enter">收件箱</a><strong>({{ count($toLetters) }})</strong>

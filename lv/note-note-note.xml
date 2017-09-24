@@ -53,3 +53,18 @@ lv数据库
 	window.location.href = path;
 	window.location.href(path); 可能浏览器会不兼容
 
+mac 查看端口 关闭端口 （有时候即使关闭了服务 端口还是被占用着）
+	lsof -i 2123 //查看2123 端口
+	由上门命令可以肯定具体的进程
+		最后我们可以 kill 进程号
+
+进程管理工具 supervisord
+	启动
+		supervisord -c /etc/supervisord.conf  //注意配置文件的路径
+
+	sudo supervisorctl //进入客户端  如何没有启动服务  出现 ：unix:///tmp/supervisor.sock no such file
+
+	//进入客户端执行命令
+		supervisor>shutdown //关闭服务
+		supervisor>reload //重载配置
+

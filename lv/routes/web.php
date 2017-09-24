@@ -52,6 +52,12 @@ Route::post('/commit_msg', 'UserController@editUserMsg');
 
 Route::post('home/upload_avatar', 'UserController@editAvatar');
 
+/*
+	用户资料 头像 图片等
+*/
+Route::get('/home／base_mean', 'HomeController@baseMeans')->name('base_mean');
+
+
 /**
  * 管理员中心
  *
