@@ -120,4 +120,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Model\UserGift', 'otheruser_id');
     }
+
+    public function imgs() {
+        return $this->hasMany('App\Model\Img');
+    }
 }

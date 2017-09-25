@@ -60,7 +60,7 @@ class CreateUsersTable extends Migration
                                             <option label="已购车（豪华型）" value="4">已购车（豪华型）</option>
                                             <option label="单位用车" value="5">单位用车</option>
                                             <option label="需要时购置" value="6">需要时购置</option>*/
-             $table->smallInteger('nation', 10)->nullable()->default(0);  
+             $table->smallInteger('nation')->nullable()->default(0);  
                                            /* <option label="汉族" value="1">汉族</option>
                                             <option label="藏族" value="2">藏族</option>
                                             <option label="朝鲜族" value="3">朝鲜族</option>
@@ -117,7 +117,6 @@ class CreateUsersTable extends Migration
              $table->string('qq', 11)->nullable();
              $table->string('id_card', 20)->nullable();
              $table->string('avatar_url', 255)->nullable();
-
         } else {
             //增加字段
             Schema::table('users', function (Blueprint $table) {

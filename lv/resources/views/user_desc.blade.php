@@ -1,7 +1,7 @@
-@extends('layouts.app')
-
-@section('content')
+@extends('layouts.auto_app')
 <link href="{{ asset('/css/user_desc.css') }}" rel="stylesheet" type="text/css">
+<title>{{ $name }}</title>
+
 <script type="text/javascript">
     $(function() {
         if ('{{ $attention }}' == 'cancel_attention') {
@@ -58,8 +58,8 @@
          }
     }
 </script>
-<div id="content">
-    <nav id="nav_left">
+@section('left_content')
+<nav id="nav_left">
         <div class="inner">
               <img src="{{ $avatar_url }}"/>
                          <p>{{ $name }} {{ $sex }}</p> 
@@ -72,8 +72,12 @@
                     </div>
         </div>
     </nav>
-     <div class="user_div">
-     {{ phpinfo() }}
+@endsection
+
+@section('content')
+
+<div class="content">
+    
 </div>
 @endsection
 

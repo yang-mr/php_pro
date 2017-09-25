@@ -28,7 +28,7 @@
 
     function getUploadFileName($hint = '')
     {
-        $time = date('Y/m/d-H:i:s');  
+        $time = date('YmdHis');  
         return $hint . $time;
     }
 

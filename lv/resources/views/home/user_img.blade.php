@@ -8,13 +8,8 @@
     <meta name="description" content="青春不常在，抓紧谈恋爱！缘分可遇也可求，该出手时就出手。世纪佳缘是国内领先的在线婚恋交友平台，提供丰富多彩的交友征婚活动，1.7亿会员，让缘分千万里挑一！" />
     <title>我的相册_    {{ config('app.name') }}</title>
     <link href="{{ asset('css/home/user_img_stype.css') }}" rel="stylesheet">
-
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/usercp/j/jquery.lightbox-0.5.js"></script>
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/profile_new/j/window.js"></script>
-    
-    <script src="http://images1.jyimg.com/w4/case/common/j/jquery.fancybox.js" type="text/javascript"></script>
-    <script src="http://images1.jyimg.com/w4/case/common/j/case_uicommon.js" type="text/javascript"></script>
     <script src="http://open.web.meitu.com/sources/xiuxiu.js" type="text/javascript"></script>
+        <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script type="text/javascript">
     $(document).ready(function() {
         $(".ico0").mouseover(function() {
@@ -143,9 +138,9 @@
 
 
     xiuxiu.onUploadResponse = function(data) {
-        //        closeDiv("uploading");
+        closeDiv("uploading");
         //        alert(data);
-        alert(data);
+        alert('data');
         var ptn_succes = /照片上传成功/i; //danten
         if (ptn_succes.test(data)) {
             //            alert(mtxx_pos);
@@ -221,7 +216,8 @@
         }
 
         //me test
-        mtxx_upload_url = ""
+        mtxx_upload_url = "{{ route('upload_img') }}";
+        alert(mtxx_upload_url);
 
         if (xiuxiuInited) {
             var id = 'lite';
@@ -336,14 +332,39 @@
     }
 
     function upload_photo(index) {
-        alert(check_form(0) + '');
         if (index == 0) {
             if (check_form(0)) {
                 var upload_form = document.getElementById("frm_upload");
                 closeDiv("upload_photo");
                 openDiv("uploading");
-                upload_form.submit();
-            }
+                var formData = new FormData($('#frm_upload')[0]);
+                   $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{{ route('upload_img') }}",
+                data:formData,// 你的formid
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                contentType: false,  
+                error: function(request) {
+                  alert('添加失败');
+                  closeDiv("uploading");
+                },
+                success: function(data) {
+                    closeDiv("uploading");
+                  if (data.status == 1) {
+                    //提交成功
+                    alert("提交成功");
+                    $('#test_hint').attr('src', data.img_url);
+                  } else if (data.status == 0) {
+                    alert("提交失败");
+                  } else if (data.status == 2) {
+                    //补全资料
+                  }
+                }
+            });
+        }
         } else {
             if (check_form(1)) {
                 var upload_form = document.getElementById("wl_frm_upload");
@@ -575,11 +596,31 @@
 
      <!--</div>-->
     <script type="text/javascript">
+
     var DKL = my_getbyid;
     var nowPrivacy = 1;
     var nowPassWord = '';
     var start = false;
     var nowFxkjSet = 'off';
+
+    function my_getbyid(id)
+            {
+               itm = null;
+               if (document.getElementById)
+               {
+                  itm = document.getElementById(id);
+               }
+               else if (document.all)
+               {
+                  itm = document.all[id];
+               }
+               else if (document.layers)
+               {
+                  itm = document.layers[id];
+               }
+               
+               return itm;
+            }
 
     function get_photo_privacy_set_div_id(value, nowValue) {
         var id;
@@ -848,7 +889,7 @@
                             <ul id="life_pic">
                                 <li class="nopic">
                                     <div class="showpic">
-                                        <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
+                                        <p><img id="test_hint" src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
                                     </div>
                                     <div class="pic_control_2" style="padding:8px 0;">
                                         <input type="button" class="upload_pic" value="" onClick="openDiv('upload_photo', 560, 400);" />
@@ -1089,6 +1130,9 @@
             </div>
         </div>
     </div>
+
+    <!-- 显示图片   -->
+
    
     <!-- 如何上传好照片 -->
     <div class="monolog_div" id="monolog_div" style="display:none;">

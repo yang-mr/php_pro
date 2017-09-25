@@ -12,5 +12,27 @@
 	clear: both;
 }
 
+#search_head {
+	float: left;
+	width: 100%;
+	margin: 10px 0px;
+}
 
+.sub_head {
+	margin: 0px 10px;
+	float: left;
+}
 
+.user_div img {
+	width: 100px;
+	height: 100px;
+}
+
+.sub_head a {
+	height: 30px;
+	background-color: blue;
+	padding: 4px 10px;
+	width: 50px;
+	float: left;
+	display: inline;
+}

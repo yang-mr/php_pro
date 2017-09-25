@@ -13,10 +13,10 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'qiniu_ak' => env('QINIU_AK'),
-    'qiniu_sk' => env('QINIU_SK'),
-    'qiniu_bucket' => env('QINIU_BUCKET'),
-    'qiniu_domain' => env('QINIU_DOMAIN'),
+    'qiniu_ak' => env('QINIU_AK', 'w0Sbc63amzRZrBZs5XWS0cKjnzgR2hn1dUMCPXeo'),
+    'qiniu_sk' => env('QINIU_SK', '7lxU5_qqpxji83Q7AtGl6o8mDPLhSH3XgiOm1IZp'),
+    'qiniu_bucket' => env('QINIU_BUCKET', 'test2'),
+    'qiniu_domain' => env('QINIU_DOMAIN', 'http://ogmbfybyn.bkt.clouddn.com'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

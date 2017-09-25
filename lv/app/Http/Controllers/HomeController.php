@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Model\Attention;
+use App\Model\Img;
 use App\Model\Look;
 use Redirect;
 
@@ -139,7 +141,40 @@ class HomeController extends Controller
     }
 
     public function uploadImg(Request $request)
-    {
-        var_dump($request->file('upload_file'));
+    { 
+            $id = auth()->user()->id;
+            $files = $request->file('upload_file');
+            $result;
+            $result['status'] = '1';
+
+            foreach ($files as $file) {
+                if($file->isValid()){  
+                //获取原文件名  
+                $originalName = $file->getClientOriginalName();  
+                //扩展名  
+                $ext = $file->getClientOriginalExtension();  
+                //文件类型  
+                //$type = $file->getClientMimeType();  
+                //临时绝对路径  
+                $realPath = $file->getRealPath(); 
+
+                $disk = Storage::disk('qiniu');
+                $filename = getUploadFileName().uniqid().'.'.$ext;
+                $result_upload = $disk->put($filename, file_get_contents($realPath));
+                $realname = config('app.qiniu_domain') . $filename;
+                $img = new Img;
+                $img->user_id = $id;
+                $img->type = 1;
+                $img->img_url = $realname;
+
+                $tmp = $img->save();
+                if (!$tmp) {
+                     $result['status'] = '0';
+                }
+                $result['img_url'] = $realname;
+                }
+            }
+           //var_dump(json_encode($result));
+            return json_encode($result);
     }
 }
