@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Model\Attention;
 use App\Model\Look;
+use Redirect;
 
 class HomeController extends Controller
 {
@@ -86,5 +87,59 @@ class HomeController extends Controller
     public function baseMeans()
     {
         return view('home.user_msg');
+    }
+
+   /**
+    * @Author   jack_yang
+    * @DateTime 2017-09-25T14:06:36+0800
+    *   height:130
+        children:0
+        work_location:0
+        work_sublocation:1100
+        home_location:0
+        home_sublocation:0
+        bloodtype:0
+        nation:0
+        income:0
+        house:0
+        auto:0
+        true_name:
+        id_card:
+        qq:
+        msn:
+        address:
+        postcode:
+        share:1
+    * @param    Request                  $request [编辑用户资料]
+    * @return   [type]                            [description]
+    */
+    public function editMsg(Request $request)
+    {   
+        $data = $request->except(['_token', 'change_area_reason', 'share', 'postcode', 'msn', 'address']);
+        $id = auth()->user()->id;
+        $result = User::where('id', $id)
+            ->update($data);
+        if ($result) {
+            return Redirect::route('edit_img');
+        } else {    
+            echo '修改失败';
+        }
+        //return view('home.user_msg');
+    }
+
+    /**
+     * @Author   jack_yang
+     * @DateTime 2017-09-25T14:46:02+0800
+     * @param    Request                  $request [修改用户图片]
+     * @return   [type]                            [description]
+     */
+    public function editImg(Request $request)
+    {   
+        return view('home.user_img');
+    }
+
+    public function uploadImg(Request $request)
+    {
+        var_dump($request->file('upload_file'));
     }
 }

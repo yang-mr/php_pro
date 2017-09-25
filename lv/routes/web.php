@@ -36,7 +36,7 @@ Route::get('home/cancel_attention/{id}', 'UserController@cancel_attention')->nam
 // })->name('test');
 
 /*
-	注册用户
+	注册用户 修改资料等
  */
 Route::post('/show', 'UserController@show');
 
@@ -44,19 +44,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('home/edit_msg', function () {
-	return view('edit_msg');
-});
-
 Route::post('/commit_msg', 'UserController@editUserMsg');
 
 Route::post('home/upload_avatar', 'UserController@editAvatar');
 
-/*
-	用户资料 头像 图片等
-*/
-Route::get('/home／base_mean', 'HomeController@baseMeans')->name('base_mean');
+Route::get('/home/base_mean', 'HomeController@baseMeans')->name('base_mean');
 
+Route::post('/home/edit_msg', 'HomeController@editMsg')->name('edit_msg');
+
+Route::get('/home/edit_img', 'HomeController@editImg')->name('edit_img');
+
+/**
+ * 上传图片
+ */
+Route::post('/home/upload_Img', 'HomeController@uploadImg')->name('upload_img');
 
 /**
  * 管理员中心

@@ -941,3 +941,112 @@ jy_ad.prototype.showAd = function (){
     this.iNow = Math.floor(Math.random() * this.iLen);
     this.aLi[this.iNow].style.display = 'block';
 };
+
+var sub_idcard = true;
+var sub_mobile = true;
+var sub_qq = true;
+var sub_msn = true;
+function check_validate(_type, _input){
+    switch(_type){
+        case "idcard":
+            if(!checkIdcard(_input, "yes")){
+                show_info_div("idcard", "info_div");
+                sub_idcard = false;
+                $('#id_card_id').after($('#info_div'));
+            }else{
+                document.getElementById("info_div").style.display = "none";
+                sub_idcard = true;
+            }
+            break;
+        case "mobile":
+            if(!check_mobile(_input)){
+                show_info_div("mobile", "info_div");
+                sub_mobile = false;
+                $('#mobile').after($('#info_div'));
+            }else{
+                document.getElementById("info_div").style.display = "none";
+                sub_mobile = true;
+            }
+            break;
+        case "qq":
+            if(!check_qq(_input)){
+                show_info_div("qq", "info_div");
+                sub_qq = false;
+                $('#qq').after($('#info_div'));
+            }else{
+                document.getElementById("info_div").style.display = "none";
+                sub_qq = true;
+            }
+            break;
+        case "msn":
+            if(!check_msn(_input)){
+                show_info_div("msn", "info_div");
+                sub_msn = false;
+                $('#msn').after($('#info_div'));
+            }else{
+                document.getElementById("info_div").style.display = "none";
+                sub_msn = true;
+            }
+            break;
+    }
+}
+
+function check_post(){
+    var form_obj = document.getElementById("form_base");
+    var can_form = false;
+    if(document.getElementById("change_area_div").style.display != "none"){
+        var radio_obj = document.getElementsByName("change_area_reason");
+        for(var i=0; i<radio_obj.length; i++){
+            if(radio_obj[i].checked == true){
+                form_obj.change_area_reason.value = radio_obj[i].value;
+                can_form = true;
+            }
+        }
+
+        if(!can_form){
+            alert("请选择变更原因");
+            return false;
+        }
+    }
+
+    if(sub_idcard == false){
+        alert("请填写正确的身份证！");
+        document.getElementById("id_card_id").focus();
+        return false;
+    }
+
+    if(sub_mobile == false){
+        alert("请填写正确的手机号码！");
+        document.getElementById("mobile").focus();
+        return false;
+    }
+
+    if(sub_qq == false){
+        alert("请填写正确的qq！");
+        document.getElementById("qq").focus();
+        return false;
+    }
+
+    if(sub_msn == false){
+        alert("请填写正确的msn！");
+        document.getElementById("msn").focus();
+        return false;
+    }
+
+    if(document.getElementById("profile_location").value == '0' || document.getElementById("profile_sublocation").value.substr(2,2) == '00' || document.getElementById("profile_sublocation").value.substr(2,2) == ''){//省市有一个不选择都不可以
+        alert("请选择正确的所在地区！");
+        document.getElementById("profile_location").focus();
+        return false;
+    }
+    
+    if(document.getElementById("home_location").value != '0' && (document.getElementById("home_sublocation").value.substr(2,2) == '00' || document.getElementById("home_sublocation").value.substr(2,2) == '')){//如果选择了省，市必须得选
+        alert("请选择正确的家乡所在地区！");
+        document.getElementById("home_sublocation").focus();
+        return false;
+    }
+
+    if(can_form){
+        openDiv('to_change_match');
+        return false;
+    }
+}

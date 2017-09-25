@@ -73,6 +73,7 @@
         </div>
     </nav>
      <div class="user_div">
+     {{ phpinfo() }}
 </div>
 @endsection
 
