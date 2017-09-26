@@ -55,14 +55,17 @@ Route::post('/home/edit_msg', 'HomeController@editMsg')->name('edit_msg');
 Route::get('/home/edit_img', 'HomeController@editImg')->name('edit_img');
 
 /**
+ * 首页业务
+ */
+Route::post('/home/user_search', 'HomeController@userSearch')->name('user_search');
+
+/**
  * 上传图片
  */
 Route::post('/home/upload_Img', 'HomeController@uploadImg')->name('upload_img');
 
 /**
  * 管理员中心
- *
- * 
  */
 Route::get('/admin/login', function () {
 	return view('admin.login');

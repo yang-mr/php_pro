@@ -1,6 +1,6 @@
 @extends('layouts.auto_app')
 <link href="{{ asset('/css/user_desc.css') }}" rel="stylesheet" type="text/css">
-<title>{{ $name }}</title>
+<title>{{ $name }} {{ $home_location }}</title>
 
 <script type="text/javascript">
     $(function() {
@@ -61,7 +61,7 @@
 @section('left_content')
 <nav id="nav_left">
         <div class="inner">
-              <img src="{{ $avatar_url }}"/>
+              <img src="{{ $avatar_url or asset('img/default_avatar.png') }}"/>
                          <p>{{ $name }} {{ $sex }}</p> 
                          <p>{{ $city }} {{ $area }}</p> 
                         <div>

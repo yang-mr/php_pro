@@ -169,7 +169,6 @@ class UserController extends Controller
             return $user;
             }, 5);
 
-       //     var_dump($user->toArray());
             return view('user_desc', $user);
         }
    }

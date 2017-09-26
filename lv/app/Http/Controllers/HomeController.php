@@ -88,7 +88,9 @@ class HomeController extends Controller
     */
     public function baseMeans()
     {
-        return view('home.user_msg');
+        $user = auth()->user();
+        var_dump($user->toArray());
+        return view('home.user_msg', $user);
     }
 
    /**
@@ -176,5 +178,16 @@ class HomeController extends Controller
             }
            //var_dump(json_encode($result));
             return json_encode($result);
+    }
+
+    public function userSearch(Request $request)
+    {   
+        $sex = $request->input('sex');
+        $min_age = $request->input('min_age');
+        $max_age = $request->input('max_age');
+
+        User::where('sex', $sex)
+            ->where('birthday', '>=', $min_age)
+            ->
     }
 }

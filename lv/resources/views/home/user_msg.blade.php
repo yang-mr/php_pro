@@ -123,7 +123,27 @@ a.tips_link:hover {
 </style>
 <script type="text/javascript" src="{{ asset('js/home/ad.js') }}">
 </script>
+<script type="text/javascript" src="{{ asset('js/jquery-3.2.1.min.js') }}">
+</script>
 <script>
+/*window.onload=function(){
+ 
+}
+
+$(function($) {
+    alert($);
+});*/
+
+$(function() {
+   alert({{$work_location}});
+    $('#profile_location').val( {{$work_location}} );
+    $('#profile_sublocation').val({{$work_sublocation}});
+    var height = {{ $height }};
+    $('#height').val(height);
+        $("#heigth").attr("disabled",'disabled');
+    $('#height').attr('width', '100');
+});
+
 //判断字符串长度
 function strlen(str) {
     var len = 0;
@@ -337,9 +357,11 @@ function save_profile(str) {
                                     <td>男</td>
                                 </tr>
                                 <tr>
-                                    <td class="item"><span class="ico_stars">*</span><span style="color:#666;">出生日期：</span></td>
-                                    <td id="modify_age_tag" style="color:#666;">1980-08-11
+                                    <td class="item"><span class="ico_stars">*</span><span style="color:#666;">出生日期：(ps:1980-08-11)</span></td>
+                                    <td id="modify_age_tag" style="color:#666;">
+                                    <input type="text" name="birthday" value="{{ $birthday }}">
                                     </td>
+                                    <a href="javascript:;" class="tips_link" id="modify_nickname_tag" onmousedown="send_jy_pv2('|1027534_0|');" onclick="show_modity_profile('age');">修改</a>
                                 </tr>
                                 <tr>
                                     <td class="item"> <span style="color:#666;">生肖：</span></td>
@@ -354,6 +376,7 @@ function save_profile(str) {
                                     <td>
                                         <!--如果手机没有验证-->
                                         <select name="height" id="height" style="color:#666;" class="select1" onChange="select_changed()">
+                                            <option label="130" value="0">-请选择-</option>
                                             <option label="130" value="130">130</option>
                                             <option label="131" value="131">131</option>
                                             <option label="132" value="132">132</option>

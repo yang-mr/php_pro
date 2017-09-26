@@ -1,8 +1,17 @@
+.welcome_left_content {
+	padding: 10px;
+}
+
 .content a {
 	margin: 0px 20px;
 	float: left;
 	width: 20%;
 	height: 500px;
+}
+
+.nav_bottom {
+	margin-top: 10px;
+	border-top: 1px gray solid;
 }
 
 .paginate {
@@ -23,11 +32,6 @@
 	float: left;
 }
 
-.user_div img {
-	width: 100px;
-	height: 100px;
-}
-
 .sub_head a {
 	height: 30px;
 	background-color: blue;
@@ -35,4 +39,19 @@
 	width: 50px;
 	float: left;
 	display: inline;
+}
+
+.user_div img {
+	width: 100px;
+	height: 100px;
+}
+
+#content_area {
+	float: left;
+}
+
+.user_div {
+	background: gray;
+	width: 120px;
+	float: left;
 }
