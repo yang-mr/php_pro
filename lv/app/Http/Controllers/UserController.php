@@ -131,6 +131,8 @@ class UserController extends Controller
    }
 
    public function user_desc($id = null) {
+        // var_dump($id);
+        // exit();
         if ($id != null) {
             $user = User::find($id);
 

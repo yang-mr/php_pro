@@ -17,7 +17,7 @@ Route::get('/', 'IndexController@index')->name('index')->middleware('auth');
 
 // Route::get('/', 'HomeController@home');
 
-Route::get('user/user_desc/{id}', 'UserController@user_desc')->name('user_desc');
+Route::get('user/user_desc/{id?}', 'UserController@user_desc')->name('user_desc');
 
 //发送邮件
 Route::get('home/send_email/{id}', 'UserController@send_email');

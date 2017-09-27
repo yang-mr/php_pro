@@ -10,6 +10,11 @@
 队列和连接（连接里可以有多个队列）
 	队列
 		异步.重试
+
+Eloquent
+	whereBetween
+		User::whereBetween('id', [0, 24])
+                ->update(['age' => calcAge('1994-03-08')]);  //更新 用户id在0, 24之间的age字段
 	
 
 lv数据库

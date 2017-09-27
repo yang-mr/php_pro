@@ -102,7 +102,7 @@ class CreateUsersTable extends Migration
              //备用字段
              $table->string('ry_token', 255)->nullable();
              $table->string('avatar_url', 255)->nullable();
-             $table->string('sex', 2)->default('女'); //0:女 1:男
+             $table->string('sex', 2)->default('0'); //0:女 1:男
             });
              $table->dateTime('vip_time')->nullable();
              $table->smallInteger('vip')->nullable()->default(0);
@@ -117,6 +117,7 @@ class CreateUsersTable extends Migration
              $table->string('qq', 11)->nullable();
              $table->string('id_card', 20)->nullable();
              $table->string('avatar_url', 255)->nullable();
+             $table->smallInteger('age')->nullable()->default(0);
         } else {
             //增加字段
             Schema::table('users', function (Blueprint $table) {

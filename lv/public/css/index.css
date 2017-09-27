@@ -48,6 +48,7 @@
 
 #content_area {
 	float: left;
+	height: 600px;
 }
 
 .user_div {
@@ -55,3 +56,5 @@
 	width: 120px;
 	float: left;
 }
+
+ <form id="form_base" name="form_base" action="{{ route('edit_msg') }}" method="post" onsubmit="return check_post();">

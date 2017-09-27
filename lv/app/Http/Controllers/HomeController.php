@@ -182,12 +182,21 @@ class HomeController extends Controller
 
     public function userSearch(Request $request)
     {   
+        $result = [];
         $sex = $request->input('sex');
         $min_age = $request->input('min_age');
         $max_age = $request->input('max_age');
+        $obj = User::whereBetween('age', [$min_age, $max_age])
+                        ->where('sex', $sex)
+                        ->where('id', '!=', auth()->user()->id)
+                        ->get(['name', 'age', 'avatar_url', 'id']);
+        if ($obj) {
+            $result['status'] = 1;
+            $user['users'] = $obj;
+        } else {
+            $result['status'] = 0;
+        }
 
-        User::where('sex', $sex)
-            ->where('birthday', '>=', $min_age)
-            ->
+        return json_encode($user);
     }
 }

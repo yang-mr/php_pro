@@ -1,27 +1,15 @@
-@extends('layouts.auto_app')
-<link href="{{ asset('/css/home/style.css') }}" rel="stylesheet" type="text/css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-@section('left_content')
-    <div class="welcome_left_content">
-        <div class="nav_top">
-            <a href="./home/edit_msg"><img src="{{ $user_avatar or asset('img/default_avatar.png') }}" onClick="go_personcenter()"/></a>
-            <div class="user_description">
-                <strong>征友进行中</strong><a href="{{ route('base_mean') }}">修改</a>
-            </div>
-       </div>
-       <div class="nav_bottom">
-           <p>服务中心 ></p>
-           <p><a href="{{ route('gift_index')}}" class="gift_enter">礼物商城</a>
-            <a href="{{ route('vip_index') }}">充值vip</a></p>
-       </div>
-    </div>
-@endsection
-@section('content')
-    
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="keywords" content="交友,交友网,征婚交友,网上交友,征婚,征婚网,征婚交友网,交友中心,婚恋交友" />
+    <meta name="description" content="青春不常在，抓紧谈恋爱！缘分可遇也可求，该出手时就出手。世纪佳缘是国内领先的在线婚恋交友平台，提供丰富多彩的交友征婚活动，1.7亿会员，让缘分千万里挑一！" />
     <title>基本资料_世纪佳缘交友网</title>
+    <link href="http://images1.jyimg.com/w4/usercp/c/style.css" type="text/css" rel="stylesheet">
+    <link href="http://images1.jyimg.com/w4/usercp/c/modify-data.css" type="text/css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="http://images1.jyimg.com/w4/advert/c/jy_ad.css" />
     <style>
     .mdy_layer {
         width: 360px;
@@ -669,7 +657,7 @@
                 <div class="mid_border">
                     <div class="base_infomation" id="w_base_infomation">
                         <p class="info_note">资料越完善，同等条件我们将优先推荐您哦~</p>
-                         <form id="form_base" name="form_base" action="{{ route('edit_msg') }}" method="post" onsubmit="return check_post();">
+                        <form id="form_base" name="form_base" action="profile_postdo_new.php?action=base" method="post" onsubmit="return check_post();">
                             <!-- 基本资料 -->
                             <div class="base_info">
                                 <h2>为保证资料真实有效，灰色字体信息不得随意修改，<a href="http://www.jiayuan.com/helpcenter/list.php?type1=1&type2=1&type3=17#art413 " target="_blank">查看修改技巧</a>。<!--，如有需要，请<a href="http://www.jiayuan.com/helpcenter/postmail.php" target="_blank" onmousedown="send_jy_pv2('editprofile|contract_service|f|113987332');">联系客服</a>。--></h2>
@@ -1424,6 +1412,14 @@
                 });
             }
             </script>
+            <!-- 中间结束 -->
+            <!-- 右边开始 -->
+            <!--[if lte IE 6]>
+        <script type="text/javascript" src="http://images1.jyimg.com/w4/msg/js/dd_belatedpng.js?09153"></script>
+        <script>
+            DD_belatedPNG.fix('.ie6png');
+        </script>
+        <![endif]-->
             <div class="info_right">
                 <h2>资料完整度：<span class="span101203_1">46分</span></h2>
                 <div class="integrality">
@@ -1456,4 +1452,6 @@
         </div>
         <div class="borderbg"><img src="http://images1.jyimg.com/w4/usercp/i/border_bottom.jpg" /></div>
     </div>
-@endsection
+</body>
+
+</html>
