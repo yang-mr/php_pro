@@ -1,5 +1,4 @@
 @extends('layouts.auto_app')
-<link href="{{ asset('/css/home/style.css') }}" rel="stylesheet" type="text/css">
 
 @section('left_content')
     <div class="welcome_left_content">
@@ -17,147 +16,60 @@
     </div>
 @endsection
 @section('content')
-    
-<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>基本资料_世纪佳缘交友网</title>
-    <style>
-    .mdy_layer {
-        width: 360px;
-        padding: 30px 0 10px 0;
-        font-size: 14px;
-        line-height: 150%
-    }
-
-    .mdy_layer ul {
-        margin: 0;
-        padding: 0 0 0 60px;
-        text-align: left;
-        list-style: none
-    }
-
-    .mdy_layer ul li {
-        margin: 0;
-        padding: 2px;
-        list-style: none
-    }
-
-    .mdy_layer ul li label {
-        font-size: 14px
-    }
-
-    .mdy_layer ul li input {
-        height: 22px
-    }
-
-    .mdy_layer ul li a.code {
-        background: #fff8f9;
-        border: 1px solid #ffb5bf;
-        color: #ff546a;
-        display: inline-block;
-        height: 22px;
-        text-align: center;
-        text-decoration: none;
-        vertical-align: 1px;
-        width: 88px
-    }
-
-    .mdy_layer div {
-        height: 30px;
-        text-align: center
-    }
-
-    .mdy_layer .tips {
-        text-align: center;
-        color: #F00;
-        font-size: 12px
-    }
-
-    #mdy_mobile_tips {
-        text-align: left;
-        color: #F00;
-        font-size: 12px
-    }
-
-    #mdy_location_tips {
-        text-align: left;
-        color: #F00;
-        font-size: 12px;
-        width: 250px;
-    }
-
-    #mdy_idcard_tips {
-        text-align: left;
-        padding: 0 30px 0 64px;
-        color: #F00;
-        font-size: 12px
-    }
-
-    .tips_link,
-    a.tips_link {
-        font-size: 12px;
-        color: #00F;
-        text-decoration: none;
-        padding-left: 20px;
-    }
-
-    .tips_link:hover,
-    a.tips_link:hover {
-        text-decoration: underline
-    }
-
-    .tips_link:visited {
-        color: #00F;
-        text-decoration: none
-    }
-
-    .tips_pay {
-        font-size: 12px;
-        color: #999;
-        text-decoration: underline
-    }
-
-    .tips_pay:hover {
-        text-decoration: underline
-    }
-
-    .tips_pay:visited {
-        color: #999;
-        text-decoration: none
-    }
-
-    #mdy_tips_infos {
-        text-align: center;
-        color: #F00;
-        font-size: 14px;
-        padding: 5px
-    }
-
-    .button {
-        vertical-align: middle;
-        margin-top: -3px
-    }
-
-    .base_infomation td.item {
-        color: black;
-    }
-    </style>
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/advert/j/jy_ad.js"></script>
-    <script src="http://images1.jyimg.com/w4/global/j/global.js" type="text/javascript"></script>
-    <script src="http://images1.jyimg.com/w4/global/j/pv.js" type="text/javascript"></script>
-    <!--统计-->
-    <script type='text/javascript' src='http://images1.jyimg.com/w4/common/j/jquery.js'></script>
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/usercp/j/modify-data.js"></script>
+    <link href="{{ asset('/css/home/stype.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ asset('js/home/ad.js') }}"></script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $(".ico0").mouseover(function() {
+   
+   var w,h,className, type = 0;
+   var showDiv;
+    function getSrceenWH(){
+      w = $(window).width();
+      h = $(window).height();
+      $('#dialogBg').width(w).height(h);
+    }
+
+    window.onresize = function(){  
+      getSrceenWH();
+    }  
+    $(window).resize();  
+
+    $(function(){
+      getSrceenWH();
+      $('.claseDialogBtn').click(function(){
+            closeDialog();
+      });
+
+       $(".ico0").mouseover(function() {
             $("#info_div").show();
         });
+       $('.span101203_1').text({{ $score}} + '分');
+       $('#show_nickname').text("{{ $name }}");
+       $('#show_birthday').text("{{ $birthday }}");
+       $('#show_animal').text("{{ get_animal($birthday)}}");
+       $('#xingzuo').text("{{ get_constellation($birthday) }}");
+       $('#height').val({{$height}});
+       $('#education').val({{$education}});
+       $('#marriage_status').val({{$marriage_status}});
+       $('#bloodtype').val({{ $bloodtype }});
+       $('#nation').val({{ $nation }});
+       $('#income').val({{ $income }});
+       $('#house').val({{ $house }});
+       $('#car').val({{ $car }});
     });
+
+    function closeDialog() {
+          $('#dialogBg').fadeOut(300,function(){
+          $('#dialog').addClass('bounceOutUp').fadeOut();
+          $(showDiv).hide();
+          $('#mdy_height_tips').hide();
+        });
+    }
+
     var ie = navigator.userAgent.toLowerCase().indexOf('msie');
     var isChanged = false;
-
 
     function initAjax() {
         var ajax = false;
@@ -180,6 +92,269 @@
         } else {
             _obj.style.display = "none";
         }
+    }
+
+     //判断字符串长度
+    function strlen(str) {
+        var len = 0;
+        for (var i = 0; i < str.length; i++) {
+            var c = str.charCodeAt(i);
+            //单字节加1   
+            if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+                len++;
+            } else {
+                len += 2;
+            }
+        }
+        return len;
+    }
+
+    function DBC2SBC(str) {
+        var i;
+        var result = '';
+        for (i = 0; i < str.length; i++) {
+            code = str.charCodeAt(i);
+
+            if (code == 12290) {
+                result += String.fromCharCode(46);
+            } else if (code == 183) {
+                result += String.fromCharCode(64);
+            } else if (code >= 65281 && code < 65373) {
+                result += String.fromCharCode(str.charCodeAt(i) - 65248);
+            } else {
+                result += str.charAt(i);
+            }
+        }
+        return result;
+    }
+
+    function save_profile(str) {
+        $('#mdy_nickname_tips').hide();
+        var get_str = '';
+        var newMsg = '';
+        var key = '';
+        //如果修改昵称    
+        if (str == 'nickname') {
+            var nickname = DBC2SBC($('#new_nickname').val());
+            var nickname_len = strlen(nickname);
+            if ({{ $name }} == nickname) {
+                $('#mdy_nickname_tips').show();
+                $('#mdy_nickname_tips').html('温馨提示：您还没有修改昵称~');
+                return false;
+            }
+            if (nickname_len < 2 || nickname_len > 20) {
+                $('#mdy_nickname_tips').show();
+                $('#mdy_nickname_tips').html('温馨提示：昵称最少2个字母或1个汉字，最多10个汉字或20个字母~');
+                return false;
+            }
+            newMsg = encodeURI(nickname);
+            key = 'name';
+        //    get_str = 'type=' + str + '&new_nickname=' + encodeURI(nickname);
+        } else if (str == 'height') //如果修改身高
+        {
+            var height = $('#new_height').val();
+            if (height > 226 || height < 130) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您输入的身高不正确~');
+                return false;
+            }
+            if ($('#height').val() == height) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改身高~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = height;
+            key = 'height';
+        } else if (str == 'education') //如果修改学历
+        {
+            var education = $('#new_education').val();
+            if ($('#education').val() == education) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改学历~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = education;
+            key = 'education';
+        } else if (str == 'marriage_status') //如果修改学历
+        {
+            var marriage_status = $('#new_marriage_status').val();
+            if ($('#marriage_status').val() == marriage_status) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改婚姻状态~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = marriage_status;
+            key = 'marriage_status';
+        }  else if (str == 'children') //如果修改有无子女
+        {
+            var children = $('#new_children').val();
+            if ($('#children').val() == children) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改有无子女~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = children;
+            key = 'children';
+        }  else if (str == 'bloodtype') //如果修改血型
+        {
+            var bloodtype = $('#new_bloodtype').val();
+            if ($('#bloodtype').val() == bloodtype) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改血型~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = bloodtype;
+            key = 'bloodtype';
+        }  else if (str == 'nation') //如果修改民族
+        {
+            var nation = $('#new_nation').val();
+            if ($('#nation').val() == nation) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改民族~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = nation;
+            key = 'nation';
+        }  else if (str == 'house') //如果修改月薪
+        {
+            var house = $('#new_house').val();
+            if ($('#house').val() == house) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改月薪~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = house;
+            key = 'house';
+        }  else if (str == 'car') //如果修改民族
+        {
+            var new_car = $('#new_car').val();
+            if ($('#car').val() == new_car) {
+                $('#mdy_height_tips').show();
+                $('#mdy_height_tips').html('温馨提示：您还没有修改车辆信息~');
+                return false;
+            }
+            //get_str = 'type=' + str + '&new_height=' + height;
+            newMsg = new_car;
+            key = 'car';
+        } else if (str == 'age') //如果修改年龄
+        {
+            var new_age = $('#modify_age_want').html();
+            if (new_age == '') {
+                return false;
+            }
+            get_str = 'type=' + str;
+        } else if (str == 'location') { //修改地区
+            var profile_location = $('#new_profile_location').val();
+            var profile_sublocation = $('#new_profile_sublocation').val();
+            var change_area_reason = $('#change_area_reason').val();
+            if (profile_location == '' || profile_location == '0' || profile_sublocation == '' || profile_sublocation == '0' || profile_sublocation.substr(2, 2) == '00') {
+                $('#mdy_location_tips').show();
+                $('#mdy_location_tips').html('温馨提示：您还没有修改地区~');
+                return false;
+            }
+            if (change_area_reason == '' || change_area_reason == undefined) {
+                $('#mdy_location_tips').show();
+                $('#mdy_location_tips').html('温馨提示：您还没有选择修改原因~');
+                return false;
+            }
+            get_str = 'type=' + str + '&work_location=' + profile_location + '&work_sublocation=' + profile_sublocation + '&change_area_reason=' + change_area_reason;
+        } else if (str == 'income') //修改收入
+        {
+            var new_income = $('#new_income').val();
+            if (new_income == '' || $('#income').val() == new_income) {
+                $('#mdy_income_tips').show();
+                $('#mdy_income_tips').html('温馨提示：您还没有修改收入~');
+                return false;
+            }
+            if ((new_income - '10') > 10) {
+                $('#mdy_income_tips').show();
+                $('#mdy_income_tips').html('温馨提示：每次只能向上调一个档次~');
+                return false;
+            }
+            newMsg = new_income;
+            key = 'income';
+        }
+        alert(newMsg);
+        var data = {};
+        data[key] = newMsg;
+        data["_token"] = "{!! csrf_token() !!}";
+        $.ajax({
+            type: "post",
+            url: "{{ route('edit_msg') }}",
+            dataType: "json",
+            data: data,
+            error:function(msg){ //处理出错的信息  
+                  var errormessage="再试一次";  
+                  $(".loginerror").html(errormessage);  
+              },  
+            success: function(data) {
+                closeDialog();
+                if (data.status == 1) {
+                    if (str == 'nickname') {
+                        $('#show_nickname').html(newMsg);
+                     //   $('#modify_nickname_tag').hide();
+                      //  $('#show_nickname').css('color', '');
+                    } else if (str == 'height') {
+                        /*$('#height option').attr("selected", false);
+                        $('#height option[value=' + height + ']').attr("selected", true);
+                        $('#modify_height_tag').hide();
+                        $('#height').attr('disabled', 'disabled');
+                        $('#height').css('color', '');*/
+                        $('#height').val(newMsg);
+                    } else if (str == 'age') {
+                        send_jy_pv2('|1027534_11|');
+                        $('#modify_age_tag').html(new_age);
+                        $('#modify_age_tag').css('color', '');
+                        setTimeout("jy_head_function.lbg_hide()", 3000);
+                    } else if (str == 'location') {
+                        $('#profile_location option').attr("selected", false);
+                        $('#profile_sublocation option').attr("selected", false);
+                        $('#profile_location option[value=' + profile_location + ']').attr("selected", true);
+                        $('#profile_sublocation option[value=' + profile_sublocation + ']').attr("selected", true);
+                        $('#modify_location_tag').hide();
+                        $('#profile_location').attr('disabled', 'disabled');
+                        $('#profile_sublocation').attr('disabled', 'disabled');
+                        $('#profile_location').css('color', '');
+                        $('#profile_sublocation').css('color', '');
+                        send_jy_pv2('|1027534_13|');
+                    } else if (str == 'income') {
+                        // $('#income option').attr("selected", false);
+                        // $('#income option[value=' + new_income + ']').attr("selected", true);
+                        // $('#modify_income_tag').hide();
+                        // $('#income').attr('disabled', 'disabled');
+                        // $('#income').css('color', '');
+                        // send_jy_pv2('|1027534_14|');
+                        $('#income').val(newMsg);
+                    } else if (str == "education") {
+                        $('#education').val(newMsg);
+                    } else if (str == "marriage_status") {
+                        $('#marriage_status').val(newMsg);
+                    } else if (str == "children") {
+                        $('#children').val(newMsg);
+                    } else if (str == "bloodtype") {
+                        $('#bloodtype').val(newMsg);
+                    } else if (str == "nation") {
+                        $('#nation').val(newMsg);
+                    } else if (str == "house") {
+                        $('#house').val(newMsg);
+                    } else if (str == "car") {
+                        $('#car').val(newMsg);
+                    }
+                 //   setTimeout("jy_head_function.lbg_hide()", 3000);
+                } else if (data.status == 0) {
+                    alert('修改失败');
+                }
+                // $('#mdy_' + str + '_tips').html(data.msg);
+                // $('#mdy_' + str + '_tips').show();
+            }
+        });
     }
 
     function openDiv(_id, _width, _height) {
@@ -240,12 +415,6 @@
             }
         }
     }
-    </script>
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/global/j/love_location_array.js"></script>
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/index/j/location.js"></script>
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/usercp/j/validate.js"></script>
-    <script type="text/javascript" src="http://images1.jyimg.com/w4/usercp/j/modify_profile.js"></script>
-    <script type="text/javascript">
     var AJXhttp;
 
     function build_second(first_value, second_id, second_array) {
@@ -576,7 +745,6 @@
         closeDiv('to_change_match');
         document.getElementById('form_base').submit();
     }
-    send_jy_pv2('|1027534_17|168103003');
     //显示手机验证窗口
     function show_verify_phone(str) {
         var data = is_verify_phone();
@@ -617,25 +785,66 @@
     }
 
     function show_modity_profile(str) {
+        $('#dialogBg').fadeIn(300);
+        $('#dialog').removeAttr('class').addClass('animated bounceIn').fadeIn();
         if (str == 'nickname') {
-            jy_head_function.lbg_show('mdy_nickname', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改昵称" });
+           // jy_head_function.lbg_show('mdy_nickname', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改昵称" });
+            showDiv = $('#mdy_nickname');
+            $('#mdy_nickname').show();
         } else if (str == 'age') {
-            jy_head_function.lbg_show('mdy_birthday', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改年龄" });
+            $('#mdy_location').show();
+            showDiv = $('#mdy_location');
+            // jy_head_function.lbg_show('mdy_birthday', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改年龄" });
         } else if (str == 'height') {
-            jy_head_function.lbg_show('mdy_height', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改身高" });
+            $('#mdy_height').show();
+            showDiv = $('#mdy_height');
+            $('#new_height').val($('#height').val());
+            // jy_head_function.lbg_show('mdy_height', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改身高" });
+            
         } else if (str == 'location') {
-            jy_head_function.lbg_show('mdy_location', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改所在地" });
-            init_location(11, 1108, 'new_profile');
+            $('#mdy_location').show();
+            showDiv = $('#mdy_location');
+            // jy_head_function.lbg_show('mdy_location', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改所在地" });
+            // init_location(11, 1108, 'new_profile');
         } else if (str == 'income') {
-            jy_head_function.lbg_show('mdy_income', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改收入" });
+            $('#mdy_income').show();
+            showDiv = $('#mdy_income');
+            $('#new_income').val($('#income').val());
+            // jy_head_function.lbg_show('mdy_income', { jy_tpl: true, jy_tpl_close: true, jy_tpl_title: "修改收入" });
+        } else if (str == 'education') {
+            $('#mdy_education').show();
+            showDiv = $('#mdy_education');
+            $('#new_education').val($('#education').val());
+        } else if (str == 'marriage_status') {
+            $('#mdy_marriage_status').show();
+            showDiv = $('#mdy_marriage_status');
+            $('#new_marriage_status').val($('#marriage_status').val());
+        } else if (str == 'children') {
+            $('#mdy_children').show();
+            showDiv = $('#mdy_children');
+            $('#new_children').val($('#children').val());
+        } else if (str == 'bloodtype') {
+            $('#mdy_bloodtype').show();
+            showDiv = $('#mdy_bloodtype');
+            $('#new_bloodtype').val($('#bloodtype').val());
+        } else if (str == 'nation') {
+            $('#mdy_nation').show();
+            showDiv = $('#mdy_nation');
+            $('#new_nation').val($('#nation').val());
+        } else if (str == 'house') {
+            $('#mdy_house').show();
+            showDiv = $('#mdy_house');
+            $('#new_house').val($('#house').val());
+        } else if (str == 'car') {
+            $('#mdy_car').show();
+            showDiv = $('#mdy_car');
+            $('#new_car').val($('#car').val());
         }
     }
     </script>
-</head>
 
-<body>
     <div class="my_infomation">
-        <div class="navigation"><a href="http://www.jiayuan.com/usercp/" onmousedown="send_jy_pv2('editprofile|my_home|m|168103003');">我的佳缘</a>&nbsp;&gt;&nbsp;基本资料</div>
+        <div class="navigation"><a href=" {{ route('home') }}">个人中心</a>&nbsp;&gt;&nbsp;基本资料</div>
         <div class="borderbg"><img src="http://images1.jyimg.com/w4/usercp/i/i520/border_top.jpg" /></div>
         <div class="info_content">
             <!-- 左侧开始 -->
@@ -656,12 +865,9 @@
                     </li>
                 </ul>
                 <div class="return_index">
-                    <a class="return_jy" href="http://www.jiayuan.com/usercp/index.php" onmousedown="send_jy_pv2('editprofile|return_home|m|168103003');">返回我的佳缘</a>
+                    <a class="return_jy" href="{{ route('home') }}" onmousedown="send_jy_pv2('editprofile|return_home|m|168103003');">返回我的佳缘</a>
                 </div>
             </div>
-            <!-- 左侧结束 -->
-            <!-- 中间开始 -->
-            <!-- 中间开始 -->
             <div class="info_center">
                 <div class="title">
                     <strong>基本资料</strong>
@@ -677,32 +883,31 @@
                                     <tr>
                                         <td class="item"><span style="color:#666;">昵称：</span></td>
                                         <!--如果手机没有验证-->
-                                        <td id="show_nickname" style="color:#666;">杨测试
-                                            <a href="javascript:;" class="tips_link" id="modify_nickname_tag" onmousedown="send_jy_pv2('|1027534_0|');" onclick="show_modity_profile('nickname');">修改</a>
+                                        <td id="show_nickname" style="color:#666;">
+                                            <a href="javascript:;" class="tips_link" id="modify_nickname_tag" onclick="show_modity_profile('nickname');">修改</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span style="color:#666;">性别：</span></td>
-                                        <td>男</td>
+                                        <td id="show_sex">男</td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">出生日期：</span></td>
-                                        <td id="modify_age_tag" style="color:#666;">1980-08-11
+                                        <td id="show_birthday" style="color:#666;">1980-08-11
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="item"> <span style="color:#666;">生肖：</span></td>
-                                        <td>猴</td>
+                                        <td id="show_animal"></td>
                                     </tr>
                                     <tr>
                                         <td class="item"> <span style="color:#666;">星座：</span></td>
-                                        <td>狮子座</td>
+                                        <td id="xingzuo"></td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">身高：</span></td>
-                                        <td>
-                                            <!--如果手机没有验证-->
-                                            <select name="height" id="height" class="select1" onChange="select_changed()" disabled="disabled">
+                                        <td id="show_height">
+                                            <select name="height" id="height" class="select1" onChange="select_changed()" disabled="disabled;" style="color: #666;">
                                                 <option label="130" value="130">130</option>
                                                 <option label="131" value="131">131</option>
                                                 <option label="132" value="132">132</option>
@@ -801,40 +1006,62 @@
                                                 <option label="225" value="225">225</option>
                                                 <option label="226" value="226">226</option>
                                             </select>&nbsp;厘米
+                                             <a href="javascript:;" class="tips_link" id="modify_height_tag" onclick="show_modity_profile('height');">修改</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">学历：</span></td>
-                                        <td>本科</td>
+                                        <td>
+                                          <select style="width:135px" id="education" disabled="disabled" style="color: #666">
+                                                <option value="0">-未选择-</option>
+                                                <option value="1">小学</option>
+                                                <option value="2">初中</option>
+                                                <option value="3">高中</option>
+                                                <option value="4">专科</option>
+                                                <option value="5">本科</option>
+                                                <option value="6">硕士</option>
+                                                <option value="7">博士</option>
+                                                <option value="8">博士后</option>
+                                            </select>
+                                             <a href="javascript:;" class="tips_link" id="modify_education_tag" onclick="show_modity_profile('education');">修改</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">婚姻状况：</span></td>
-                                        <td>
-                                            未婚
+                                        <td id="show_marriage_status">
+                                             <select style="width:135px" id="marriage_status" disabled="disabled" style="color:#666">
+                                                <option value="0">-未选择-</option>
+                                                <option value="1">未婚</option>
+                                                <option value="2">离异</option>
+                                                <option value="3">丧偶</option>
+                                            </select>
+                                            <a href="javascript:;" class="tips_link" id="modify_marriage_status_tag" onclick="show_modity_profile('marriage_status');">修改</a>
                                         </td>
+                                          
                                     </tr>
                                     <tr>
                                         <td class="item"><a id="l_pos" name="l_pos"></a><span class="ico_stars">*</span><span style="color:#666;">有无子女：</span></td>
                                         <td>
-                                            <select name="children" id="children" onChange="select_changed();" style="color:#666;">
+                                            <select name="children" id="children" onChange="select_changed();" style="color:#666;" disabled="disabled">
                                                 <option value="0">--请选择--</option>
                                                 <option label="无小孩" value="1">无小孩</option>
                                                 <option label="有小孩归自己" value="2" selected="selected">有小孩归自己</option>
                                                 <option label="有小孩归对方" value="3">有小孩归对方</option>
                                             </select>
+                                        <a href="javascript:;" class="tips_link" id="modify_nickname_tag" onclick="show_modity_profile('children');">修改</a>
                                         </td>
+                                          
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">所在地区：</span></td>
                                         <td>
                                             <!--如果手机没有验证-->
-                                            <select name="work_location" style="color:#666;" id="profile_location" class="select1" onchange="build_second(this.value,'profile_sublocation',LOK);select_changed();"></select>&nbsp;&nbsp;
-                                            <select style="color:#666;" name="work_sublocation" id="profile_sublocation" class="select2" onChange="document.getElementById('change_area_div').style.display='';select_changed()"></select>
+                                            <select name="work_location" style="color:#666;" id="profile_location" class="select1" onchange="build_second(this.value,'profile_sublocation',LOK);select_changed();" disabled="disabled"></select>&nbsp;&nbsp;
+                                            <select disabled="disabled" style="color:#666;" name="work_sublocation" id="profile_sublocation" class="select2" onChange="document.getElementById('change_area_div').style.display='';select_changed()"></select>
                                             <script type="text/javascript">
                                             init_location(11, 1108, 'profile');
                                             </script>
-                                            <a href="javascript:;" class="tips_link" id="modify_location_tag" onmousedown="send_jy_pv2('|1027534_6|');" onclick="show_modity_profile('location');">修改</a>
-                                            <a onmouseover="show_info_div(1, 'info_div')" class="ico0" style="display: none;"></a>
+                                            <a href="javascript:;" class="tips_link" id="modify_location_tag" onclick="show_modity_profile('location');">修改</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -842,8 +1069,9 @@
                                         <td>
                                             <select onchange="build_second(this.value,'home_sublocation',LOK);select_changed();" class="select1" id="home_location" name="home_location"></select>&nbsp;&nbsp;
                                             <select onchange="select_changed()" class="select2" id="home_sublocation" name="home_sublocation"></select>
+                                            <a href="javascript:;" class="tips_link" id="modify_bloodtype_tag" onclick="show_modity_profile('location');">修改</a>
                                         </td>
-                                        <!--<script type="text/javascript">build_select("home_location","home_sublocation",LSK,LOK,"");</script>-->
+                                        <script type="text/javascript">build_select("home_location","home_sublocation",LSK,LOK,"");</script>
                                         <script type="text/javascript">
                                         init_location(0, 0, 'home');
                                         </script>
@@ -851,7 +1079,7 @@
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span>血型：</span></td>
                                         <td>
-                                            <select name="bloodtype" id="bloodtype" onChange="select_changed();">
+                                            <select name="bloodtype" id="bloodtype" onChange="select_changed();" disabled="disabled" style="color:#666;">
                                                 <option value="0">--请选择--</option>
                                                 <option label="A型" value="1">A型</option>
                                                 <option label="B型" value="2">B型</option>
@@ -860,12 +1088,13 @@
                                                 <option label="其它" value="5">其它</option>
                                                 <option label="保密" value="6">保密</option>
                                             </select>
+                                              <a href="javascript:;" class="tips_link" id="modify_bloodtype_tag" onclick="show_modity_profile('bloodtype');">修改</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">民族：</span></td>
                                         <td>
-                                            <select name="nation" id="nation" style="color:#666;" onChange="select_changed();">
+                                            <select name="nation" id="nation" style="color:#666; " onChange="select_changed();" disabled="disabled">
                                                 <option value="0">--请选择--</option>
                                                 <option label="汉族" value="1" selected="selected">汉族</option>
                                                 <option label="藏族" value="2">藏族</option>
@@ -879,13 +1108,15 @@
                                                 <option label="苗族" value="10">苗族</option>
                                                 <option label="其它民族" value="11">其它民族</option>
                                             </select>
+                                             <a href="javascript:;" class="tips_link" id="modify_nation_tag" onclick="show_modity_profile('nation');">修改</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">月薪：</span></td>
                                         <td>
                                             <!--如果手机没有验证-->
-                                            <select id="income" name="income" onChange="validate('income', this.value)">
+                                            <select id="income" name="income" onChange="validate('income', this.value)" disabled="disabled" style="color:#666;">
+                                                <option label="2000元以下" value="0" selected="selected">-未选择-</option>
                                                 <option label="2000元以下" value="10" selected="selected">2000元以下</option>
                                                 <option label="2000～5000元" value="20">2000～5000元</option>
                                                 <option label="5000～10000元" value="30">5000～10000元</option>
@@ -893,6 +1124,7 @@
                                                 <option label="20000～50000元" value="50">20000～50000元</option>
                                                 <option label="50000元以上" value="60">50000元以上</option>
                                             </select>
+                                            <a href="javascript:;" class="tips_link" id="modify_nation_tag" onclick="show_modity_profile('income');">修改</a>
                                         </td>
                                     </tr>
                                     <tr class="f-tips">
@@ -902,32 +1134,34 @@
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">居住情况：</span></td>
                                         <td>
-                                            <select id="house" name="house" onChange="select_changed();" style="color:#666;">
+                                            <select id="house" name="house" onChange="select_changed();" style="color:#666;" disabled="disabled">
                                                 <option value="0">--请选择--</option>
                                                 <option label="暂未购房" value="1">暂未购房</option>
-                                                <option label="需要时购置" value="8" selected="selected">需要时购置</option>
-                                                <option label="已购房（有贷款）" value="9">已购房（有贷款）</option>
-                                                <option label="已购房（无贷款）" value="10">已购房（无贷款）</option>
-                                                <option label="与人合租" value="3">与人合租</option>
-                                                <option label="独自租房" value="4">独自租房</option>
-                                                <option label="与父母同住" value="5">与父母同住</option>
-                                                <option label="住亲朋家" value="6">住亲朋家</option>
-                                                <option label="住单位房" value="7">住单位房</option>
+                                                <option label="需要时购置" value="2">需要时购置</option>
+                                                <option label="已购房（有贷款）" value="3">已购房（有贷款）</option>
+                                                <option label="已购房（无贷款）" value="4">已购房（无贷款）</option>
+                                                <option label="与人合租" value="5">与人合租</option>
+                                                <option label="独自租房" value="6">独自租房</option>
+                                                <option label="与父母同住" value="7">与父母同住</option>
+                                                <option label="住亲朋家" value="8">住亲朋家</option>
+                                                <option label="住单位房" value="9">住单位房</option>
                                             </select>
+                                            <a href="javascript:;" class="tips_link" id="modify_house_tag" onclick="show_modity_profile('house');">修改</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="item"><span class="ico_stars">*</span><span>购车情况：</span></td>
                                         <td>
-                                            <select id="auto" name="auto" onChange="select_changed();">
+                                            <select id="car" name="car" onChange="select_changed();" disabled="disabled" style="color:#666;">
                                                 <option value="0">--请选择--</option>
                                                 <option label="暂未购车" value="1">暂未购车</option>
-                                                <option label="已购车（经济型）" value="3">已购车（经济型）</option>
-                                                <option label="已购车（中档型）" value="4">已购车（中档型）</option>
-                                                <option label="已购车（豪华型）" value="5">已购车（豪华型）</option>
-                                                <option label="单位用车" value="6">单位用车</option>
-                                                <option label="需要时购置" value="7">需要时购置</option>
+                                                <option label="已购车（经济型）" value="2">已购车（经济型）</option>
+                                                <option label="已购车（中档型）" value="3">已购车（中档型）</option>
+                                                <option label="已购车（豪华型）" value="4">已购车（豪华型）</option>
+                                                <option label="单位用车" value="5">单位用车</option>
+                                                <option label="需要时购置" value="6">需要时购置</option>
                                             </select>
+                                            <a href="javascript:;" class="tips_link" id="modify_car_tag" onclick="show_modity_profile('car');">修改</a>
                                         </td>
                                     </tr>
                                 </table>
@@ -1077,10 +1311,10 @@
                             <input type="text" name="real_identity" id="real_identity" style="width:150px" />
                         </li>
                         <li>
-                            <label>验证码：</label>
+                           <!--  <label>验证码：</label>
                             <input type="text" name="antispam" id="antispam" style="width: 137px;">
                             <br/>
-                            <span class="yzm" style="padding-right: 5px;display: inline-block;margin: 5px 0px 0 35px;"><img src="/antispam_v2.php?hash=gd_gen" style="width:75px;height:18px;vertical-align: middle;" alt="" id="antispam_v2"/><script type="text/javascript">function con_code(){var ran= Math.round((Math.random()) * 100000000);document.getElementById("antispam_v2").src = "/antispam_v2.php?r=" + ran;}</script></span><a href="javascript:con_code();">换一张</a>
+                            <span class="yzm" style="padding-right: 5px;display: inline-block;margin: 5px 0px 0 35px;"><img src="/antispam_v2.php?hash=gd_gen" style="width:75px;height:18px;vertical-align: middle;" alt="" id="antispam_v2"/><script type="text/javascript">function con_code(){var ran= Math.round((Math.random()) * 100000000);document.getElementById("antispam_v2").src = "/antispam_v2.php?r=" + ran;}</script></span><a href="javascript:con_code();">换一张</a> -->
                         </li>
                         <li id="mdy_idcard_tips">温馨提示：身份认证需要花费2佳缘宝，手机验证完成可以获得一次免费验证机会~</li>
                         <li style="margin:5px auto" id="mdy_idcard_click">
@@ -1101,6 +1335,13 @@
                     </div>
                 </div>
             </div>
+             <div id="dialogBg"></div>
+              <div id="dialog" class="animated">
+              <img class="dialogIco" width="50" height="50" src="{{ asset('img/ico.png') }}" alt="" />
+              <div class="dialogTop">
+                <a href="javascript:;" class="claseDialogBtn">关闭</a>
+              </div>
+
             <div id="mdy_height" style="display:none;">
                 <div class="mdy_layer">
                     <div>
@@ -1151,7 +1392,7 @@
                             <option label="172" value="172">172</option>
                             <option label="173" value="173">173</option>
                             <option label="174" value="174">174</option>
-                            <option label="175" value="175" selected="selected">175</option>
+                            <option label="175" value="175">175</option>
                             <option label="176" value="176">176</option>
                             <option label="177" value="177">177</option>
                             <option label="178" value="178">178</option>
@@ -1206,10 +1447,9 @@
                         </select>厘米&nbsp;
                         <input type="image" onclick="save_profile('height');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
                     </div>
-                    <div id="mdy_height_tips" class="tips" style="display:none">
-                    </div>
                 </div>
             </div>
+            
             <div id="mdy_location" style="display:none;">
                 <div class="mdy_layer" style="padding-top:10px">
                     <ul>
@@ -1220,6 +1460,13 @@
                             <select style="width:70px" name="new_work_sublocation" id="new_profile_sublocation" onChange="select_changed()">
                             </select>
                         </li>
+
+                         <!--如果手机没有验证-->
+                      
+                        <script type="text/javascript">
+                        init_location(11, 1108, 'profile');
+                        </script>
+
                         <li>
                             <label>修改原因：</label>
                             <select name="change_area_reason_new" id="change_area_reason">
@@ -1237,11 +1484,74 @@
                     </ul>
                 </div>
             </div>
-            <div id="mdy_income" style="display:none;">
+
+            <div id="mdy_education" style="display:none;">
+                <div class="mdy_layer">
+                    <div>
+                        <label>学历：</label>
+                        <select style="width:135px" id="new_education">
+                            <option value="0" selected="selected">-未选择-</option>
+                            <option value="1">小学</option>
+                            <option value="2">初中</option>
+                            <option value="3">高中</option>
+                            <option value="4">专科</option>
+                            <option value="5">本科</option>
+                            <option value="6">硕士</option>
+                            <option value="7">博士</option>
+                            <option value="8">博士后</option>
+                        </select>
+                        <input type="image" onclick="save_profile('education');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="mdy_bloodtype" style="display:none;">
+                <div class="mdy_layer">
+                    <div>
+                        <label>血型：</label>
+                        <select style="width:135px" id="new_bloodtype">
+                            <option value="0" selected="selected">-未选择-</option>
+                            <option label="A型" value="1">A型</option>
+                            <option label="B型" value="2">B型</option>
+                            <option label="O型" value="3">O型</option>
+                            <option label="AB型" value="4">AB型</option>
+                            <option label="其它" value="5">其它</option>
+                            <option label="保密" value="6">保密</option>
+                        </select>
+                        <input type="image" onclick="save_profile('bloodtype');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
+                    </div>
+                </div>
+            </div>
+
+             <div id="mdy_nation" style="display:none;">
+                <div class="mdy_layer">
+                    <div>
+                        <label>民族：</label>
+                        <select style="width:135px" id="new_nation">
+                            <option value="0">-未选择-</option>
+                            <option label="汉族" value="1" selected="selected">汉族</option>
+                            <option label="藏族" value="2">藏族</option>
+                            <option label="朝鲜族" value="3">朝鲜族</option>
+                            <option label="蒙古族" value="4">蒙古族</option>
+                            <option label="回族" value="5">回族</option>
+                            <option label="满族" value="6">满族</option>
+                            <option label="维吾尔族" value="7">维吾尔族</option>
+                            <option label="壮族" value="8">壮族</option>
+                            <option label="彝族" value="9">彝族</option>
+                            <option label="苗族" value="10">苗族</option>
+                            <option label="其它民族" value="11">其它民族</option>
+                        </select>
+                        <input type="image" onclick="save_profile('nation');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
+                    </div>
+                </div>
+            </div>
+
+             <div id="mdy_income" style="display:none;">
                 <div class="mdy_layer">
                     <div>
                         <label>月薪：</label>
                         <select style="width:135px" id="new_income">
+                            <option value="0">-未选择-</option>
                             <option label="2000元以下" value="10" selected="selected">2000元以下</option>
                             <option label="2000～5000元" value="20">2000～5000元</option>
                             <option label="5000～10000元" value="30">5000～10000元</option>
@@ -1251,196 +1561,110 @@
                         </select>
                         <input type="image" onclick="save_profile('income');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
                     </div>
-                    <div id="mdy_income_tips" class="tips">
-                        温馨提示：您的月薪本月只能上调一档哦~
+                </div>
+            </div>
+
+            <div id="mdy_house" style="display:none;">
+                <div class="mdy_layer">
+                    <div>
+                        <label>居住情况：</label>
+                        <select style="width:135px" id="new_house">
+                            <option value="0">-未选择-</option>
+                            <option label="暂未购房" value="1">暂未购房</option>
+                            <option label="需要时购置" value="2">需要时购置</option>
+                            <option label="已购房（有贷款）" value="3">已购房（有贷款）</option>
+                            <option label="已购房（无贷款）" value="4">已购房（无贷款）</option>
+                            <option label="与人合租" value="5">与人合租</option>
+                            <option label="独自租房" value="6">独自租房</option>
+                            <option label="与父母同住" value="7">与父母同住</option>
+                            <option label="住亲朋家" value="8">住亲朋家</option>
+                            <option label="住单位房" value="9">住单位房</option>
+                        </select>
+                        <input type="image" onclick="save_profile('house');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
                     </div>
                 </div>
             </div>
+
+             <div id="mdy_car" style="display:none;">
+                <div class="mdy_layer">
+                    <div>
+                        <label>购车情况：</label>
+                        <select style="width:135px" id="new_car">
+                            <option value="0">-未选择-</option>
+                            <option label="暂未购车" value="1">暂未购车</option>
+                            <option label="已购车（经济型）" value="2">已购车（经济型）</option>
+                            <option label="已购车（中档型）" value="3">已购车（中档型）</option>
+                            <option label="已购车（豪华型）" value="4">已购车（豪华型）</option>
+                            <option label="单位用车" value="5">单位用车</option>
+                            <option label="需要时购置" value="6">需要时购置</option>
+                        </select>
+                        <input type="image" onclick="save_profile('car');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="mdy_children" style="display:none;">
+                <div class="mdy_layer">
+                    <div>
+                        <label>有无子女：</label>
+                        <select style="width:135px" id="new_children">
+                                <option value="0">--请选择--</option>
+                                <option label="无小孩" value="1">无小孩</option>
+                                <option label="有小孩归自己" value="2">有小孩归自己</option>
+                                <option label="有小孩归对方" value="3">有小孩归对方</option>
+                        </select>
+                        <input type="image" onclick="save_profile('children');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="mdy_marriage_status" style="display:none;">
+                <div class="mdy_layer">
+                    <div>
+                        <label>婚姻状态：</label>
+                        <select style="width:135px" id="new_marriage_status">
+                            <option value="0">-未选择-</option>
+                            <option value="1">未婚</option>
+                            <option value="2">离异</option>
+                            <option value="3">丧偶</option>
+                        </select>
+                        <input type="image" onclick="save_profile('marriage_status');" class="button" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
+                    </div>
+                </div>
+            </div>
+
             <div id="mdy_nickname" style="display:none;">
                 <div class="mdy_layer">
                     <div>
                         <label>昵称：</label>
                         <input type="text" name="" id="new_nickname" style="width:135px" />&nbsp;
-                        <input type="image" class="button" onclick="save_profile('nickname');" src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png" />
+                        <input type="image" class="button" onclick="save_profile('nickname');" src="{{ asset('img/home/alert_btn.png')}}" />
                     </div>
-                    <div id="mdy_nickname_tips" class="tips">
+                    <div id="mdy_nickname_tips">
                         温馨提示：昵称修改成功之后，请重新登录~
                     </div>
                 </div>
             </div>
-            <script>
-            //判断字符串长度
-            function strlen(str) {
-                var len = 0;
-                for (var i = 0; i < str.length; i++) {
-                    var c = str.charCodeAt(i);
-                    //单字节加1   
-                    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
-                        len++;
-                    } else {
-                        len += 2;
-                    }
-                }
-                return len;
-            }
-
-            function DBC2SBC(str) {
-                var i;
-                var result = '';
-                for (i = 0; i < str.length; i++) {
-                    code = str.charCodeAt(i);
-
-                    if (code == 12290) {
-                        result += String.fromCharCode(46);
-                    } else if (code == 183) {
-                        result += String.fromCharCode(64);
-                    } else if (code >= 65281 && code < 65373) {
-                        result += String.fromCharCode(str.charCodeAt(i) - 65248);
-                    } else {
-                        result += str.charAt(i);
-                    }
-                }
-                return result;
-            }
-
-            function save_profile(str) {
-                $('#mdy_nickname_tips').hide();
-                var get_str = '';
-                //如果修改昵称    
-                if (str == 'nickname') {
-                    var nickname = DBC2SBC($('#new_nickname').val());
-                    var nickname_len = strlen(nickname);
-                    if ('杨测试' == nickname) {
-                        $('#mdy_nickname_tips').show();
-                        $('#mdy_nickname_tips').html('温馨提示：您还没有修改昵称~');
-                        return false;
-                    }
-                    if (nickname_len < 2 || nickname_len > 20) {
-                        $('#mdy_nickname_tips').show();
-                        $('#mdy_nickname_tips').html('温馨提示：昵称最少2个字母或1个汉字，最多10个汉字或20个字母~');
-                        return false;
-                    }
-                    get_str = 'type=' + str + '&new_nickname=' + encodeURI(nickname);
-                } else if (str == 'height') //如果修改身高
-                {
-                    var height = $('#new_height').val();
-                    if (height > 226 || height < 130) {
-                        $('#mdy_height_tips').show();
-                        $('#mdy_height_tips').html('温馨提示：您输入的身高不正确~');
-                        return false;
-                    }
-                    if ('175' == height) {
-                        $('#mdy_height_tips').show();
-                        $('#mdy_height_tips').html('温馨提示：您还没有修改身高~');
-                        return false;
-                    }
-                    get_str = 'type=' + str + '&new_height=' + height;
-                } else if (str == 'age') //如果修改年龄
-                {
-                    var new_age = $('#modify_age_want').html();
-                    if (new_age == '') {
-                        return false;
-                    }
-                    get_str = 'type=' + str;
-                } else if (str == 'location') { //修改地区
-                    var profile_location = $('#new_profile_location').val();
-                    var profile_sublocation = $('#new_profile_sublocation').val();
-                    var change_area_reason = $('#change_area_reason').val();
-                    if (profile_location == '' || profile_location == '0' || profile_sublocation == '' || profile_sublocation == '0' || profile_sublocation.substr(2, 2) == '00') {
-                        $('#mdy_location_tips').show();
-                        $('#mdy_location_tips').html('温馨提示：您还没有修改地区~');
-                        return false;
-                    }
-                    if (change_area_reason == '' || change_area_reason == undefined) {
-                        $('#mdy_location_tips').show();
-                        $('#mdy_location_tips').html('温馨提示：您还没有选择修改原因~');
-                        return false;
-                    }
-                    get_str = 'type=' + str + '&work_location=' + profile_location + '&work_sublocation=' + profile_sublocation + '&change_area_reason=' + change_area_reason;
-                } else if (str == 'income') //修改收入
-                {
-                    var new_income = $('#new_income').val();
-                    if (new_income == '' || '10' == new_income) {
-                        $('#mdy_income_tips').show();
-                        $('#mdy_income_tips').html('温馨提示：您还没有修改收入~');
-                        return false;
-                    }
-                    if ((new_income - '10') > 10) {
-                        $('#mdy_income_tips').show();
-                        $('#mdy_income_tips').html('温馨提示：每次只能向上调一个档次~');
-                        return false;
-                    }
-                    get_str = 'type=' + str + '&new_income=' + new_income;
-                }
-                $.ajax({
-                    type: "get",
-                    url: "/usercp/modify_profile.php?" + get_str,
-                    dataType: "json",
-                    data: {},
-                    success: function(data) {
-                        if (data.status == 1) {
-                            if (str == 'nickname') {
-                                //$('#show_nickname').html(nickname);
-                                $('#modify_nickname_tag').hide();
-                                $('#show_nickname').css('color', '');
-                                send_jy_pv2('|1027534_10|');
-                            } else if (str == 'height') {
-                                $('#height option').attr("selected", false);
-                                $('#height option[value=' + height + ']').attr("selected", true);
-                                $('#modify_height_tag').hide();
-                                $('#height').attr('disabled', 'disabled');
-                                $('#height').css('color', '');
-                                send_jy_pv2('|1027534_12|');
-                            } else if (str == 'age') {
-                                send_jy_pv2('|1027534_11|');
-                                $('#modify_age_tag').html(new_age);
-                                $('#modify_age_tag').css('color', '');
-                                setTimeout("jy_head_function.lbg_hide()", 3000);
-                            } else if (str == 'location') {
-                                $('#profile_location option').attr("selected", false);
-                                $('#profile_sublocation option').attr("selected", false);
-                                $('#profile_location option[value=' + profile_location + ']').attr("selected", true);
-                                $('#profile_sublocation option[value=' + profile_sublocation + ']').attr("selected", true);
-                                $('#modify_location_tag').hide();
-                                $('#profile_location').attr('disabled', 'disabled');
-                                $('#profile_sublocation').attr('disabled', 'disabled');
-                                $('#profile_location').css('color', '');
-                                $('#profile_sublocation').css('color', '');
-                                send_jy_pv2('|1027534_13|');
-                            } else if (str == 'income') {
-                                $('#income option').attr("selected", false);
-                                $('#income option[value=' + new_income + ']').attr("selected", true);
-                                $('#modify_income_tag').hide();
-                                $('#income').attr('disabled', 'disabled');
-                                $('#income').css('color', '');
-                                send_jy_pv2('|1027534_14|');
-                            }
-                            setTimeout("jy_head_function.lbg_hide()", 3000);
-                        }
-                        $('#mdy_' + str + '_tips').html(data.msg);
-                        $('#mdy_' + str + '_tips').show();
-                    }
-
-                });
-            }
-            </script>
+             <div id="mdy_height_tips" class="tips" style="display:none">
+                    </div>
+            </div>
             <div class="info_right">
                 <h2>资料完整度：<span class="span101203_1">46分</span></h2>
                 <div class="integrality">
-                    <div class="plan" style="width:46%;">
-                        <div class="progress_jindu">46</div>
+                    <div class="plan" style="width:{{ $score}}%;">
+                        <div class="progress_jindu">{{ $score}}</div>
                         &nbsp;
                     </div>
-                    <div style="left:85%;" class="progress_modelMain">
+                    <div style="left:90%;" class="progress_modelMain">
                         <div class="progress_model ie6png">
                         </div>
                         <div class="progress_modelNum ie6png">
-                            85
+                            90
                         </div>
                     </div>
                 </div>
                 <div class="pre_fen">
-                    达到85分可得到优先推荐的资格哦~
+                    达到90分可得到优先推荐的资格哦~
                 </div>
                 <div class="preview">
                     <a href="http://www.jiayuan.com/usercp/profile.php?action=base" onmousedown="send_jy_pv2('editprofile|220059_14|m|168103003');">去补充基本资料</a>
@@ -1454,6 +1678,6 @@
             </div>
             <!-- 右边结束 -->
         </div>
-        <div class="borderbg"><img src="http://images1.jyimg.com/w4/usercp/i/border_bottom.jpg" /></div>
+        <div class="borderbg"><img src="{{ asset('img/home/border_bottom.jpg')}}" /></div>
     </div>
 @endsection

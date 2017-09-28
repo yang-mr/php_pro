@@ -51,3 +51,47 @@
         curl_close ( $ch );
        // var_export($return);
     }
+
+    /**
+    * 计算.生肖
+    * 
+    * @param $birthday 年龄的格式是：2016-09-23
+    * @return str
+    */
+    function get_animal($birthday='0000-00-01'){
+        $array = explode("-",$birthday);
+        $year = $array[0];
+        $animals = array(
+        '鼠', '牛', '虎', '兔', '龙', '蛇', 
+        '马', '羊', '猴', '鸡', '狗', '猪'
+        );
+        $key = ($year - 1900) % 12;
+        return $animals[$key];
+    }
+
+    /**
+    * 计算.星座
+    *
+    * @param $birthday 年龄的格式是：2016-09-23
+    * @return str
+    */
+    function get_constellation($birthday='0000-00-01'){
+        $array = explode("-",$birthday);
+        $month = $array[1];
+        $day = $array[2];
+        $signs = array(
+            array('20'=>'宝瓶座'), array('19'=>'双鱼座'),
+            array('21'=>'白羊座'), array('20'=>'金牛座'),
+            array('21'=>'双子座'), array('22'=>'巨蟹座'),
+            array('23'=>'狮子座'), array('23'=>'处女座'),
+            array('23'=>'天秤座'), array('24'=>'天蝎座'),
+            array('22'=>'射手座'), array('22'=>'摩羯座')
+        );
+        $key = (int)$month - 1;
+        list($startSign, $signName) = each($signs[$key]);
+        if( $day < $startSign ){
+        $key = $month - 2 < 0 ? $month = 11 : $month -= 2;
+        list($startSign, $signName) = each($signs[$key]);
+        }
+        return $signName;
+    }

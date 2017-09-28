@@ -58,6 +58,21 @@ lv数据库
 	window.location.href = path;
 	window.location.href(path); 可能浏览器会不兼容
 
+	ajax data参数怎么试key也为变量？
+		var data = {};
+        data[key] = newMsg;
+        data["_token"] = "{!! csrf_token() !!}";
+        $.ajax({
+	        type: "post",
+	        url: "{{ route('edit_msg') }}",
+	        dataType: "json",
+	        data: data,
+	        error:function(msg){ //处理出错的信息  
+	          },  
+	        success: function(data) {
+	        }
+	    });
+
 mac 查看端口 关闭端口 （有时候即使关闭了服务 端口还是被占用着）
 	lsof -i 2123 //查看2123 端口
 	由上门命令可以肯定具体的进程

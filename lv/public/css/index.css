@@ -57,4 +57,3 @@
 	float: left;
 }
 
- <form id="form_base" name="form_base" action="{{ route('edit_msg') }}" method="post" onsubmit="return check_post();">

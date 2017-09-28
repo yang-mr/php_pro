@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_admin')->default(0);
              $table->string('work', 10)->nullable();   //0:企业、事业单位 1:专业技术 2.商业、服务业人员 3.水利业生产人员 4.生产、运输设备操作
              $table->string('ischangework', 3)->nullable(); //0 不可能调动工作 1 可能
-             $table->string('education', 2)->nullable();  //0 小学  1初中 2高中 3专科 4本科 5硕士 6博士
+             $table->string('education', 2)->nullable();  //0 未选择 1小学  2初中 3高中 4专科 5本科 6硕士 7博士
              $table->date('birthday')->nullable();
              $table->smallInteger('salary')->nullable()->default(0);
                                         /*  
@@ -41,7 +41,7 @@ class CreateUsersTable extends Migration
                                             <option label="10000～20000元" value="4">10000～20000元</option>
                                             <option label="20000～50000元" value="5">20000～50000元</option>
                                             <option label="50000元以上" value="6" selected="selected">50000元以上</option>*/
-             $table->smallInteger('hourse')->nullable()->default(0);  
+             $table->smallInteger('house')->nullable()->default(0);  
                                             /*<option value="0">--请选择--</option>
                                             <option label="暂未购房" value="1">暂未购房</option>
                                             <option label="需要时购置" value="2">需要时购置</option>
@@ -97,7 +97,7 @@ class CreateUsersTable extends Migration
                                             <option label="有小孩归自己" value="2">有小孩归自己</option>
                                             <option label="有小孩归对方" value="3">有小孩归对方</option>
               */
-             $table->smallInteger('now_status')->nullable();  //0 单身未婚 1恋爱中 2 离异  3丧偶
+             $table->smallInteger('marriage_status')->nullable()->default(0);  //0 未选择 1未婚 2 离异  3丧偶
 
              //备用字段
              $table->string('ry_token', 255)->nullable();
@@ -118,6 +118,7 @@ class CreateUsersTable extends Migration
              $table->string('id_card', 20)->nullable();
              $table->string('avatar_url', 255)->nullable();
              $table->smallInteger('age')->nullable()->default(0);
+             $table->smallInteger('score')->nullable()->default(20);   //资料分数
         } else {
             //增加字段
             Schema::table('users', function (Blueprint $table) {

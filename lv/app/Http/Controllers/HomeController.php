@@ -89,7 +89,7 @@ class HomeController extends Controller
     public function baseMeans()
     {
         $user = auth()->user();
-        var_dump($user->toArray());
+      // var_dump($user->toArray());
         return view('home.user_msg', $user);
     }
 
@@ -119,15 +119,18 @@ class HomeController extends Controller
     */
     public function editMsg(Request $request)
     {   
-        $data = $request->except(['_token', 'change_area_reason', 'share', 'postcode', 'msn', 'address']);
-        $id = auth()->user()->id;
-        $result = User::where('id', $id)
-            ->update($data);
-        if ($result) {
-            return Redirect::route('edit_img');
-        } else {    
-            echo '修改失败';
-        }
+          $resultData = [];
+          $id = auth()->user()->id;
+          $data = $request->except(['_token', 'change_area_reason', 'share', 'postcode', 'msn', 'address']);
+            $result = User::where('id', $id)
+                ->update($data);
+            if ($result) {
+                $resultData['status'] = 1;
+                //return Redirect::route('edit_img');
+            } else {    
+                $resultData['status'] = 0;
+            }
+            return json_encode($resultData);
         //return view('home.user_msg');
     }
 
