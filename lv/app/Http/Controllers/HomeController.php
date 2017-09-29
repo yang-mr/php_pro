@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use App\Model\Attention;
+use App\Model\oneself;
 use App\Model\Img;
 use App\Model\Look;
 use Redirect;
@@ -134,6 +135,28 @@ class HomeController extends Controller
         //return view('home.user_msg');
     }
 
+    public function editOneself(Request $request)
+    {
+
+          $resultData['status'] = 0;
+          $content = $request->input('description');
+
+          $resultData['status'] = DB::transaction(function () use ($content) {
+                $id = auth()->user()->id;
+                //软删除之前的
+                Oneself::where('user_id', $id)->delete();
+               
+                //添加刚刚的
+                $oneself = new Oneself;
+                $oneself->description = $content;
+                $oneself->user_id = $id;
+                $oneself->save();
+                return 1;
+          });
+
+          return json_encode($resultData);
+    }
+
     /**
      * @Author   jack_yang
      * @DateTime 2017-09-25T14:46:02+0800
@@ -201,5 +224,26 @@ class HomeController extends Controller
         }
 
         return json_encode($user);
+    }
+
+    public function oneself()
+    {
+        $user = auth()->user();
+        $hint = '';
+        $oneself = Oneself::where('user_id', $user->id)->first(['description', 'status']);
+        $user['description_status'] = 1;
+        if (!empty($oneself)) {
+              if ($oneself['status'] == 0) {
+                  $hint = "[审核失败 请按要求重新填写~]" . $oneself['description'];
+              } elseif ($oneself['status'] == 2) {
+                  $hint = "[审核中~]" . $oneself['description'];
+              } else if ($oneself['status'] == 1) {
+                  $hint = $oneself['description'];
+              }
+            $user['description_status'] = $oneself['status'];
+        }
+      
+        $user['description'] = $hint;
+        return view('home.oneself', $user);
     }
 }

@@ -11,6 +11,10 @@ use App\Mail\UserSend;
 use Illuminate\Support\Facades\Mail;
 use App\Events\AttentionEvent;
 use App\Model\Attention;
+use App\Model\IncomeType;
+use App\Model\Educationtype;
+use App\Model\Marriagetype;
+use App\Model\Nationtype;
 
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
@@ -140,10 +144,38 @@ class UserController extends Controller
             DB::transaction(function () use ($id, $user) {
             $user_id = auth()->user()->id;
         //    $attention_result = DB::select('select count(*) count from attentions where user_id = :user_id and other_id = :other_id', [$user_id, $id]);
-            $attention_result = Attention::where('user_id', $user_id)->where('other_id', $id)->get();
+            $attention_result = Attention::where('user_id', $user_id)->where('other_id', $id)->first();
+ 
+            //获取income字段的值
+            $income = IncomeType::where('type_id', $user['income'])->first(['type_name']);
+            $user['income'] = $income['type_name'];
+
+            //获取marriagetype字段的值
+            $income = Marriagetype::where('type_id', $user['marriage_status'])->first(['type_name']);
+            $user['marriage'] = $income['type_name'];
+
+            //获取educationtype字段的值
+            $income = Educationtype::where('type_id', $user['education'])->first(['type_name']);
+            $user['education'] = $income['type_name'];
+
+            //获取nation字段的值
+            $income = Nationtype::where('type_id', $user['nation'])->first(['type_name']);
+            $user['nation'] = $income['type_name'];
+
+             //获取house字段的值
+            $house = DB::table('housetypes')->where('type_id', $user['house'])->first(['type_name']);
+            $user['house'] = $house->type_name;
+
+              //获取car字段的值
+            $house = DB::table('cartypes')->where('type_id', $user['car'])->first(['type_name']);
+            $user['car'] = $house->type_name;
+
+              //获取house字段的值
+            $house = DB::table('bloodtypes')->where('type_id', $user['bloodtype'])->first(['type_name']);
+            $user['bloodtype'] = $house->type_name;
 
             if (count($attention_result) > 0) {
-                $status = $attention_result[0]['status'];
+                $status = $attention_result['status'];
                 if ($status == 0) {
                      $user['attention'] = 'cancel_attention';
                 } else if ($status == 1) {

@@ -1,12 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+@extends('layouts.auto_app')
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-    <meta name="keywords" content="交友,交友网,征婚交友,网上交友,征婚,征婚网,征婚交友网,交友中心,婚恋交友" />
-    <meta name="description" content="青春不常在，抓紧谈恋爱！缘分可遇也可求，该出手时就出手。世纪佳缘是国内领先的在线婚恋交友平台，提供丰富多彩的交友征婚活动，1.7亿会员，让缘分千万里挑一！" />
-    <title>我的相册_    {{ config('app.name') }}</title>
+<link href="{{ asset('css/home.css') }}" rel="stylesheet">
+@section('left_content')
+    <div class="home_left_content">
+       
+    </div>
+@endsection
+
+@section('content')
+    <div class="content">
+         <title>我的相册_    {{ config('app.name') }}</title>
     <link href="{{ asset('css/home/user_img_stype.css') }}" rel="stylesheet">
     <script src="http://open.web.meitu.com/sources/xiuxiu.js" type="text/javascript"></script>
         <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
@@ -135,7 +138,6 @@
         //        openDiv("uploading");
         return true;
     }
-
 
     xiuxiu.onUploadResponse = function(data) {
         closeDiv("uploading");
@@ -779,13 +781,13 @@
 <body>
     <div class="my_infomation">
         <div class="navigation"><a href="{{ route('home') }}" onmousedown="send_jy_pv2('editprofile|my_home|m|168103003');">个人中心</a>&nbsp;&gt;&nbsp;我的照片</div>
-        <div class="borderbg"><img src="http://images1.jyimg.com/w4/usercp/i/i520/border_top.jpg" /></div>
+        <div class="borderbg"><img src="{{ asset('img/home/border_top.jpg') }}" /></div>
         <div class="info_content">
             <!-- 左侧开始 -->
             <div class="info_left">
                 <ul>
                     <li class="mark" onmousedown="send_jy_pv2('editprofile|category_base|m|168103003');"><a href="http://www.jiayuan.com/usercp/profile.php?action=base">基本资料</a></li>
-                    <li class="ok" onmousedown="send_jy_pv2('editprofile|category_note|m|168103003');"><a href="http://www.jiayuan.com/usercp/note.php">内心独白</a></li>
+                    <li class="ok" onmousedown="send_jy_pv2('editprofile|category_note|m|168103003');"><a href="{{ route('oneself')}}">内心独白</a></li>
                     <li class="on"><a href="javascript:;">我的照片</a></li>
                     <li class="mark" onmousedown="send_jy_pv2('editprofile|category_map|m|168103003');"><a href="http://www.jiayuan.com/usercp/profile.php?action=map">我的地图</a></li>
                     <li onClick="show_category('detail_hidden');" class=""><a href="javascript:;">详细资料</a></li>
@@ -799,7 +801,7 @@
                     </li>
                 </ul>
                 <div class="return_index">
-                    <a class="return_jy" href="http://www.jiayuan.com/usercp/index.php" onmousedown="send_jy_pv2('editprofile|return_home|m|168103003');">返回我的佳缘</a>
+                    <a class="return_jy" href="{{ route('home') }}" onmousedown="send_jy_pv2('editprofile|return_home|m|168103003');">返回我的佳缘</a>
                 </div>
             </div>
             <!-- 左侧结束 -->
@@ -1003,11 +1005,11 @@
                         <div class="progress_jindu">45.5</div>
                         &nbsp;
                     </div>
-                    <div style="left:85%;" class="progress_modelMain">
+                    <div style="left:90%;" class="progress_modelMain">
                         <div class="progress_model ie6png">
                         </div>
                         <div class="progress_modelNum ie6png">
-                            85
+                            90
                         </div>
                     </div>
                 </div>
@@ -1015,7 +1017,7 @@
                     达到85分可得到优先推荐的资格哦~
                 </div>
                 <div class="preview">
-                    <a href="http://www.jiayuan.com/usercp/profile.php?action=base" onmousedown="send_jy_pv2('editprofile|220059_14|m|168103003');">去补充基本资料</a>
+                    <a href="{{ route('base_mean') }}">去补充基本资料</a>
                 </div>
                 <div class="why">
                     <h3>为什么要上传照片？</h3>
@@ -1045,7 +1047,7 @@
     <iframe id="upload_photo_iframe" name="upload_photo_iframe" style="width:0px;height:0px;display:none;"></iframe>
     <div class="upload_photo" style="display:none;" id="upload_photo">
         <div class="float_content">
-            <div class="div_title"><strong>上传照片</strong><img src="http://images1.jyimg.com/w4/usercp/i/new_uploadPic/close.gif" alt="关闭" onClick="closeDiv('upload_photo')" /></div>
+            <div class="div_title"><strong>上传照片</strong><img src="{{ asset('img/home/close.gif') }}" alt="关闭" onClick="closeDiv('upload_photo')" /></div>
             <!--照片导航 B-->
             <div class="clear"></div>
             <div class="uploadNav">
@@ -1073,7 +1075,7 @@
                                         </dd>
                                     </dl>
                                 </td>
-                                <td width="180" valign="bottom" style="padding-bottom:7px; padding-bottom:5px\9;_padding-bottom:10px;"><span onClick="add_file_item(0)">更多</span></td>
+                                <td width="180" valign="bottom" style="padding-bottom:7px; padding-bottom:5px;padding-bottom:10px;"><span onClick="add_file_item(0)">更多</span></td>
                             </tr>
                             <tr>
                                 <td colspan="2">
@@ -1109,7 +1111,7 @@
                                         </dd>
                                     </dl>
                                 </td>
-                                <td width="180" valign="bottom" style="padding-bottom:7px; padding-bottom:5px\9;_padding-bottom:10px;"><span onClick="add_file_item(1)">更多</span></td>
+                                <td width="180" valign="bottom" style="padding-bottom:7px; padding-bottom:5px;padding-bottom:10px;"><span onClick="add_file_item(1)">更多</span></td>
                             </tr>
                             <tr>
                                 <td colspan="2">
@@ -1144,9 +1146,9 @@
         </div>
         <!--圆角矩形背景层 结束-->
         <div class="float_content">
-            <div class="div_title"><strong>如何上传好照片</strong><img src="http://images1.jyimg.com/w4/usercp/i/new_uploadPic/close.png" alt="关闭" onClick="closeDiv('monolog_div')" /></div>
+            <div class="div_title"><strong>如何上传好照片</strong><img src="{{ asset('img/home/close.png') }}" alt="关闭" onClick="closeDiv('monolog_div')" /></div>
             <div class="monolog_content" style="text-align:center">
-                <img src="http://images1.jyimg.com/w4/usercp/i/goodphoto_m.jpg" width="689" />
+                <img src="{{ asset('img/home/goodphoto_m.jpg') }}" />
                 <br />
                 <!--<img src="http://images1.jyimg.com/w4/usercp/i/iknow.jpg" onClick="closeDiv('monolog_div')" style="cursor:pointer;" />-->
                 <!--new 我知道了begin-->
@@ -1155,6 +1157,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- 正在上传 -->
     <div id="uploading" class="uploading" style="display:none;">
         <div class="div_title"><strong>正在上传</strong><img src="http://images1.jyimg.com/w4/usercp/i/new_uploadPic/close.png" alt="关闭" onClick="closeDiv('uploading')" /></div>
@@ -1289,8 +1293,13 @@
             </div>
         </div>
     </div>
-    <iframe style="display:none;" name="mobile_pay_ifr" id="mobile_pay_ifr" scrolling="no" width="654" height="600" allowTransparency="true" frameborder="0"></iframe>
+    </div>
+@endsection
 
-</body>
+@section('right_content')
+    <div class="home_right_content">
+        
+    </div>
+@endsection
 
-</html>
+   

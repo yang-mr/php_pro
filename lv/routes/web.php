@@ -52,7 +52,12 @@ Route::get('/home/base_mean', 'HomeController@baseMeans')->name('base_mean');
 
 Route::post('/home/edit_msg', 'HomeController@editMsg')->name('edit_msg');
 
+Route::post('/home/edit_oneself', 'HomeController@editOneself')->name('edit_oneself');
+
 Route::get('/home/edit_img', 'HomeController@editImg')->name('edit_img');
+
+Route::get('/home/oneself', 'HomeController@oneself')->name('oneself');
+
 
 /**
  * 首页业务

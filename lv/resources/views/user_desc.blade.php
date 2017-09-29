@@ -1,5 +1,4 @@
 @extends('layouts.auto_app')
-<link href="{{ asset('/css/user_desc.css') }}" rel="stylesheet" type="text/css">
 <title>{{ $name }} {{ $home_location }}</title>
 <script type="text/javascript">
 $(function() {
@@ -58,6 +57,7 @@ function add_attention(path) {
 }
 </script>
 @section('left_content')
+
 <nav id="nav_left">
     <div class="inner">
         <img src="{{ $avatar_url or asset('img/default_avatar.png') }}" />
@@ -72,15 +72,12 @@ function add_attention(path) {
     </div>
 </nav>
 @endsection @section('content')
+<link href="{{ asset('/css/user_desc.css') }}" rel="stylesheet" type="text/css">
+
 <div class="content">
         <meta name="location" content="province=北京;city=朝阳">
         <title>北京交友_妮妮（佳缘ID:138011499）的个人资料_世纪佳缘交友网</title>
-        <link type="text/css" rel="stylesheet" href="http://images1.jyimg.com/w4/common/c/base.css" />
-        <link type="text/css" rel="stylesheet" href="http://images1.jyimg.com/w4/mai/c/jy_mai.css" />
-        <link href="http://images1.jyimg.com/w4/profile_new/c/layer.css" rel="stylesheet" type="text/css" />
-        <link href="http://images1.jyimg.com/w4/profile_new/c/word.css" rel="stylesheet" type="text/css" />
-        <link href="http://images1.jyimg.com/w4/profile_new2/c/personal.css" rel="stylesheet" type="text/css" />
-        <link href="http://images1.jyimg.com/w4/profile_new/c/maplayer.css" rel="stylesheet" type="text/css" />
+                <link href="http://images1.jyimg.com/w4/profile_new/c/layer.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="http://images1.jyimg.com/w4/global/j/common_tools.js"></script>
         <script type='text/javascript' src='http://images1.jyimg.com/w4/mai/j/jy_mai_new.js'></script>
         <script type="text/javascript" src="http://images1.jyimg.com/w4/profile_new2/j/personal.js"></script>
@@ -217,6 +214,135 @@ function add_attention(path) {
         var reg_host_const_flag = 0;
         var reg_host_const_test = 0;
         var reg_host_domain = document.domain;
+
+
+/*
+ 鍏ㄧ珯鍏敤alert鏇挎崲鍑芥暟
+ http://images1.jyimg.com/w4/popup/JY_Alert/
+*/
+function JY_Alert(title, content, zIndex) {
+    var oBody = document.getElementsByTagName("body")[0], oHtml = document.getElementsByTagName("html")[0], JY_alert, alert_close, alert_title, alert_bg, alert_btn, title = title || "\u6e29\u99a8\u63d0\u793a", content = content || '', minHeight = 140, zIndex = zIndex || 99999, isIE6 = !-[1, ] && !window.XMLHttpRequest, setCss = function (obj, json) {
+        var arr = ["Webkit", "Moz", "O", "ms", ""];
+        for (var attr in json) {
+            if (attr.charAt(0) == "$") {
+                for (var i = 0; i < arr.length; i++) {
+                    obj.style[arr[i] + attr.substring(1)] = json[attr]
+                }
+            } else {
+                if (typeof json[attr] == "number") {
+                    switch (attr) {
+                        case "opacity":
+                            if (value < 0) value = 0;
+                            obj.style.filter = "alpha(opacity:" + value + ")";
+                            obj.style.opacity = value / 100;
+                            break;
+                        case "zIndex":
+                            obj.style[attr] = json[attr];
+                            break;
+                        default:
+                            obj.style[attr] = json[attr] + "px";
+                    }
+                } else {
+                    if (typeof json[attr] == "string") obj.style[attr] = json[attr];
+                }
+            }
+        }
+    }, addEvent = function (obj, sEv, callBak) {
+        obj.attachEvent ? obj.attachEvent("on" + sEv, callBak) : obj.addEventListener(sEv, callBak, false)
+    }, removeEvent = function (obj, sEv, callBak) {
+        obj.detachEvent ? obj.attachEvent("on" + sEv, callBak) : obj.removeEventListener(sEv, callBak, false)
+    }, getViewSize = function () {
+        var result = {};
+        if (window.innerWidth) {
+            result.winW = window.innerWidth;
+            result.winH = window.innerHeight
+        } else {
+            if (document.documentElement.offsetWidth == document.documentElement.clientWidth) {
+                result.winW = document.documentElement.offsetWidth;
+                result.winH = document.documentElement.offsetHeight
+            } else {
+                result.winW = document.documentElement.clientWidth;
+                result.winH = document.documentElement.clientHeight;
+            }
+        }
+        result.docW = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, document.documentElement.offsetWidth);
+        result.docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, document.documentElement.offsetHeight);
+        return result;
+    }, range = function (iCurr, iMin, iMax) {
+        return iCurr < iMin ? iMin : iCurr > iMax ? iMax : iCurr
+    }, drag = function (popupID, moveID) {
+        var popup = document.getElementById(popupID), move = document.getElementById(moveID), disX = disY = 0;
+        move.onmouseover = function () {this.style.cursor = "move";};
+        move.onmouseout = function () {this.style.cursor = "default"};
+        move.onmousedown = function (ev) {
+            var ev = ev || event;
+            disX = ev.clientX - popup.offsetLeft;
+            disY = ev.clientY - popup.offsetTop;
+            document.onmousemove = function (ev) {
+                var ev = ev || event;
+                setCss(popup, {left: range(ev.clientX - disX, 0, getViewSize().docW - popup.offsetWidth), top: range(ev.clientY - disY, 0, getViewSize().winH - popup.offsetHeight)});
+            };
+            document.onmouseup = function () {this.onmousemove = null; this.onmouseup = null;};
+            return false;
+        }
+    }, init = function () {
+        if(!document.getElementById('JY_alert')){
+            var JY_alert_main = document.createElement("div");
+            JY_alert_main.id = "JY_alert";
+            JY_alert_main.style.cssText = "width:400px; padding: 1px 1px 50px 1px; background: #fff; position: absolute; top: 0px; left: 0px; z-index:" + (zIndex + 1) + ";";
+            setCss(JY_alert_main, {position: isIE6 ? "absolute" : "fixed"});
+            var JY_alert_bg = document.createElement("div");
+            JY_alert_bg.id = "JY_alert_bg";
+            JY_alert_bg.style.cssText = "background: #000; opacity: 0.4; filter:alpha(opacity=40); position:absolute; top:0; left:0; z-index:" + zIndex + ";";
+            oBody.appendChild(JY_alert_bg);
+            var createEle = function (tagName, cssText, innerHTML, id) {
+                var newEle = document.createElement(tagName);
+                newEle.style.cssText = cssText;
+                newEle.innerHTML = innerHTML;
+                if (id) newEle.id = id;
+                JY_alert_main.appendChild(newEle);
+            };
+            createEle("h2", "height: 30px; line-height: 30px; margin: 0; padding: 0 10px; text-align:left; color: #fff;  font-size: 14px; background: url(http://images1.jyimg.com/w4/popup/JY_alert/i/title_bg.jpg) repeat-x; position: relative;", title + '<a id="JY_alert_close" href="javascript:;" style="width: 15px; height: 15px; position: absolute; top: 7px; right: 10px; background: url(http://images1.jyimg.com/w4/popup/JY_alert/i/alert_close.png); overflow: hidden; display: block; font-size: 0;">\u5173\u95ed</a>', "JY_alert_title");
+            createEle("div", "width: 90%; line-height:18px; margin: 0 auto; padding: 20px 0; font-size: 12px; color: #666; word-wrap: break-word; word-break: break-all;", content, 'jy_alert_content');
+            createEle("div", "width: 73px; height: 28px; margin: 0; padding:0; position:absolute; bottom:20px; left:163px; text-align: center; cursor: pointer;", '<img src="http://images1.jyimg.com/w4/popup/JY_alert/i/alert_btn.png">', "JY_alert_btn");
+            oBody.appendChild(JY_alert_main);
+            JY_alert = document.getElementById("JY_alert");
+            alert_close = document.getElementById("JY_alert_close");
+            alert_title = document.getElementById("JY_alert_title");
+            alert_content = document.getElementById("jy_alert_content");
+            alert_bg = document.getElementById("JY_alert_bg");
+            alert_btn = document.getElementById("JY_alert_btn");
+            addEvent(window, "resize", function () {setCss(JY_alert_bg, {width: 0, height: 0}); reset(); });
+            addEvent(window, "scroll", function () {setCss(JY_alert_bg, {width: 0, height: 0});reset(); });
+            addEvent(alert_close, "click", remove_alert);
+            addEvent(alert_btn, "click", function () {remove_alert();});
+            addEvent(alert_close, "mouseover", function () {setCss(alert_close, {backgroundPosition: "0 -16px"})});
+            addEvent(alert_close, "mouseout", function () {setCss(alert_close, {backgroundPosition: "0 0"})});
+            drag("JY_alert", "JY_alert_title");
+            reset();
+            if (typeof(JY_alert.onselectstart) != "undefined") {
+                JY_alert.onselectstart = new Function("return false")
+            } else {
+                JY_alert.onmousedown = new Function("return false");
+                JY_alert.onmouseup = new Function("return true")
+            };
+        };
+    }, remove_alert = function () {
+        oBody.removeChild(JY_alert);
+        oBody.removeChild(alert_bg);
+        if(isIE6) oHtml.style.overflowX = '';
+        return false;
+    }, reset = function () {
+        setCss(alert_bg, {width: getViewSize().docW, height: getViewSize().docH});
+        setCss(JY_alert, {top: isIE6 ? (getViewSize().winH - JY_alert.offsetHeight) / 2 + document.documentElement.scrollTop || document.body.scrollTop: (getViewSize().winH - JY_alert.offsetHeight) / 2, left: isIE6 ? (getViewSize().winW - JY_alert.offsetWidth) / 2 + document.documentElement.scrollLeft || document.body.scrollLeft : (getViewSize().winW - JY_alert.offsetWidth) / 2
+        });
+        setCss(alert_content, {textAlign: JY_alert.offsetHeight > minHeight ? 'left' : 'center'});
+        if(isIE6) oHtml.style.overflowX = 'hidden';
+    };
+    init();
+};
+
+
 
         function setDomainForIframe() {
             if (reg_host_const_flag == 0 || reg_host_const_flag == 7) {
@@ -868,7 +994,7 @@ function add_attention(path) {
                     <!--轮播图 start-->
                     <div class="pic_box">
                         <!--芝麻信用 start-->
-                        <a class="credit_bg credit_no" href="http://www.jiayuan.com/usercp/approve/zmxyentity.php" onclick="send_msg(67,6);" target="_blank" onmousedown="send_jy_pv2('|profile_credit_clicknum|');">芝麻信用分</a>
+                        <a class="credit_bg credit_no" href="http://www.jiayuan.com/usercp/approve/zmxyentity.php" onclick="send_msg(67,6);" target="_blank">芝麻信用分</a>
                         <!--芝麻信用 end-->
                         <div class="pic_btm_bg"></div>
                         <div class="pho_ico">
@@ -896,8 +1022,8 @@ function add_attention(path) {
                             <a class="prev"></a>
                             <div class="small_pic fn-clear">
                                 <ul>
-                                    <li style="overflow:hidden;position: relative;" onclick="if(!if_show_pic(1)){return false;}"><a onmousedown="send_jy_pv2('|1017864_8|');send_jy_pv2('|1017864_9|168103003');" target="_blank" href="http://photo.jiayuan.com/showphoto.php?uid_hash=f4701255e21ab168ef897563b6560d5c"><img class="img_absolute_list" style="position: absolute;height: 31px;width: 31px;" src="http://images1.jyimg.com/w4/parties/app/yfsp/i/loading.gif" _src="http://at4.jyimg.com/f4/5c/701255e21ab168ef897563b6560d/701255e21_1_avatar_s.jpg"/></a></li>
-                                    <li style="overflow:hidden;position: relative;" onclick="if(!if_show_pic()){return false;}"><a onmousedown="send_jy_pv2('|1017864_8|');send_jy_pv2('|1017864_9|168103003');" target="_blank" href="http://photo.jiayuan.com/showphoto.php?uid_hash=f4701255e21ab168ef897563b6560d5c&p=0"><img class="img_absolute_list" style="position: absolute;height: 31px;width: 31px;" src="http://images1.jyimg.com/w4/parties/app/yfsp/i/loading.gif" _src="http://t4.jyimg.com/f4/5c/701255e21ab168ef897563b6560d/118097853t.jpg"/></a></li>
+                                    <li style="overflow:hidden;position: relative;" onclick="if(!if_show_pic(1)){return false;}"><a target="_blank" href="http://photo.jiayuan.com/showphoto.php?uid_hash=f4701255e21ab168ef897563b6560d5c"><img class="img_absolute_list" style="position: absolute;height: 31px;width: 31px;" src="http://images1.jyimg.com/w4/parties/app/yfsp/i/loading.gif" _src="http://at4.jyimg.com/f4/5c/701255e21ab168ef897563b6560d/701255e21_1_avatar_s.jpg"/></a></li>
+                                    <li style="overflow:hidden;position: relative;" onclick="if(!if_show_pic()){return false;}"><a target="_blank" href="http://photo.jiayuan.com/showphoto.php?uid_hash=f4701255e21ab168ef897563b6560d5c&p=0"><img class="img_absolute_list" style="position: absolute;height: 31px;width: 31px;" src="http://images1.jyimg.com/w4/parties/app/yfsp/i/loading.gif" _src="http://t4.jyimg.com/f4/5c/701255e21ab168ef897563b6560d/118097853t.jpg"/></a></li>
                                 </ul>
                             </div>
                             <a class="next"></a>
@@ -936,40 +1062,40 @@ function add_attention(path) {
                             <a target="_blank" onmousedown="send_jy_pv2('|1017864_12|');send_jy_pv2('|1017864_13|168103003');" href="http://www.jiayuan.com/meilistar/"><h6>30</h6>
                             <p>魅力值</p></a>
                         </div>
-                        <h4>妮妮<span>ID:138011499</span></h4>
+                        <h4>{{ $name }}<span>ID:{{ $id }}</span></h4>
                         <p class="member_ico_box">会员身份：<span class="member_dj">普通会员</span></p>
                         <p class="member_ico_box fn-clear">
                             <span class="wt_ico"><a title="说明" href="javascript:openWindow('','','http://www.jiayuan.com/about.php',560,610)"><i class="member_ico25"></i></a></span>
                             <a style="cursor:pointer" onclick="openWindow('','','http://www.jiayuan.com/profile/reliable.php?uid=138011499',570,390);" onmousedown="send_jy_pv2('|1017864_28|');send_jy_pv2('|1017864_29|168103003');" class="col_blue_1">[ 查看靠谱度 ]</a></p>
                         <p class="col_999">认证信息是会员自愿提供，目前中国无完整渠道确保100%真实，请理性对待。</p>
-                        <h6 class="member_name">38岁，未婚，来自<a onMouseDown="send_jy_pv2('|profile_loc_search|');" href="http://search.jiayuan.com/v2/?key=北京&sex=f&f=search" class="col_blue" target="_blank">北京</a><a onMouseDown="send_jy_pv2('|profile_subloc_search|');" href="http://search.jiayuan.com/v2/?key=朝阳&sex=f&f=search" class="col_blue" target="_blank">朝阳</a></h6>
+                        <h6 class="member_name">{{ calcAge($birthday)}}岁，{{ $marriage}}，来自<a onMouseDown="send_jy_pv2('|profile_loc_search|');" href="http://search.jiayuan.com/v2/?key=北京&sex=f&f=search" class="col_blue" target="_blank">北京</a><a onMouseDown="send_jy_pv2('|profile_subloc_search|');" href="http://search.jiayuan.com/v2/?key=朝阳&sex=f&f=search" class="col_blue" target="_blank">朝阳</a></h6>
                         <ul class="member_info_list fn-clear">
                             <li>
                                 <div class="fl f_gray_999">学历：</div>
                                 <div class="fl pr">
-                                    <em>本科</em>
+                                    <em>{{ $education }}</em>
                                 </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">身高：</div>
                                 <div class="fl pr">
-                                    <em>156cm</em>
+                                    <em>{{ $height }}厘米</em>
                                 </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">购车：</div>
                                 <div class="fl pr">
-                                    <em class="info_null" msg_id="6">--</em> </div>
+                                    <em class="info_null" msg_id="6">{{ $car }}</em> </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">月薪：</div>
                                 <div class="fl pr">
-                                    <em>5000～10000元</em> </div>
+                                    <em>{{ $income }}</em> </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">住房：</div>
                                 <div class="fl pr">
-                                    <em class="info_null" msg_id="5">--</em> </div>
+                                    <em class="info_null" msg_id="5">{{ $house }}</em> </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">体重：</div>
@@ -980,25 +1106,25 @@ function add_attention(path) {
                             <li>
                                 <div class="fl f_gray_999">星座：</div>
                                 <div class="fl pr">
-                                    <em>金牛座</em>
+                                    <em>{{ get_constellation( $birthday) }} </em>
                                 </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">民族：</div>
                                 <div class="fl pr">
-                                    <em class="info_null" msg_id="4">--</em>
+                                    <em class="info_null" msg_id="4">{{ $nation }}</em>
                                 </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">属相：</div>
                                 <div class="fl pr">
-                                    <em>羊</em>
+                                    <em>{{ get_animal($birthday) }}</em>
                                 </div>
                             </li>
                             <li>
                                 <div class="fl f_gray_999">血型：</div>
                                 <div class="fl pr">
-                                    <em class="info_null" msg_id="3">--</em>
+                                    <em class="info_null" msg_id="3">{{ $bloodtype }}</em>
                                 </div>
                             </li>
                         </ul>
@@ -1016,11 +1142,11 @@ function add_attention(path) {
                 <div class="banner_box yh">
                     <div class="slide_banner" id="ad_pos_pcweb_11"></div>
                     <div class="ems_bg col_blue">
-                        <a target="_blank" href="http://www.jiayuan.com/msgapp/ems/?uid_hash=f4701255e21ab168ef897563b6560d5c&from=profile" onmousedown="send_jy_pv2('|1017864_26|');send_jy_pv2('|1017864_27|168103003');" class="col_blue">喜欢她就发特快专递&gt;&gt;</a>
+                        <a target="_blank" href="http://www.jiayuan.com/msgapp/ems/?uid_hash=f4701255e21ab168ef897563b6560d5c&from=profile" class="col_blue">喜欢她就发特快专递&gt;&gt;</a>
                     </div>
                     <div class="jb_text col_999">
-                        <a style="cursor:pointer" onclick="show_photo_lj_tc(13);return false;" onmousedown="send_jy_pv2('|1017864_32|');send_jy_pv2('|1017864_33|168103003');">推荐</a>&nbsp;&nbsp;&nbsp;｜
-                        <a onmousedown="send_jy_pv2('|1017864_34|');send_jy_pv2('|1017864_35|168103003');" href="http://www.jiayuan.com/complain/?uid_hash=f4701255e21ab168ef897563b6560d5c&old=1" target="_blank">举报</a>
+                        <a style="cursor:pointer" onclick="show_photo_lj_tc(13);return false;">推荐</a>&nbsp;&nbsp;&nbsp;｜
+                        <a href="http://www.jiayuan.com/complain/?uid_hash=f4701255e21ab168ef897563b6560d5c&old=1" target="_blank">举报</a>
                     </div>
                 </div>
                 <!--广告 end -->
@@ -1032,9 +1158,9 @@ function add_attention(path) {
             <div class="content_705">
                 <!--打招呼跟随层 start -->
                 <div class="member_layer">
-                    <div class="fl pic80" onclick="if(!if_show_pic(1)){return false;}"><a target="_blank" href="http://photo.jiayuan.com/showphoto.php?uid_hash=f4701255e21ab168ef897563b6560d5c"><img class="img_absolute_b" id="gs_ava" src="http://images1.jyimg.com/w4/parties/app/yfsp/i/loading.gif" _src="http://at4.jyimg.com/f4/5c/701255e21ab168ef897563b6560d/701255e21_1_avatar_p.jpg"></a></div>
+                    <div class="fl pic80" onclick="if(!if_show_pic(1)){return false;}"><a target="_blank" href="http://photo.jiayuan.com/showphoto.php?uid_hash=f4701255e21ab168ef897563b6560d5c"><img class="img_absolute_b" id="gs_ava" src="{{ $avatar_url or asset('img/default_avatar.png') }}" _src="http://at4.jyimg.com/f4/5c/701255e21ab168ef897563b6560d/701255e21_1_avatar_p.jpg"></a></div>
                     <div class="member_layer_con yh">
-                        <h4>妮妮<span><a onMouseDown="send_jy_pv2('|profile_loc_search_layer|');" href="http://search.jiayuan.com/v2/?key=北京&sex=f&f=search" class="col_blue" target="_blank">北京</a><a onMouseDown="send_jy_pv2('|profile_subloc_search_layer|');" href="http://search.jiayuan.com/v2/?key=朝阳&sex=f&f=search" class="col_blue" target="_blank">朝阳</a>，38岁，156CM，未婚</span></h4>
+                        <h4>{{ $name }}<span><a href="http://search.jiayuan.com/v2/?key=北京&sex=f&f=search" class="col_blue" target="_blank">北京</a><a href="http://search.jiayuan.com/v2/?key=朝阳&sex=f&f=search" class="col_blue" target="_blank">朝阳</a>，{{ calcAge($birthday) }}，{{ $height }}CM，{{ $marriage }}</span></h4>
                         <div class="fn-clear">
                             <a class="member_btn1" style="cursor:pointer" onclick="window.open('http://www.jiayuan.com/msg/send.php?uhash=f4701255e21ab168ef897563b6560d5c&src=none&cnj=profile3&cache_key=')" onmousedown="send_jy_pv2('|1017867_10|');send_jy_pv2('|1017867_11|168103003');send_jy_pv2('|1017943_76|168103003');send_jy_pv2('|1017943_80|168103003_138011499');send_jy_pv2('|1017869_20|');send_jy_pv2('|1017869_21|168103003');">发信</a>
                             <a class="member_btn2" style="cursor:pointer" onclick="openWindow('','','http://www.jiayuan.com/msg/hello.php?type=20&src=none&cache_key=&uhash=f4701255e21ab168ef897563b6560d5c&cnj=profile2',610,600);" onmousedown="send_jy_pv2('|1017867_12|');send_jy_pv2('|1017867_13|168103003');send_jy_pv2('|1017943_76|168103003');send_jy_pv2('|1017943_80|168103003_138011499');send_jy_pv2('|1017864_22|');send_jy_pv2('|1017869_22|');send_jy_pv2('|1017869_23|168103003');">打招呼</a>
@@ -1057,7 +1183,7 @@ function add_attention(path) {
                 <!--dna start -->
                 <!--自己看自己-->
                 <!--浏览同性或者未登录浏览-->
-                <div class="bg_white fn-clear mt15">
+              <!--   <div class="bg_white fn-clear mt15">
                     <div class="zl_DNA_a">
                         <h3><img src="http://images1.jyimg.com/w4/profile_new2/i/personal/DNA_icon.gif"/><img src="http://images1.jyimg.com/w4/profile_new2/i/personal/DNA_text_1.gif"/>爱情DNA</h3>
                         <div class="DNA_xq DNA_content self_tags fn-clear">
@@ -1065,14 +1191,12 @@ function add_attention(path) {
                         </div>
                         <div class="DNA_gx_pag DNA_content self_tags fn-clear">
                             <h5 class="mt20">
-                                                                                                                                                                         <span class="col_999">她的个性标签：想知道她有哪些个性和你匹配吧，</span><span class="col_999" id="mail_15"><a onmousedown="send_jy_pv2('|1017867_22|');send_jy_pv2('|1017867_23|168103003');send_jy_pv2('|1017943_76|168103003');send_jy_pv2('|1017943_80|168103003_138011499');" onclick="sendmail('mail_15',168103003,138011499)" style="color:#2c81d6;cursor:pointer;">邀请她参与问答</a></span>
-                                                                                                                                                      </h5>
                         </div>
                         <div class="DNV_rr DNV_rr_mt">
                             <h6>以上内容由<span class="blue bg"> <a href="http://www.jiayuan.com/wenda" onmousedown="send_jy_pv2('|1017996_2|');" target="_blank">懂你</a></span>根据<b class="blue"><a href="http://www.jiayuan.com/wenda" onmousedown="send_jy_pv2('|1017996_2|');" target="_blank">个性匹配问答</a></b>生成</h6>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--dna end -->
                 <!-- 成功故事 start -->
                 <div id="qinggan_div" class="bg_white mt15" style="display:none">
@@ -1389,10 +1513,10 @@ function add_attention(path) {
                 <div class="tip5" id="tjhy_ts"></div>
                 <div class="pop_colsed" onclick="close_photo_lj_tc(3);" title="关闭"></div>
                 <div class="pl20 pt25">
-                    <h6 class="f_20 yh">将妮妮推荐给好友</h6>
-                    <p class="f14 f_gray_666 pt5 pb10">觉得妮妮不错，复制以下链接发送给好友吧！</p>
+                    <h6 class="f_20 yh">将{{ $name }}推荐给好友</h6>
+                    <p class="f14 f_gray_666 pt5 pb10">觉得{{ $name }}不错，复制以下链接发送给好友吧！</p>
                     <p class="f14 f_gray_666 pt5 pb10">征友地址：
-                        <input type="text" class="tj-input" id="zydz" value="http://www.jiayuan.com/138011499" />
+                        <input type="text" class="tj-input" id="zydz" value="{{ route('user_desc', $id) }}" />
                     </p>
                     <span class="tjts"></span>
                     <a class="btn_4 mr" id="copy_an" style="cursor:pointer">复制</a>
@@ -1432,6 +1556,27 @@ function add_attention(path) {
             <div id="zptc_ts"></div>
         </div>
         <div id="opa_70" class="mask"></div>
+
+         <div id="profile_good_user_tc" class="jy_lbg_box" style="position: absolute; margin: 0px; padding: 0px; z-index: 9100; left: 659.5px; top: 182.5px;display:none;">
+            <div class="new-dredge">
+                <div class="new-drTop">
+                    <a href="javascript:jy_head_function.lbg_hide();" class="new-drClose"></a>
+                    <img src="http://images1.jyimg.com/w4/usercp_new/i/good_user/dredge-diamond.png" class="ie6-img dredge-diamond" alt=""> 开通钻石会员
+                </div>
+                <div class="new-drMain">
+                    <div class="new-drInfo">
+                        <p class="new-drP1">尊贵的主人：</p>
+                        <p class="new-drP2">
+                            白富美优质会员收信量大，开通钻石会员，获得白富美优质会员最高优先级交往机会哦！
+                        </p>
+                    </div>
+                    <div class="new-drBtns">
+                        <a href="javascript:jy_head_function.lbg_hide();" class="new-drBtn1">继续单身</a>
+                        <a href="http://www.jiayuan.com/usercp/dynmatch/ajax/usercp_good_user.php?buy=1&touid=138011499" class="new-drBtn2" onmousedown="send_jy_pv2('|1035177_18_bfm_o|');">马上联系</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--优质会员弹层-->
         <style type="text/css">
         /* 优质会员弹层 */
@@ -1450,7 +1595,7 @@ function add_attention(path) {
             font-size: 22px;
             color: #fff;
             line-height: 52px;
-            background: url(http://images1.jyimg.com/w4/usercp_new/i/good_user/new-drTop.jpg) no-repeat 0 0;
+            background: url({{ "asset('img/home/new-drClose.gif')" }}http://images1.jyimg.com/w4/usercp_new/i/good_user/) no-repeat 0 0;
         }
 
         .new-drClose {
@@ -1459,7 +1604,7 @@ function add_attention(path) {
             right: 10px;
             width: 20px;
             height: 20px;
-            background: url(http://images1.jyimg.com/w4/usercp_new/i/good_user/new-drClose.gif) no-repeat center center;
+            background: url({{ "asset('img/home/new-drClose.gif')" }}) no-repeat center center;
         }
 
         .dredge-diamond {
@@ -1517,25 +1662,6 @@ function add_attention(path) {
             border: 1px solid #ff546a;
         }
         </style>
-        <div id="profile_good_user_tc" class="jy_lbg_box" style="position: absolute; margin: 0px; padding: 0px; z-index: 9100; left: 659.5px; top: 182.5px;display:none;">
-            <div class="new-dredge">
-                <div class="new-drTop">
-                    <a href="javascript:jy_head_function.lbg_hide();" class="new-drClose"></a>
-                    <img src="http://images1.jyimg.com/w4/usercp_new/i/good_user/dredge-diamond.png" class="ie6-img dredge-diamond" alt=""> 开通钻石会员
-                </div>
-                <div class="new-drMain">
-                    <div class="new-drInfo">
-                        <p class="new-drP1">尊贵的主人：</p>
-                        <p class="new-drP2">
-                            白富美优质会员收信量大，开通钻石会员，获得白富美优质会员最高优先级交往机会哦！
-                        </p>
-                    </div>
-                    <div class="new-drBtns">
-                        <a href="javascript:jy_head_function.lbg_hide();" class="new-drBtn1">继续单身</a>
-                        <a href="http://www.jiayuan.com/usercp/dynmatch/ajax/usercp_good_user.php?buy=1&touid=138011499" class="new-drBtn2" onmousedown="send_jy_pv2('|1035177_18_bfm_o|');">马上联系</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
 </div>
 @endsection

@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
              $table->string('ischangework', 3)->nullable(); //0 不可能调动工作 1 可能
              $table->string('education', 2)->nullable();  //0 未选择 1小学  2初中 3高中 4专科 5本科 6硕士 7博士
              $table->date('birthday')->nullable();
-             $table->smallInteger('salary')->nullable()->default(0);
+             $table->smallInteger('income')->nullable()->default(0);
                                         /*  
                                             <option value="0">请选择</option>  
                                             <option label="2000元以下" value="1">2000元以下</option>
@@ -61,7 +61,9 @@ class CreateUsersTable extends Migration
                                             <option label="单位用车" value="5">单位用车</option>
                                             <option label="需要时购置" value="6">需要时购置</option>*/
              $table->smallInteger('nation')->nullable()->default(0);  
-                                           /* <option label="汉族" value="1">汉族</option>
+                                           /* 
+                                            <option value="0">--请选择--</option>
+                                           <option label="汉族" value="1">汉族</option>
                                             <option label="藏族" value="2">藏族</option>
                                             <option label="朝鲜族" value="3">朝鲜族</option>
                                             <option label="蒙古族" value="4">蒙古族</option>
@@ -97,7 +99,8 @@ class CreateUsersTable extends Migration
                                             <option label="有小孩归自己" value="2">有小孩归自己</option>
                                             <option label="有小孩归对方" value="3">有小孩归对方</option>
               */
-             $table->smallInteger('marriage_status')->nullable()->default(0);  //0 未选择 1未婚 2 离异  3丧偶
+             $table->smallInteger('marriage_status')->nullable()->default(0);  
+             //0 未选择 1未婚 2 离异  3丧偶
 
              //备用字段
              $table->string('ry_token', 255)->nullable();
