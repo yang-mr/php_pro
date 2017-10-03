@@ -84,12 +84,25 @@ Route::get('admin/adminCenter', 'Admin\AdminController@adminCenter')->name('admi
 
 Route::get('admin/adminVips', 'Admin\AdminController@adminVips')->name('admin_vip')->middleware('checkAdmin');
 
+Route::get('admin/checkOneselfs', 'Admin\AdminController@checkOneselfs')->name('admin_checkOneselfs')->middleware('checkAdmin');
+
+Route::get('admin/checkImgs', 'Admin\AdminController@checkImgs')->name('admin_checkImgs')->middleware('checkAdmin');
+
 Route::get('admin/adminGifts', 'Admin\AdminController@adminGifts')->name('admin_gift')->middleware('checkAdmin');
 
 Route::post('admin/add_gift', 'Admin\AdminController@addGift')->name('admin_add_gift');
 
 Route::post('admin/edit_gift', 'Admin\AdminController@editGift')->name('admin_edit_gift');
 
+Route::get('admin/operateOneself/{type}/{id?}', 'Admin\AdminController@operateOneself')->name('admin_operateOneself')->middleware('checkAdmin');
+
+Route::get('admin/admin_getOneselfs/{status}', 'Admin\AdminController@getOneselfs')->name('admin_getOneselfs')->middleware('checkAdmin');
+
+Route::group(['middleware' => 'checkAdmin', 'namespace' => 'Admin'], function () {
+    Route::get('/admin/getImgs/{status}', 'AdminController@getImgs')->name('getImgs');
+
+    Route::get('/admin/operateImg/{type}/{id?}', 'AdminController@operateImg')->name('operateImg'); 
+});
 /**
  * vip 业务
  */

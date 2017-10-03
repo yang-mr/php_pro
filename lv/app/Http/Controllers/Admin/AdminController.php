@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Model\Vip;
 use App\Model\Gift;
+use App\Model\Oneself;
+use App\Model\Img;
 
 use Redirect;
 
@@ -96,7 +98,6 @@ class AdminController extends Controller
         $data = array(
             'gifts' => $gifts,
             );
-        //var_dump($data);
         return view('admin.admin_center', $data);
     }
 
@@ -191,5 +192,108 @@ class AdminController extends Controller
             $msg['status'] = 0;
         }
         return json_encode($msg);
+    }
+
+    public function checkOneselfs()
+    {
+
+        $oneselfs = Oneself::where('status', 2)->paginate(12);
+        foreach ($oneselfs as $oneself) {
+            $user = User::find($oneself['user_id']);
+            $oneself['name'] = $user->name;
+            $oneself['sex'] = $user->sex;
+        }
+        $result['oneselfs'] = $oneselfs;
+        //var_dump($result);
+        return view('admin.admin_center', $result);
+    }
+
+    public function checkImgs()
+    {
+        $imgs = Img::where('status', 2)->paginate(12);
+        foreach ($imgs as $oneself) {
+            $user = User::find($oneself['user_id']);
+            $oneself['name'] = $user->name;
+            $oneself['sex'] = $user->sex;
+        }
+        $result['imgs'] = $imgs;
+        //var_dump($result);
+        return view('admin.admin_center', $result);
+    }
+
+    public function operateOneself($type = 0, $id = 0)
+    {
+        $result['status'] = 0;
+        if ($type == 1) {
+            //设置为通过
+            $tmp = Oneself::where('id', $id)->update(['status' => 1]);
+            if ($tmp) {
+                $result['status'] = 1;
+            } else {
+                $result['status'] = 0;
+            }
+        } else if ($type == 2) {
+            //设置为不通过
+            $tmp = Oneself::where('id', $id)->update(['status' => 0]);
+            if ($tmp) {
+                $result['status'] = 1;
+            } else {
+                $result['status'] = 0;
+            }
+        }
+        //var_dump($result);
+        return json_encode($result);
+    }
+
+    public function operateImg($type = 0, $id = 0)
+    {
+        $result['status'] = 0;
+        if ($type == 1) {
+            //设置为通过
+            $tmp = Img::where('id', $id)->update(['status' => 1]);
+            if ($tmp) {
+                $result['status'] = 1;
+            } else {
+                $result['status'] = 0;
+            }
+        } else if ($type == 2) {
+            //设置为不通过
+            $tmp = Img::where('id', $id)->update(['status' => 0]);
+            if ($tmp) {
+                $result['status'] = 1;
+            } else {
+                $result['status'] = 0;
+            }
+        }
+        //var_dump($result);
+        return json_encode($result);
+    }
+
+    public function getOneselfs($status = 0)
+    {
+        if ($status == 0 || $status == 1 || $status == 2) {
+            $oneselfs = Oneself::where('status', $status)->paginate(12);
+            foreach ($oneselfs as $oneself) {
+                $user = User::find($oneself['user_id']);
+                $oneself['name'] = $user->name;
+                $oneself['sex'] = $user->sex;
+                $oneself['avatar_url'] = Img::where('user_id', $user->id)->where('type', '0')->where('status', 1)->first(['img_url']);
+            }
+            return json_encode($oneselfs);
+        }
+    }
+
+    public function getImgs($status = 0)
+    {
+        if ($status == 0 || $status == 1 || $status == 2) {
+            $imgs = Img::where('status', $status)->paginate(12);
+            foreach ($imgs as $oneself) {
+                $user = User::find($oneself['user_id']);
+                $oneself['name'] = $user->name;
+                $oneself['sex'] = $user->sex;
+                $oneself['avatar_url'] = Img::where('user_id', $user->id)->where('type', '0')->where('status', 1)->first(['img_url']);
+            }
+            return json_encode($imgs);
+        }
     }
 }

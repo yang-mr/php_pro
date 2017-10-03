@@ -18,24 +18,9 @@
         $(".ico0").mouseover(function() {
             $("#info_div").show();
         });
+
+        $('#life_pic .showpic a').lightBox();
     });
-    var ie = navigator.userAgent.toLowerCase().indexOf('msie');
-    var isChanged = false;
-
-
-    function initAjax() {
-        var ajax = false;
-        if (window.XMLHttpRequest) {
-            ajax = new XMLHttpRequest();
-        } else {
-            try {
-                ajax = new ActiveXObject('Msxml2.XMLHTTP');
-            } catch (e) {
-                ajax = new ActiveXObject('Microsoft.XMLHTTP');
-            }
-        }
-        return ajax;
-    }
 
     function show_category(_id) {
         _obj = document.getElementById(_id);
@@ -82,14 +67,6 @@
         document.getElementById(_id).style.display = "none";
     }
 
-    function select_changed() {
-        isChanged = true;
-    }
-
-    function change(_num) {
-        isChanged = true;
-    }
-
     function check_count(_obj, _num) {
         var chks = document.getElementsByName(_obj.name);
         var count = 0;
@@ -104,277 +81,138 @@
             }
         }
     }
-    </script>
 
-    <script type="text/javascript">
-    var mtxx_type = "" //判断编辑的是头像还是生活照
-    var pid = ""; //当前照片id
-    var mtxx_img_url = "";
-    var mtxx_upload_url = "";
-    var xiuxiuInited = false;
-    var mtxx_pos = 0; //我的生活照中，当前编辑的美化图的位置
-    xiuxiu.setLaunchVars("uploadBtnLabel", "保存", "lite");
-    xiuxiu.setLaunchVars("language", "zh");
-    xiuxiu.embedSWF("altContent", 1, 700, 600, "lite");
-    xiuxiu.onInit = function(id) { xiuxiuInited = true; }
-    xiuxiu.onBeforeUpload = function(data, id) {
-        if (mtxx_type == 'pro') {
-            send_jy_pv2('|meitu_pro_m_submit|168103003');
-        }
-        if (mtxx_type == 'album') {
-            send_jy_pv2('|meitu_album_m_submit|168103003');
-        }
-        var size = data.size;
-        var limit = parseInt(my_getbyid('max_file_size').value);
-        if (size > limit) {
-            alert("优化后照片文件过大,图片不能超过5M");
-            return false;
-        }
+     var type = 0;
 
-        if (upload_pic_limit < 0) {
-            alert("亲，超出上传图片数目限制，请开通vip");
-            return false;
-        }
-        //        openDiv("uploading");
-        return true;
+    function beformOpenDiv(_id, _width, _height) {
+        this.type = 1;
+        this.openDiv(_id, _width, _height);
     }
 
-    xiuxiu.onUploadResponse = function(data) {
-        closeDiv("uploading");
-        //        alert(data);
-        alert('data');
-        var ptn_succes = /照片上传成功/i; //danten
-        if (ptn_succes.test(data)) {
-            //            alert(mtxx_pos);
-            if (pid) {
-                //                document.getElementById("upload_photo_iframe").src="/usercp/photodel.php?type=js&pid="+pid;
-                var url = "http://upload.jiayuan.com/usercp/photodel.php?type=js&pid=" + pid;
-                //                alert(url);
-                //                var xmlHttp;
-                //                try {    // Firefox, Opera 8.0+, Safari
-                //                    xmlHttp=new XMLHttpRequest();
-                //                } catch (e) {    // Internet Explorer
-                //                    try {
-                //                        xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-                //                    } catch (e) {
-                //                        try {
-                //                            xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-                //                        } catch (e) {
-                //                            alert("Your browser does not support AJAX!");
-                //                            return false;
-                //                        }
-                //                    }
-                //                }
-                //                xmlHttp.onreadystatechange=function(){
-                //                    if(xmlHttp.readyState==4 || xmlHttp.status==200){
-                //                        alert('响应成功'+xmlHttp.responseText);
-                //                    }else{alert('响应失败!');}
-                //                }
-                //                xmlHttp.open('GET',url,true);
-                ////                httpAdapter.setRequestHeader();
-                //                xmlHttp.send(null);
-            }
-            var jump_url = "http://upload.jiayuan.com/usercp/photo.php?mtxx_pos=" + mtxx_pos.toString(); //重刷是为了获得审核的图片
-            //            alert(jump_url);
-            //            document.write("\<script type=\'text\/javascript\'\>alert('照片上传成功，请等待审核~')\;self.parent.location.href=\'"+jump_url+"\';\<\/script\>");//避免删除弹窗
-            alert('照片上传成功，请等待审核~');
-            self.location.href = jump_url;
-        }
+    function beformOtherOpenDiv(_id, _width, _height) {
+        alert('jfkd');
+        this.type = 0;
+        var m = "mask";
+        if (document.getElementById(m)) document.body.removeChild(document.getElementById(m));
+        var newMask = document.createElement("div");
+        newMask.id = m;
+        newMask.style.position = "absolute";
+        newMask.style.zIndex = "1";
+        _scrollWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
+        _scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        newMask.style.width = _scrollWidth + "px";
+        newMask.style.height = _scrollHeight + "px";
+        newMask.style.top = "0px";
+        newMask.style.left = "0px";
+        newMask.style.background = "#33393C";
+        newMask.style.filter = "alpha(opacity=40)";
+        newMask.style.opacity = "0.30";
+        document.body.appendChild(newMask);
 
-    }
-
-    xiuxiu.onDebug = function(data, id) {
-        alert("错误响应" + data);
-    }
-    xiuxiu.onClose = function(id) {
-        //        $.uicommon.myself_fancybox_close();
-        closeDiv("mtxx-swf");
-        $("#mtxx-swf").html("<div id='altContent'></div>");
-        xiuxiuInited = false;
-    }
-
-    function mtxx_click(obj) {
-        if (mtxx_type == 'pro') {
-            send_jy_pv2('|meitu_pro_m_edit|168103003');
-        }
-        if (mtxx_type == 'album') {
-            send_jy_pv2('|meitu_album_m_edit|168103003');
-        }
-
-        mtxx_img_url = $(obj).parent().parent().find("#img_mt").attr('src');
-        var patn_img = /t.jpg|t.jpeg|t.gif|t.png/i; //t、d分别是审核后的小，大图，o是上传的原图(2010/11/03之后才有)。
-        var patn_pid = /\/([0-9]+)(t.jpg|t.jpeg|t.gif|t.png)/i;
-        if (patn_pid.test(mtxx_img_url)) {
-            pid = mtxx_img_url.match(patn_pid)[1];
-        }
-        var pos = mtxx_img_url.search(patn_img);
-        if (patn_img.test(mtxx_img_url)) {
-            mtxx_img_url = mtxx_img_url.substr(0, pos) + "d" + mtxx_img_url.substr(pos + 1);
-        }
-        if (pid) {
-            mtxx_upload_url = "http://upload.jiayuan.com/usercp/photoupload.php?type=js&pid=" + pid;
-        } else {
-            mtxx_upload_url = "http://upload.jiayuan.com/usercp/photoupload.php?type=js&uid=168103003";
-        }
-
-        //me test
-        mtxx_upload_url = "{{ route('upload_img') }}";
-        alert(mtxx_upload_url);
-
-        if (xiuxiuInited) {
-            var id = 'lite';
-            xiuxiu.loadPhoto(mtxx_img_url, false, id);
-            xiuxiu.setUploadURL(mtxx_upload_url, id);
-            xiuxiu.setUploadType(2, id); //表单上传 Content-type:multipart/form-data；
-            xiuxiu.setUploadDataFieldName("upload_file[]");
-            xiuxiu.setUploadArgs({}, id);
-        } else {
-
-            xiuxiu.setLaunchVars("uploadBtnLabel", "保存", "lite");
-            xiuxiu.setLaunchVars("language", "zh");
-            xiuxiu.embedSWF("altContent", 1, 700, 600, "lite");
-            xiuxiu.onInit = function(id) {
-                xiuxiu.loadPhoto(mtxx_img_url, false, id);
-                xiuxiu.setUploadURL(mtxx_upload_url, id);
-                xiuxiu.setUploadType(2, id); //表单上传 Content-type:multipart/form-data；
-                xiuxiu.setUploadDataFieldName("upload_file[]");
-                xiuxiu.setUploadArgs({}, id);
-            }
-        }
-
-        //        $.uicommon.myself_fancybox("#mtxx-swf");
-        openDiv("mtxx-swf", 700, 600); //弹层
-    }
-    </script>
-    <script type="text/javascript">
-    send_jy_pv2('|vip_entry_scgdzp_show|'); //统计上传更多照片vip入口的展示次数
-    function initAjax() {
-        var ajax = false;
-        if (window.XMLHttpRequest) {
-            ajax = new XMLHttpRequest();
-        } else {
-            try {
-                ajax = new ActiveXObject('Msxml2.XMLHTTP');
-            } catch (e) {
-                ajax = new ActiveXObject('Microsoft.XMLHTTP');
-            }
-        }
-        return ajax;
-    }
-    //add by liuwei at 2010-05-07
-    function clickCount(args) {
-
-        //var ajax = initAjax();
-        var url2 = location.href;
-        var i = "www";
-        if (/msn/.test(url2)) {
-            i = "msn";
-        }
-        if (/sina/.test(url2)) {
-            i = "sina";
-        }
-        //alert(i);
-        send_jy_pv2(i + "_change_button_upload_" + args);
-        //ajax.open("GET","/register/notecount.class.php?method=addPhotoChange&data="+args+"&url="+i,true);
-        //ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        //ajax.send(null);
-    }
-
-    function delavatar() {
-        if (confirm('删除头像照后，如果不上传新的头像照，在＂搜索有照片的人＂时，您将不会被搜到')) {
-            document.getElementById("upload_photo_iframe").src = '/usercp/avatardel.php?type=js&new=1';
-        }
-    }
-
-    function delphoto(pid) {
-        if (confirm('确认删除?')) {
-            document.getElementById("upload_photo_iframe").src = '/usercp/photodel.php?type=js&pid=' + pid;
-        }
-    }
-
-    function dohide(id, status) {
-        var xmlHttp;
-        try { // Firefox, Opera 8.0+, Safari    
-            xmlHttp = new XMLHttpRequest();
-        } catch (e) { // Internet Explorer    
-            try {
-                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-            } catch (e) {
-                try {
-                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-                } catch (e) {
-                    alert("Your browser does not support AJAX!");
-                    return false;
-                }
-            }
-        }
-        status = status ? 1 : 0;
-        url = '/usercp/photohide.php?id=' + id + '&hide=' + status;
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4) {
-                if (xmlHttp.responseText == 1) {
-                    alert('私密照片设置成功');
-                    my_getbyid('hidden_display_' + id).style.display = "";
-                    my_getbyid('hidden_control_' + id).style.display = "none";
-                    my_getbyid('unhidden_control_' + id).style.display = "";
-                    //my_getbyid('hidden_'+id).onclick=function(){dohide(id,0);}
-                } else if (xmlHttp.responseText == 0) {
-                    alert('公开照片设置成功');
-                    my_getbyid('hidden_display_' + id).style.display = "none";
-                    my_getbyid('hidden_control_' + id).style.display = "";
-                    my_getbyid('unhidden_control_' + id).style.display = "none";
-                    //my_getbyid('hidden_'+id).onclick=function(){dohide(id,1);}
-                } else {
-                    alert('操作失败');
-                }
-            }
-        }
-        xmlHttp.open("GET", url, true);
-        xmlHttp.send(null);
+        _width = _width ? _width : 488;
+        _height = _height ? _height : 314;
+        showDiv = document.getElementById(_id);
+        showDiv.style.display = "block";
+        showDiv.style.position = "absolute";
+        showDiv.style.zIndex = "9999";
+        showDivWidth = _width;
+        showDivHeight = _height;
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || 0;
+        showDiv.style.top = String(scrollTop + document.documentElement.clientHeight / 2 - showDivHeight / 2) + "px";
+        showDiv.style.left = (document.documentElement.scrollLeft + document.documentElement.clientWidth / 2 - showDivWidth / 2) + "px";
     }
 
     function upload_photo(index) {
-        if (index == 0) {
+        //type = 0 上传头像  type=1 上传生活照
+        if (index == 0 && this.type == 1) {
             if (check_form(0)) {
                 var upload_form = document.getElementById("frm_upload");
                 closeDiv("upload_photo");
                 openDiv("uploading");
                 var formData = new FormData($('#frm_upload')[0]);
-                   $.ajax({
-                cache: false,
-                type: "POST",
-                url:"{{ route('upload_img') }}",
-                data:formData,// 你的formid
-                async: false,
-                processData: false,  
-                dataType: 'json',
-                contentType: false,  
-                error: function(request) {
-                  alert('添加失败');
-                  closeDiv("uploading");
-                },
-                success: function(data) {
-                    closeDiv("uploading");
-                  if (data.status == 1) {
-                    //提交成功
-                    alert("提交成功");
-                    $('#test_hint').attr('src', data.img_url);
-                  } else if (data.status == 0) {
-                    alert("提交失败");
-                  } else if (data.status == 2) {
-                    //补全资料
-                  }
-                }
+                $.ajax({
+                    formData.append('type', 1);
+                    cache: false,
+                    type: "POST",
+                    url:"{{ route('upload_img') }}",
+                    data:formData,// 你的formid
+                    async: false,
+                    processData: false,  
+                    dataType: 'json',
+                    contentType: false,  
+                    error: function(request) {
+                      alert('添加失败');
+                      closeDiv("uploading");
+                    },
+                    success: function(data) {
+                        closeDiv("uploading");
+                      if (data.status == 1) {
+                        //提交成功
+                        alert("提交成功");
+                        var tmp = "";
+                        var files = data.files;
+                        for (var i = 0; i < files.data.length; i++) {
+                            var file = files[i];
+                            tmp += "<li class=\"nopic\">";
+                            tmp += "<div class=\"showpic\">";
+                            tmp += "<p><img src=\"" + file.img_url + "\" /></p>";
+                            tmp += "</div>";
+                            tmp += "<div class=\"pic_control_2\" style=\"padding:8px 0;\">";
+                            if (file.status == 0) {
+                                tmp += "<button class=\"upload_pic\">" + "审核中～" + "</button>";
+                            } else if (file.status == 1) {
+                                tmp += "<button class=\"upload_pic\">" + "删除" + "</button>";
+                            }
+                            tmp += "</div>";
+                            tmp += "</li>"
+                        }
+                        $('#life_pic').html(tmp);
+                      } else if (data.status == 0) {
+                        alert("上传图片失败");
+                      } else if (data.status == 2) {
+                        //补全资料
+                      }
+                    }
             });
-        }
-        } else {
-            if (check_form(1)) {
-                var upload_form = document.getElementById("wl_frm_upload");
+            }
+        } else if (index == 0 && this.type == 0) {
+            //上传头像
+            if (check_form(0)) {
+                var upload_form = document.getElementById("frm_upload");
                 closeDiv("upload_photo");
                 openDiv("uploading");
-                upload_form.submit();
+                var formData = new FormData($('#frm_upload')[0]);
+                formData.append('type', 0);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url:"{{ route('upload_img') }}",
+                    data:formData,// 你的formid
+                    async: false,
+                    processData: false,  
+                    dataType: 'json',
+                    contentType: false,  
+                    error: function(request) {
+                      alert('上传头像失败');
+                      closeDiv("uploading");
+                    },
+                    success: function(data) {
+                        closeDiv("uploading");
+                      if (data.status == 1) {
+                        //提交成功
+                        var tmp = "";
+                        var files = data.files;
+                       
+                        $('#life_pic').html(tmp);
+                      } else if (data.status == 0) {
+                        alert("上传图片失败");
+                      } else if (data.status == 2) {
+                        //补全资料
+                      }
+                    }
+                });
             }
-        }
+     }
     }
 
     function check_form(index) {
@@ -471,46 +309,6 @@
         }
     }
 
-    function add_file_item(index) //index是序列,对应获取元素ID
-    {
-        var wrap;
-        var text;
-        var htmlStr;
-        if (index == 0) {
-            wrap = document.getElementById('localPic');
-            htmlStr = '照片';
-            text = '：<input type="file" class="file uploadFile" name="upload_file[]" onchange="check_fileszie(this,0);" size="40" style="width:300px;" />'
-            add_item(wrap, 't')
-        } else if (index == 1) {
-            wrap = document.getElementById('networkPic');
-            htmlStr = '照片地址：';
-            text = '<input type="text" class="file uploadFile inputBg" name="wl_upload_file[]" onchange="check_fileszie(this,1);" size="40" style="width:275px;" />'
-            add_item(wrap)
-        }
-
-        function add_item(w, num) //w:父元素,num:是否显示index_num
-        {
-            var files = getElementsByClassName(w, 'uploadFile')
-            var index_num;
-            if (num) { index_num = files.length + 1 } else { index_num = '' }
-            var newfile = document.createElement("dd");
-            var oContainter = getElementsByClassName(w, 'upfile_containter')[0]
-            oContainter.appendChild(newfile);
-            htmlStr += index_num + text;
-            newfile.innerHTML = htmlStr;
-        }
-    }
-
-    function del_file_item() {
-        var oContainter = document.getElementById("upfile_containter");
-        var lastChild = oContainter.lastChild;
-        oContainter.removeChild(lastChild);
-    }
-
-    $(function() {
-        $('#life_pic .showpic a').lightBox();
-    });
-
     function skip() {
         if (isChanged) {
             if (confirm("您尚有未保存的资料，确定要离开吗？")) {
@@ -533,75 +331,7 @@
 
     }
 
-    function photo_desc_sub(_uid, _pid) {
-        var _desc = document.getElementById("desc_text_" + _pid).value;
-        if (_desc == "") {
-            alert("请输入照片描述！");
-            document.getElementById("desc_text_" + _pid).focus();
-            return false;
-        }
-
-        if (_desc.length > 20) {
-            alert("照片描述最多只能输入20个字符！");
-            document.getElementById("desc_text_" + _pid).focus();
-            return false;
-        }
-
-        var _rd = Math.ceil((new Date().getTime() - 1262164318867) / 100);
-
-        var xmlHttp_desc = initAjax();
-        var url = 'photodesc.php?uid=' + _uid + '&pid=' + _pid + '&rd=' + _rd;
-        xmlHttp_desc.onreadystatechange = function() {
-            if (xmlHttp_desc.readyState == 4) {
-                if (xmlHttp_desc.status == 200) {
-                    var text = xmlHttp_desc.responseText;
-                    if (text == "1") {
-                        alert("操作成功！通过审核后显示！");
-                        close_edit_photo_desc(_pid);
-                        document.getElementById("desc_title_" + _pid).className = "on";
-                        document.getElementById("desc_title_" + _pid).onclick = "";
-                        document.getElementById("desc_title_" + _pid).innerHTML = "修改描述";
-                        document.getElementById("desc_show_span_" + _pid).innerHTML = _desc;
-                    } else {
-                        alert("操作失败！");
-                        alert(text);
-                        close_edit_photo_desc(_pid);
-                    }
-                }
-            }
-        };
-        xmlHttp_desc.open("POST", url, true);
-        xmlHttp_desc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xmlHttp_desc.send("photo_desc=" + _desc);
-    }
-    /***
-     * 说明：添加了文本输入框字符个数限制
-     * 作者：闫争棵
-     * 日期：2014-01-06
-     * 参数：pid int textaId
-     *      num int strNum
-     * 返回：boll 
-     */
-    function verify_str_num(pid, num) {
-        var desc = document.getElementById("desc_text_" + pid).value;
-        var num = typeof num == 'undefined' ? 20 : parseInt(num);
-        if (desc.length > num) {
-            var newstr = desc.substr(0, 20);
-            document.getElementById("desc_text_" + pid).value = newstr;
-            alert("照片描述最多只能输入" + num + "个字符！");
-            document.getElementById("desc_text_" + pid).focus();
-            return false;
-        }
-        return true;
-    }
-    </script>
-
-     <!--</div>-->
-    <script type="text/javascript">
-
     var DKL = my_getbyid;
-    var nowPrivacy = 1;
-    var nowPassWord = '';
     var start = false;
     var nowFxkjSet = 'off';
 
@@ -649,136 +379,8 @@
         id = 'privacy_' + nowPrivacy;
         DKL(id).checked = 'checked';
     }
-
-    function save_photo_privacy_set(value, pass, fxkj) {
-        if (value < 1 || value > 5) {
-            alert('设置参数错误！');
-            return;
-        }
-        var param = '?value=' + value;
-        if (value == 4) {
-            var have_pw = 0,
-                have_fxkj = 0;
-            if (pass.length > 0 && pass != nowPassWord) {
-                if (/=|&|#|\s/.test(pass)) {
-                    alert('爱情密码中含有非法字符！');
-                    return;
-                }
-                if (/[\u4E00-\u9FA5]/g.test(pass)) {
-                    alert('爱情密码中请不要包含中文汉字');
-                    return;
-                }
-                param += '&pass=' + pass;
-                have_pw = 1;
-            }
-            if (fxkj.length > 1 && fxkj != nowFxkjSet) {
-                if (fxkj != 'on' && fxkj != 'off') {
-                    alert('主动发信对方可见选项设置错误！');
-                    return;
-                }
-                param += '&fxkj_set=' + fxkj;
-                have_fxkj = 1;
-            }
-            if (have_pw == 0 && have_fxkj == 0 && nowPrivacy == 4) {
-                alert('需要爱情密码选项设置未改变！');
-                return;
-            }
-        }
-        if (start == true) { return; }
-        var xmlHttp = initAjax();
-        if (typeof(xmlHttp) != "object") {
-            alert("Your browser does not support ajax");
-            return;
-        }
-        start = true;
-        var url = "save_privacy.php" + param;
-        if (start) {
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                    var Result = xmlHttp.responseText;
-                    Result = Math.ceil(Result);
-                    if (Result == -1) {
-                        alert('登录已超时，请登录后再修改！');
-                    }
-                    if (Result == -2) {
-                        alert('照片隐私设置参数无效！');
-                    }
-                    if (Result == -4) {
-                        alert('爱情密码中请不要包含中文汉字! ');
-                    }
-                    if (Result == 0) {
-                        nowPrivacy = value;
-                        if (value == 4) {
-                            if (have_pw == 1) {
-                                nowPassWord = pass;
-                            }
-                            if (have_fxkj == 1) {
-                                nowFxkjSet = fxkj;
-                                if (fxkj == 'on') {
-                                    DKL('fxkj_set_1').checked = true;
-                                    DKL('fxkj_set_2').checked = true;
-                                } else {
-                                    DKL('fxkj_set_1').checked = false;
-                                    DKL('fxkj_set_2').checked = false;
-                                }
-                            }
-                        }
-                        if (value == 4) {
-                            closeDiv('photo_set_mask_4_1');
-                            closeDiv('photo_set_mask_4_2');
-                        } else {
-                            var id = get_photo_privacy_set_div_id(value, nowPrivacy);
-                            closeDiv(id);
-                        }
-                        openDiv('photo_set_mask_close');
-                        changePasswordShow();
-                    }
-                    start = false;
-                }
-            }
-            xmlHttp.open("GET", url, true);
-            xmlHttp.send(null);
-        }
-    }
-
-    function save_photo_privacy_password(which) {
-        if (which != 1 && which != 2) {
-            return -1;
-        }
-        var sendmailsetId = 'fxkj_set_' + which;
-        var fxkj_set;
-        if (DKL(sendmailsetId).checked) {
-            fxkj_set = 'on';
-        } else {
-            fxkj_set = 'off';
-        }
-        if (fxkj_set == nowFxkjSet) {
-            fxkj_set = '';
-        }
-        if (which == 1) {
-            var passwordId = 'password_' + which;
-            var password = DKL(passwordId).value;
-        } else {
-            var password = '';
-        }
-
-        save_photo_privacy_set(4, password, fxkj_set);
-    }
-
-    function changePasswordShow() {
-        DKL('showPass').innerHTML = nowPassWord;
-        DKL('showPass2').innerHTML = nowPassWord;
-        DKL('password_1').value = nowPassWord;
-        if (nowPrivacy == 4) {
-            DKL('show_password').style.display = '';
-        } else {
-            DKL('show_password').style.display = 'none';
-        }
-    }
     </script>
-</head>
 
-<body>
     <div class="my_infomation">
         <div class="navigation"><a href="{{ route('home') }}" onmousedown="send_jy_pv2('editprofile|my_home|m|168103003');">个人中心</a>&nbsp;&gt;&nbsp;我的照片</div>
         <div class="borderbg"><img src="{{ asset('img/home/border_top.jpg') }}" /></div>
@@ -862,18 +464,19 @@
                         <p class="info_note">资料越完善，同等条件我们将优先推荐您哦~</p>
                         <div class="pic" style="position: relative;">
                             <h2>我的头像照</h2>
-                            <div class="image"> <img id="img_mt" src="http://images1.jyimg.com/w4/global/i/zwzp_m_bp.jpg" width=120 height=120 />
+                            <div class="image">
+                                <img id="img_mt" src="{{ $user['avatar'] or asset('img/default_avatar.png') }}" width=120 height=120 />
                             </div>
                             <!--mtxx fix-->
                             <p class="mt2">
-                                <a onClick="openDiv('upload_photo', 560, 400);" onmousedown="send_jy_pv2('editprofile|uploadphoto|m|168103003');" href="javascript:;">上传照片</a>
+                                <a onClick="beformOpenDiv('upload_photo', 560, 400);" href="javascript:;">上传照片</a>
                             </p>
                             <!--mtxx fix-->
                         </div>
                         <!-- new pic_notice begin-->
                         <div class="new_pic_notice" style="float:right;">
                             <p class="WLclearfix">
-                                <a href="http://upload.jiayuan.com/register/step_new_2.php?to_url=http://www.jiayuan.com/usercp/photo.php" target="_blank" onclick="clickCount(1);" onmousedown="send_jy_pv2('editprofile|change_avatar|m|168103003');" class="new_add_photo"></a><a onClick="openDiv('monolog_div', 709, 490);" class="wl-ml13" href="javascript:;">如何上传好照片</a>
+                                <a href="#" onClick="beformOpenDiv('upload_photo', 560, 400);" class="new_add_photo"></a><a onClick="openDiv('monolog_div', 709, 490);" class="wl-ml13" href="javascript:;">如何上传好照片</a>
                             </p>
                             <ul class="notice-refers">
                                 <li>有照片会员，收到的<span>信件</span>比没照片的会员多<span>11倍</span></li>
@@ -882,61 +485,39 @@
                         <!-- new pic_notice end-->
                         <!-- old pic_notice begin-->
                         <div class="pic_notice" style="display:none;">
-                            <a onClick="openDiv('upload_photo', 560, 400);" onmousedown="send_jy_pv2('editprofile|uploadphoto|m|168103003');" href="javascript:;" class="add_photo">上传照片</a><a onClick="openDiv('monolog_div', 709, 490);" href="javascript:;" style="color:#0066CD; text-decoration:underline;" class="up_photo ">如何上传好照片</a>
+                            <a onClick="openDiv('upload_photo', 560, 400);" href="javascript:;" class="add_photo">上传照片</a><a onClick="openDiv('monolog_div', 709, 490);" href="javascript:;" style="color:#0066CD; text-decoration:underline;" class="up_photo ">如何上传好照片</a>
                         </div>
                         <!-- 我的生活照 -->
                         <!-- old pic_notice end-->
                         <div class="life_pic">
                             <h2>我的生活照</h2>
                             <ul id="life_pic">
-                                <li class="nopic">
-                                    <div class="showpic">
-                                        <p><img id="test_hint" src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
-                                    </div>
-                                    <div class="pic_control_2" style="padding:8px 0;">
-                                        <input type="button" class="upload_pic" value="" onClick="openDiv('upload_photo', 560, 400);" />
-                                    </div>
-                                </li>
-                                <li class="nopic">
-                                    <div class="showpic">
-                                        <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
-                                    </div>
-                                    <div class="pic_control_2" style="padding:8px 0;">
-                                        <input type="button" class="upload_pic" value="" onClick="openDiv('upload_photo', 560, 400);" />
-                                    </div>
-                                </li>
-                                <li class="nopic">
-                                    <div class="showpic">
-                                        <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
-                                    </div>
-                                    <div class="pic_control_2" style="padding:8px 0;">
-                                        <input type="button" class="upload_pic" value="" onClick="openDiv('upload_photo', 560, 400);" />
-                                    </div>
-                                </li>
-                                <li class="nopic">
-                                    <div class="showpic">
-                                        <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
-                                    </div>
-                                    <div class="pic_control_2" style="padding:8px 0;">
-                                        <input type="button" class="upload_pic" value="" onClick="openDiv('upload_photo', 560, 400);" />
-                                    </div>
-                                </li>
-                                <li class="nopic">
-                                    <div class="showpic">
-                                        <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
-                                    </div>
-                                    <div class="pic_control_2" style="padding:8px 0;">
-                                        <input type="button" class="upload_pic" value="" onClick="openDiv('upload_photo', 560, 400);" />
-                                    </div>
-                                </li>
-                                <li class="nopic">
-                                    <div class="showpic">
-                                        <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="openDiv('upload_photo', 560, 400);" /></p>
-                                    </div>
-                                    <div class="pic_control_2" style="padding:8px 0;">
-                                        <input type="button" class="upload_pic" value="" onClick="openDiv('upload_photo', 560, 400);" />
-                                    </div>
-                                </li>
+                                @if (!empty($files['data']))
+                                    @foreach ($files['data'] as $file)
+                                         <li class="nopic">
+                                            <div class="showpic">
+                                                <p><img src="{{ $file['img_url'] }}" onClick="openDiv('upload_photo', 560, 400);" /></p>
+                                            </div>
+                                            <div class="pic_control_2" style="padding:8px 0;">
+                                                @if ($file['status'] == 0)
+                                                    <button class="upload_pic">审核中~</button>
+                                                @else if ($file['status'] == 1)
+                                                    <button class="upload_pic">删除</button>
+                                                @endif
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                @endif
+                                @for ($i = 0; $i < 6 - count($files['data']); $i++)
+                                     <li class="nopic">
+                                        <div class="showpic">
+                                            <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="beformOtherOpenDiv('upload_photo', 560, 400);" /></p>
+                                        </div>
+                                        <div class="pic_control_2" style="padding:8px 0;">
+                                            <input type="button" class="upload_pic" value="" onClick="beformOtherOpenDiv('upload_photo', 560, 400);" />
+                                        </div>
+                                    </li>
+                                @endfor
                             </ul>
                             <div class="cross"></div>
                         </div>
@@ -989,20 +570,11 @@
                     <div id="iframe_loading" style="position: absolute;"><img id="loading_focus" src="http://images1.jyimg.com/w4/profile_new/i/loading.gif" /></div>
                 </div>
             </div>
-            <!--弹出层 end-->
-            <!-- 中间结束 -->
-            <!-- 右边开始 -->
-            <!--[if lte IE 6]>
-        <script type="text/javascript" src="http://images1.jyimg.com/w4/msg/js/dd_belatedpng.js?09153"></script>
-        <script>
-            DD_belatedPNG.fix('.ie6png');
-        </script>
-        <![endif]-->
             <div class="info_right">
-                <h2>资料完整度：<span class="span101203_1">45.5分</span></h2>
+                <h2>资料完整度：<span class="span101203_1">{{$score}}分</span></h2>
                 <div class="integrality">
-                    <div class="plan" style="width:45.5%;">
-                        <div class="progress_jindu">45.5</div>
+                    <div class="plan" style="width:{{$score}}%;">
+                        <div class="progress_jindu">{{$score}}</div>
                         &nbsp;
                     </div>
                     <div style="left:90%;" class="progress_modelMain">
@@ -1014,7 +586,7 @@
                     </div>
                 </div>
                 <div class="pre_fen">
-                    达到85分可得到优先推荐的资格哦~
+                    达到90分可得到优先推荐的资格哦~
                 </div>
                 <div class="preview">
                     <a href="{{ route('base_mean') }}">去补充基本资料</a>
@@ -1026,23 +598,12 @@
                 </div>
                 <div class="whybg"></div>
                 &nbsp;&nbsp;
-                <div id="ad_pos_14"></div>
-                <script type='text/javascript' src='http://ads.jiayuan.com/ad.php?pd_id=7'></script>
             </div>
             <!-- 右边结束 -->
         </div>
         <div class="borderbg"><img src="http://images1.jyimg.com/w4/usercp/i/border_bottom.jpg" /></div>
     </div>
-    <!-- 照片描述 -->
-    <div id="photo_describe" class="photo_describe" style="display:none;">
-        <div class="float_content">
-            <div class="div_title"><strong>照片描述</strong><img src="http://images1.jyimg.com/w4/usercp/i/new_uploadPic/close.png" alt="关闭" onClick="closeDiv('photo_describe');" /></div>
-            <div class="describe_content">
-                <p>照片描述功能仅对星级会员开放，您还不是星级会员，马上升级，获得更多特权！</p>
-                <p><a href="http://www.jiayuan.com/usercp/validateemail/certificate.php" target="_blank" onmousedown="send_jy_pv2('editprofile|goto_validate|m|168103003');"><img src="http://images1.jyimg.com/w4/usercp/i/update.jpg" alt="现在去升级" /></a>&nbsp;&nbsp;<a href="javascript:closeDiv('photo_describe');"><img src="http://images1.jyimg.com/w4/usercp/i/cancel.jpg" alt="取消" /></a></p>
-            </div>
-        </div>
-    </div>
+
     <!-- 上传照片 -->
     <iframe id="upload_photo_iframe" name="upload_photo_iframe" style="width:0px;height:0px;display:none;"></iframe>
     <div class="upload_photo" style="display:none;" id="upload_photo">
@@ -1053,7 +614,6 @@
             <div class="uploadNav">
                 <ul class="clearfix">
                     <li class="upSelected"><a href="javascript:;">本地照片</a></li>
-                    <li><a href="javascript:;">网络照片</a></li>
                 </ul>
             </div>
             <!--照片导航 E-->
@@ -1070,12 +630,11 @@
                                 <td width="350">
                                     <dl id="upfile_containter" class="upfile_containter">
                                         <dt>选择要上传的照片：</dt>
-                                        <dd>照片1：
+                                        <dd>
                                             <input type="file" class="file uploadFile" name="upload_file[]" onchange="check_fileszie(this,0);" size="40" style="width:300px;" />
                                         </dd>
                                     </dl>
                                 </td>
-                                <td width="180" valign="bottom" style="padding-bottom:7px; padding-bottom:5px;padding-bottom:10px;"><span onClick="add_file_item(0)">更多</span></td>
                             </tr>
                             <tr>
                                 <td colspan="2">
@@ -1095,46 +654,9 @@
                     </div>
                 </div>
                 <!--本地照片 E-->
-                <!--网络照片 B-->
-                <div class="networkPic" id="networkPic">
-                    <form name="wl_frm_upload" id="wl_frm_upload" method="post" action="http://upload.jiayuan.com/usercp/photoupload_byurl.php?type=js" target="upload_photo_iframe">
-                        <table cellpadding="0" cellspacing="0" width="100%">
-                            <input type="hidden" name="MAX_FILE_SIZE" id="wl_max_file_size" value="5242880" />
-                            <input type="hidden" name="upload_quick" id="wl_upload_quick" value="0" />
-                            <img id="wl_oFileChecker" style="width:0px;height:0px" onload="check_photo_size(1)" />
-                            <tr>
-                                <td width="350">
-                                    <dl id="wl_upfile_containter" class="upfile_containter">
-                                        <dt></dt>
-                                        <dd>照片地址：
-                                            <input type="text" class="file uploadFile inputBg" name="wl_upload_file[]" onchange="check_fileszie(this,1);" size="40" style="width:275px;" />
-                                        </dd>
-                                    </dl>
-                                </td>
-                                <td width="180" valign="bottom" style="padding-bottom:7px; padding-bottom:5px;padding-bottom:10px;"><span onClick="add_file_item(1)">更多</span></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="button" class="shangchuan" value="上传照片" onmousedown="send_jy_pv2('|zpscyd_photo_wlzptc_sczp_rc|');send_jy_pv2('|zpscyd_photo_wlzptc_sczp_rs|168103003');" onClick="document.getElementById('wl_upload_quick').value='0';upload_photo(1);" />
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                    <div>
-                        <strong>温馨提示：</strong>
-                        <p>1、您可以将网络相册、空间或博客相册中的照片上传至佳缘相册，照片格式应为：jpg、jpeg、gif、png；大小不超过5MB。</p>
-                        <p>2、照片粘贴方法：在照片上点击右键，选择“复制图片地址”或“属性-地址”，将图片地址粘贴至输入框中，以http://开始，以.jpg/.jpeg/.gif/.png结束。</p>
-                        <p>3、部分网络照片可能由于禁止外链、有其他水印等原因无法上传，敬请谅解。</p>
-                        <p>4、请勿上传：非本人、背影、与现年龄不符、裸露、军装照和带有政治色彩的照片，否则将予以删除，并将取消赠送看信宝。</p>
-                    </div>
-                </div>
-                <!--网络照片 E-->
             </div>
         </div>
     </div>
-
-    <!-- 显示图片   -->
-
    
     <!-- 如何上传好照片 -->
     <div class="monolog_div" id="monolog_div" style="display:none;">
@@ -1272,7 +794,7 @@
                 <p class="l">
                     <input name="fxkj_set_2" style="display:none" id="fxkj_set_2" type="checkbox" />
                     <!--我主动发信联系的人，无需密码即可看到我的照片。<br/>-->
-                    您现在的爱情密码：<strong id='showPass'><script>document.write(nowPassWord)</script></strong>，如需修改请<a href="javascript:closeDiv('photo_set_mask_4_2');openDiv('photo_set_mask_4_1')">点这里</a></p>
+                    您现在的爱情密码：<strong id='showPass'></strong>，如需修改请<a href="javascript:closeDiv('photo_set_mask_4_2');openDiv('photo_set_mask_4_1')">点这里</a></p>
                 <p class="btn"><a href="javascript:save_photo_privacy_password(2);">确 定</a><a href="javascript:close_photo_privacy_set_div('photo_set_mask_4_2')" class="lan">取 消</a></p>
             </div>
         </div>
@@ -1284,7 +806,6 @@
             <div class="bg100627_in"></div>
             <b class="bg100625_l l100625_4"></b><b class="bg100625_l l100625_3"></b><b class="bg100625_l l100625_2"></b><b class="bg100625_l l100625_1"></b>
         </div>
-        <!--圆角矩形背景层 结束-->
         <div class="float_content">
             <div class="div_title"><strong>照片显示权限设置</strong><img src="http://images1.jyimg.com/w4/usercp/i/close.jpg" alt="关闭" onClick="close_photo_privacy_set_div('photo_set_mask_close')" /></div>
             <div class="div091014inbox">
@@ -1296,10 +817,6 @@
     </div>
 @endsection
 
-@section('right_content')
-    <div class="home_right_content">
-        
-    </div>
-@endsection
+
 
    

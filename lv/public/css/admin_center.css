@@ -54,7 +54,7 @@ nav a:hover {
 }
 
 #content {
-    margin-left: 120px;
+    margin-left: 180px;
     margin-top: 50px;
     float: left;
     width: 1000px;
@@ -140,8 +140,16 @@ a {
   float: left;
 }
 
+#oneself_ul li a {
+    background-color: gray;
+    float: left;
+    width: 30%;
+    padding: 10px;
+}
 
-
+.selected {
+    background-color: red;
+}
 
 /*
     分页

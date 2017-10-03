@@ -165,7 +165,11 @@ class HomeController extends Controller
      */
     public function editImg(Request $request)
     {   
-        return view('home.user_img');
+        $user = auth()->user(['score']);
+        $id = $user->id;
+        $user['avatar'] = Img::where('user_id', $id)->where('type', 0)->get(['status', 'img_url'])->toArray();
+        $user['files'] = Img::where('user_id', $id)->where('type', 1)->paginate(6)->toArray();
+        return view('home.user_img', $user);
     }
 
     public function uploadImg(Request $request)
@@ -174,8 +178,10 @@ class HomeController extends Controller
             $files = $request->file('upload_file');
             $result;
             $result['status'] = '1';
+            $result['files'] = [];
 
-            foreach ($files as $file) {
+            for ($i=0; $i < count($files); $i++) { 
+                $file = $files[$i];
                 if($file->isValid()){  
                 //获取原文件名  
                 $originalName = $file->getClientOriginalName();  
@@ -196,12 +202,16 @@ class HomeController extends Controller
                 $img->img_url = $realname;
 
                 $tmp = $img->save();
-                if (!$tmp) {
-                     $result['status'] = '0';
+                if ($tmp) {
+                   $imgs = Img::where('user_id', $id)->where('type', 1)->paginate(6);
+                   
+                   $result['files'] = $imgs->toArray(); 
+                } else {
+                   $result['status'] = '0';
                 }
-                $result['img_url'] = $realname;
-                }
+               // $result['img_url'] = $realname;
             }
+          }
            //var_dump(json_encode($result));
             return json_encode($result);
     }

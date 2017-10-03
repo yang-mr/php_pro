@@ -47,8 +47,136 @@
           $('#dialog').addClass('bounceOutUp').fadeOut();
         });
       });
-
     });
+
+    /*
+    *操作处理审核通过或者失败
+    */
+    function oneselfPass(path) {
+      $.ajax({
+                cache: false,
+                type: "GET",
+                url:path,
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                contentType: false,  
+                error: function(request) {
+                  alert('操作失败');
+                },
+                success: function(data) {
+                  if (data.status == 1) {
+                    //提交成功
+                    window.location.reload();  //刷新当前界面
+                    alert("操作成功");
+                  } else if (data.status == 0) {
+                    alert("操作失败");
+                  }
+                }
+            });
+    }
+
+    function operateImg(path) {
+      $.ajax({
+                cache: false,
+                type: "GET",
+                url:path,
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                contentType: false,  
+                error: function(request) {
+                  alert('操作失败');
+                },
+                success: function(data) {
+                  if (data.status == 1) {
+                    //提交成功
+                    window.location.reload();  //刷新当前界面
+                    alert("操作成功");
+                  } else if (data.status == 0) {
+                    alert("操作失败");
+                  }
+                }
+            });
+    }
+
+    function getOneselfs(obj, path) {
+         var hint = $(obj).text();
+         $.ajax({
+                cache: false,
+                type: "GET",
+                url:path,
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                contentType: false,  
+                error: function(request) {
+                  alert('操作失败');
+                },
+                success: function(data) {
+                  var datas = data.data;
+                  var length = datas.length;
+                  var tmp = '';
+                  for (var i = 0; i < length; i++) {
+                    var oneself = datas[i];
+                    var avatar_url = oneself['avatar_url'];
+                    if (avatar_url == null) {
+                      avatar_url = "{{ asset('img/default_avatar.png') }}";
+                    }
+                    tmp += "<div class=\"user\">";
+                    tmp += "<img src=\"" + avatar_url + "\" />";
+                    tmp += "<div class=\"title_desc\"><div class=\"title\">" + oneself['name'] + "</div>";
+                    tmp += "<div class=\"desc\">" + oneself['description'] + "</div></div>"; 
+                    if (hint == '待审核') {
+                       tmp += "<div class=\"admin_operate\"><ul><li><a href=\"javascript:;\" onClick=\"oneselfPass('{{ route('admin_operateOneself', 1)}}/" + oneself['id'] + "')\">通过</a>";
+                        tmp += "</li><li><a href=\"javascript:;\" onClick=\"oneselfPass('{{ route('admin_operateOneself', 2)}}/" + oneself['id'] + "')\">不通过</a>";
+                        tmp += "</li></ul></div>";
+                    }
+                    tmp += "</div><div class=\"clear\"></div>";
+                  }
+                  $('#content_users').html(tmp);
+                }
+            });
+    }
+                            
+    function getImgs(obj, path) {
+      var hint = $(obj).text();
+      $.ajax({
+                cache: false,
+                type: "GET",
+                url:path,
+                async: false,
+                processData: false,  
+                dataType: 'json',
+                contentType: false,  
+                error: function(request) {
+                  alert('操作失败');
+                },
+                success: function(data) {
+                  var datas = data.data;
+                  var length = datas.length;
+                  var tmp = '';
+                  for (var i = 0; i < length; i++) {
+                    var oneself = datas[i];
+                    var avatar_url = oneself['avatar_url'];
+                    if (avatar_url == null) {
+                      avatar_url = "{{ asset('img/default_avatar.png') }}";
+                    }
+                    tmp += "<div class=\"user\">";
+                    tmp += "<img src=\"" + avatar_url + "\" />";
+                    tmp += "<div class=\"title_desc\"><div class=\"title\">" + oneself['name'] + "</div>";
+                    tmp += "<div class=\"desc\">" + "<img src=\"" + oneself['img_url'] + "\" />" + "</div></div></div>";
+                    if (hint == '待审核') {
+                       tmp += "<div class=\"admin_operate\"><ul><li><a href=\"javascript:;\" onClick=\"operateImg('{{ route('operateImg', 1)}}/" + oneself['id'] + "')\">通过</a>";
+                        tmp += "</li><li><a href=\"javascript:;\" onClick=\"operateImg('{{ route('operateImg', 2)}}/" + oneself['id'] + "')\">不通过</a>";
+                        tmp += "</li></ul></div>";
+                    }
+                    tmp += "<div class=\"clear\"></div>";
+                  }
+                  $('#content_users').html(tmp);
+                }
+            });
+    }
 
     function addOrUpdate() {
       alert(type);
@@ -151,6 +279,8 @@
                    <li><a href="{{ route('admin_center') }}">用户管理</a></li>
                    <li><a href="{{ route('admin_vip') }}">VIP管理</a></li>
                    <li><a href="{{ route('admin_gift') }}">GIFT管理</a></li>
+                   <li><a href="{{ route('admin_checkOneselfs') }}">审核用户个人介绍</a></li>
+                   <li><a href="{{ route('admin_checkImgs') }}">审核用户图片</a></li>
                </ul>
            </div>
         </nav>
@@ -239,6 +369,106 @@
                  </div>
             </div>
             @endif
+
+              @if(isset($oneselfs))
+              <div>
+                <ul id="oneself_ul">
+                  <li><a href="javascript:;" onClick="getOneselfs(this, '{{ route('admin_getOneselfs', 2) }}')">待审核</a></li>
+                  <li><a href="javascript:;" onClick="getOneselfs(this, '{{ route('admin_getOneselfs', 1) }}')">审核通过</a></li>
+                  <li><a href="javascript:;" onClick="getOneselfs(this, '{{ route('admin_getOneselfs', 0) }}')">审核失败</a></li>
+                </ul>
+              </div>
+            <div id="content_users">
+                @foreach ($oneselfs as $oneself)
+                  <div class="user">
+                      <img src="{{ $oneself->avatar_url or asset('img/default_avatar.png') }}" />
+                      <div class="title_desc">
+                        <div class="title">
+                          {{ $oneself['name']}} 
+                          @if ($oneself['sex'] == 0)
+                          女
+                          @else 
+                          男
+                          @endif
+                        </div>
+                        <div class="desc">
+                          {{ $oneself->description }}
+                        </div>
+                      </div>
+                       <div class="admin_operate">
+                          <ul> 
+                            <li>
+                              <a href="javascript:;" onClick="oneselfPass('{{ route('admin_operateOneself', [1, $oneself['id']])}}')">通过</a>
+                            </li>
+                            <li>
+                              <a href="javascript:;" onClick="oneselfPass('{{ route('admin_operateOneself', [2, $oneself['id']])}}')">不通过</a>
+                            </li>
+                            <li>
+                              <a href="#">忽略</a>
+                            </li>
+                          </ul>
+                        </div>
+                  </div>
+                  <div class="clear"></div>
+                @endforeach
+                 <div class="pull-right">
+                        {{ $oneselfs->links() }}
+                 </div>
+                @endif
+
+
+              @if(isset($imgs))
+              <div>
+                <ul id="oneself_ul">
+                  <li><a href="javascript:;" onClick="getImgs(this, '{{ route('getImgs', 2) }}')">待审核</a></li>
+                  <li><a href="javascript:;" onClick="getImgs(this, '{{ route('getImgs', 1) }}')">审核通过</a></li>
+                  <li><a href="javascript:;" onClick="getImgs(this, '{{ route('getImgs', 0) }}')">审核失败</a></li>
+                </ul>
+              </div>
+            <div id="content_users">
+                @foreach ($imgs as $oneself)
+                  <div class="user">
+                      <img src="{{ $oneself->avatar_url or asset('img/default_avatar.png') }}" />
+                      <div class="title_desc">
+                        <div class="title">
+                          {{ $oneself['name']}} 
+                          @if ($oneself['sex'] == 0)
+                          女
+                          @else 
+                          男
+                          @endif
+
+                          @if ($oneself['type'] == 0)
+                          头像
+                          @else 
+                          生活照
+                          @endif
+                          <a href="#">看大图</a>
+                        </div>
+                        <div class="desc">
+                          <img src="{{ $oneself->img_url }}" />
+                        </div>
+                      </div>
+                       <div class="admin_operate">
+                          <ul> 
+                            <li>
+                              <a href="javascript:;" onClick="operateImg('{{ route('operateImg', [1, $oneself['id']])}}')">通过</a>
+                            </li>
+                            <li>
+                              <a href="javascript:;" onClick="operateImg('{{ route('operateImg', [2, $oneself['id']])}}')">不通过</a>
+                            </li>
+                            <li>
+                              <a href="#">忽略</a>
+                            </li>
+                          </ul>
+                        </div>
+                  </div>
+                  <div class="clear"></div>
+                @endforeach
+                 <div class="pull-right">
+                        {{ $imgs->links() }}
+                 </div>
+                @endif
 
               <div id="dialogBg"></div>
               <div id="dialog" class="animated">

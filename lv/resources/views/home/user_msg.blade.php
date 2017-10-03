@@ -908,6 +908,7 @@
                                         <td class="item"><span class="ico_stars">*</span><span style="color:#666;">身高：</span></td>
                                         <td id="show_height">
                                             <select name="height" id="height" class="select1" onChange="select_changed()" disabled="disabled;" style="color: #666;">
+                                                <option value="0">-请选择-</option>
                                                 <option label="130" value="130">130</option>
                                                 <option label="131" value="131">131</option>
                                                 <option label="132" value="132">132</option>
@@ -953,7 +954,7 @@
                                                 <option label="172" value="172">172</option>
                                                 <option label="173" value="173">173</option>
                                                 <option label="174" value="174">174</option>
-                                                <option label="175" value="175" selected="selected">175</option>
+                                                <option label="175" value="175">175</option>
                                                 <option label="176" value="176">176</option>
                                                 <option label="177" value="177">177</option>
                                                 <option label="178" value="178">178</option>
@@ -1045,7 +1046,7 @@
                                             <select name="children" id="children" onChange="select_changed();" style="color:#666;" disabled="disabled">
                                                 <option value="0">--请选择--</option>
                                                 <option label="无小孩" value="1">无小孩</option>
-                                                <option label="有小孩归自己" value="2" selected="selected">有小孩归自己</option>
+                                                <option label="有小孩归自己" value="2">有小孩归自己</option>
                                                 <option label="有小孩归对方" value="3">有小孩归对方</option>
                                             </select>
                                         <a href="javascript:;" class="tips_link" id="modify_nickname_tag" onclick="show_modity_profile('children');">修改</a>
@@ -1116,8 +1117,8 @@
                                         <td>
                                             <!--如果手机没有验证-->
                                             <select id="income" name="income" onChange="validate('income', this.value)" disabled="disabled" style="color:#666;">
-                                                <option label="2000元以下" value="0" selected="selected">-未选择-</option>
-                                                <option label="2000元以下" value="10" selected="selected">2000元以下</option>
+                                                <option value="0" selected="selected">-未选择-</option>
+                                                <option label="2000元以下" value="10">2000元以下</option>
                                                 <option label="2000～5000元" value="20">2000～5000元</option>
                                                 <option label="5000～10000元" value="30">5000～10000元</option>
                                                 <option label="10000～20000元" value="40">10000～20000元</option>
@@ -1347,6 +1348,7 @@
                     <div>
                         <label>身高：</label>
                         <select style="width:100px" id="new_height">
+                            <option value="0">-请选择-</option>
                             <option label="130" value="130">130</option>
                             <option label="131" value="131">131</option>
                             <option label="132" value="132">132</option>
@@ -1552,7 +1554,7 @@
                         <label>月薪：</label>
                         <select style="width:135px" id="new_income">
                             <option value="0">-未选择-</option>
-                            <option label="2000元以下" value="10" selected="selected">2000元以下</option>
+                            <option label="2000元以下" value="10">2000元以下</option>
                             <option label="2000～5000元" value="20">2000～5000元</option>
                             <option label="5000～10000元" value="30">5000～10000元</option>
                             <option label="10000～20000元" value="40">10000～20000元</option>
