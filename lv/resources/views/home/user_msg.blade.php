@@ -853,7 +853,6 @@
                     <li class="on"><a href="javascript:;">基本资料</a></li>
                     <li class="ok" onmousedown="send_jy_pv2('editprofile|category_note|m|168103003');"><a href="{{ route('oneself')}}">内心独白</a></li>
                     <li class="mark" onmousedown="send_jy_pv2('editprofile|category_photo|m|168103003');"><a href="{{ route('edit_img')}}">我的照片</a></li>
-                    <li class="mark" onmousedown="send_jy_pv2('editprofile|category_map|m|168103003');"><a href="http://www.jiayuan.com/usercp/profile.php?action=map">我的地图</a></li>
                     <li onClick="show_category('detail_hidden');" class=""><a href="javascript:;">详细资料</a></li>
                     <li id="detail_hidden" class="hidden_li">
                         <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=economy" onmousedown="send_jy_pv2('editprofile|category_economy|m|168103003');">经济实力</a>

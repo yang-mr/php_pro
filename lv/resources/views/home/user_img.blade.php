@@ -85,41 +85,17 @@
      var type = 0;
 
     function beformOpenDiv(_id, _width, _height) {
-        this.type = 1;
-        this.openDiv(_id, _width, _height);
+        if ({{ $user['status'] == 2 }}) {
+            alert('审核中，请勿重复提交');
+            return;
+        }
+        this.type = 0;
+        openDiv(_id, _width, _height);
     }
 
     function beformOtherOpenDiv(_id, _width, _height) {
-        alert('jfkd');
-        this.type = 0;
-        var m = "mask";
-        if (document.getElementById(m)) document.body.removeChild(document.getElementById(m));
-        var newMask = document.createElement("div");
-        newMask.id = m;
-        newMask.style.position = "absolute";
-        newMask.style.zIndex = "1";
-        _scrollWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
-        _scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-        newMask.style.width = _scrollWidth + "px";
-        newMask.style.height = _scrollHeight + "px";
-        newMask.style.top = "0px";
-        newMask.style.left = "0px";
-        newMask.style.background = "#33393C";
-        newMask.style.filter = "alpha(opacity=40)";
-        newMask.style.opacity = "0.30";
-        document.body.appendChild(newMask);
-
-        _width = _width ? _width : 488;
-        _height = _height ? _height : 314;
-        showDiv = document.getElementById(_id);
-        showDiv.style.display = "block";
-        showDiv.style.position = "absolute";
-        showDiv.style.zIndex = "9999";
-        showDivWidth = _width;
-        showDivHeight = _height;
-        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || 0;
-        showDiv.style.top = String(scrollTop + document.documentElement.clientHeight / 2 - showDivHeight / 2) + "px";
-        showDiv.style.left = (document.documentElement.scrollLeft + document.documentElement.clientWidth / 2 - showDivWidth / 2) + "px";
+        this.type = 1;
+        openDiv(_id, _width, _height);
     }
 
     function upload_photo(index) {
@@ -130,8 +106,8 @@
                 closeDiv("upload_photo");
                 openDiv("uploading");
                 var formData = new FormData($('#frm_upload')[0]);
+                formData.append("type", 1);
                 $.ajax({
-                    formData.append('type', 1);
                     cache: false,
                     type: "POST",
                     url:"{{ route('upload_img') }}",
@@ -158,7 +134,7 @@
                             tmp += "<p><img src=\"" + file.img_url + "\" /></p>";
                             tmp += "</div>";
                             tmp += "<div class=\"pic_control_2\" style=\"padding:8px 0;\">";
-                            if (file.status == 0) {
+                            if (file.status == 2) {
                                 tmp += "<button class=\"upload_pic\">" + "审核中～" + "</button>";
                             } else if (file.status == 1) {
                                 tmp += "<button class=\"upload_pic\">" + "删除" + "</button>";
@@ -200,15 +176,14 @@
                         closeDiv("uploading");
                       if (data.status == 1) {
                         //提交成功
+                        alert("上传头像成功");
                         var tmp = "";
-                        var files = data.files;
-                       
-                        $('#life_pic').html(tmp);
+                        var file = data.files;
+                        alert(file[0]['img_url']);
+                        $('#img_mt').attr('src', file[0]['img_url']);
                       } else if (data.status == 0) {
-                        alert("上传图片失败");
-                      } else if (data.status == 2) {
-                        //补全资料
-                      }
+                        alert("上传头像失败");
+                      } 
                     }
                 });
             }
@@ -309,6 +284,7 @@
         }
     }
 
+    var isChanged = true;
     function skip() {
         if (isChanged) {
             if (confirm("您尚有未保存的资料，确定要离开吗？")) {
@@ -388,54 +364,29 @@
             <!-- 左侧开始 -->
             <div class="info_left">
                 <ul>
-                    <li class="mark" onmousedown="send_jy_pv2('editprofile|category_base|m|168103003');"><a href="http://www.jiayuan.com/usercp/profile.php?action=base">基本资料</a></li>
-                    <li class="ok" onmousedown="send_jy_pv2('editprofile|category_note|m|168103003');"><a href="{{ route('oneself')}}">内心独白</a></li>
+                    <li class="mark"><a href="http://www.jiayuan.com/usercp/profile.php?action=base">基本资料</a></li>
+                    <li class="ok"><a href="{{ route('oneself')}}">内心独白</a></li>
                     <li class="on"><a href="javascript:;">我的照片</a></li>
-                    <li class="mark" onmousedown="send_jy_pv2('editprofile|category_map|m|168103003');"><a href="http://www.jiayuan.com/usercp/profile.php?action=map">我的地图</a></li>
                     <li onClick="show_category('detail_hidden');" class=""><a href="javascript:;">详细资料</a></li>
                     <li id="detail_hidden" class="hidden_li">
-                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=economy" onmousedown="send_jy_pv2('editprofile|category_economy|m|168103003');">经济实力</a>
-                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=life" onmousedown="send_jy_pv2('editprofile|category_life|m|168103003');">生活方式</a>
-                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=work" onmousedown="send_jy_pv2('editprofile|category_work|m|168103003');">工作学习</a>
-                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=body" onmousedown="send_jy_pv2('editprofile|category_body|m|168103003');">外貌体型</a>
-                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=marriage" onmousedown="send_jy_pv2('editprofile|category_marriage|m|168103003');">婚姻观念</a>
-                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=interest" onmousedown="send_jy_pv2('editprofile|category_interest|m|168103003');">兴趣爱好</a>
+                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=economy">经济实力</a>
+                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=life">生活方式</a>
+                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=work">工作学习</a>
+                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=body">外貌体型</a>
+                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=marriage">婚姻观念</a>
+                        <a class="mark2" href="http://www.jiayuan.com/usercp/profile.php?action=interest">兴趣爱好</a>
                     </li>
                 </ul>
                 <div class="return_index">
-                    <a class="return_jy" href="{{ route('home') }}" onmousedown="send_jy_pv2('editprofile|return_home|m|168103003');">返回我的佳缘</a>
+                    <a class="return_jy" href="{{ route('home') }}">返回我的佳缘</a>
                 </div>
             </div>
             <!-- 左侧结束 -->
             <!-- 中间开始 -->
             <!--mtxx fix-->
             <style>
-            .mtxxTip {
-                position: absolute;
-                left: 117px;
-                top: 75px;
-                width: 228px;
-                height: 95px;
-                background: url(http://images2.jyimg.com/w4/usercp/i/mtkk/mtxxtc_03.png) no-repeat;
-                opacity: 0.95;
-                z-index: 9999;
-            }
-
-            .mtxxTip .closemtxxTip {
-                width: 20px;
-                height: 20px;
-                position: absolute;
-                top: 7px;
-                right: 1px;
-            }
-
             .mt2 {
                 margin-top: 2px;
-            }
-
-            .mtxxEnt {
-                margin-top: -3px;
-                margin-right: 2px;
             }
 
             #life_pic li {
@@ -465,7 +416,7 @@
                         <div class="pic" style="position: relative;">
                             <h2>我的头像照</h2>
                             <div class="image">
-                                <img id="img_mt" src="{{ $user['avatar'] or asset('img/default_avatar.png') }}" width=120 height=120 />
+                                <img id="img_mt" src="{{ $user['img_url'] or asset('img/default_avatar.png') }}" width=120 height=120 />
                             </div>
                             <!--mtxx fix-->
                             <p class="mt2">
@@ -499,9 +450,9 @@
                                                 <p><img src="{{ $file['img_url'] }}" onClick="openDiv('upload_photo', 560, 400);" /></p>
                                             </div>
                                             <div class="pic_control_2" style="padding:8px 0;">
-                                                @if ($file['status'] == 0)
+                                                @if ($file['status'] == 2)
                                                     <button class="upload_pic">审核中~</button>
-                                                @else if ($file['status'] == 1)
+                                                @elseif ($file['status'] == 1)
                                                     <button class="upload_pic">删除</button>
                                                 @endif
                                             </div>
@@ -511,7 +462,7 @@
                                 @for ($i = 0; $i < 6 - count($files['data']); $i++)
                                      <li class="nopic">
                                         <div class="showpic">
-                                            <p><img src="http://images1.jyimg.com/w4/global/i/mryz_m_b.jpg" onClick="beformOtherOpenDiv('upload_photo', 560, 400);" /></p>
+                                            <p><img src="{{ asset('img/default_avatar.png') }}" onClick="beformOtherOpenDiv('upload_photo', 560, 400);" /></p>
                                         </div>
                                         <div class="pic_control_2" style="padding:8px 0;">
                                             <input type="button" class="upload_pic" value="" onClick="beformOtherOpenDiv('upload_photo', 560, 400);" />
@@ -683,8 +634,8 @@
 
     <!-- 正在上传 -->
     <div id="uploading" class="uploading" style="display:none;">
-        <div class="div_title"><strong>正在上传</strong><img src="http://images1.jyimg.com/w4/usercp/i/new_uploadPic/close.png" alt="关闭" onClick="closeDiv('uploading')" /></div>
-        <div class="loading"><img src="http://images1.jyimg.com/w4/usercp/i/schedule.gif" alt="" />
+        <div class="div_title"><strong>正在上传</strong><img src="{{ asset('img/home/close.gif') }}" alt="关闭" onClick="closeDiv('uploading')" /></div>
+        <div class="loading"><img src="{{ asset('img/home/schedule.gif') }}" alt="" />
             <br />文件正在上传，请勿关闭此页</div>
     </div>
     <!--美图秀秀-->

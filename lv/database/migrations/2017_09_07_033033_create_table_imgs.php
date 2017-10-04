@@ -17,7 +17,7 @@ class CreateTableImgs extends Migration
         if (!Schema::hasTable('imgs')) {
             Schema::create('imgs', function (Blueprint $table) {
             $table->increments('id');
-            $table->smallInteger('type')->nullable();
+            $table->smallInteger('type')->nullable();   //0头像  1生活照
             $table->smallInteger('status')->nullable()->default(2); //0审核失败 1审核通过 2审核中
             $table->string('img_url')->nullable();
             $table->unsignedInteger('user_id')->nullable();

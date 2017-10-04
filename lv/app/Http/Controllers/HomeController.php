@@ -167,16 +167,17 @@ class HomeController extends Controller
     {   
         $user = auth()->user(['score']);
         $id = $user->id;
-        $user['avatar'] = Img::where('user_id', $id)->where('type', 0)->get(['status', 'img_url'])->toArray();
+        $user['user'] = Img::where('user_id', $id)->where('type', 0)->first(['status', 'img_url'])->toArray();
         $user['files'] = Img::where('user_id', $id)->where('type', 1)->paginate(6)->toArray();
+       // var_dump($user);
         return view('home.user_img', $user);
     }
 
     public function uploadImg(Request $request)
     { 
             $id = auth()->user()->id;
+            $type = $request->input('type');
             $files = $request->file('upload_file');
-            $result;
             $result['status'] = '1';
             $result['files'] = [];
 
@@ -198,13 +199,12 @@ class HomeController extends Controller
                 $realname = config('app.qiniu_domain') . $filename;
                 $img = new Img;
                 $img->user_id = $id;
-                $img->type = 1;
+                $img->type = $type;
                 $img->img_url = $realname;
 
                 $tmp = $img->save();
                 if ($tmp) {
-                   $imgs = Img::where('user_id', $id)->where('type', 1)->paginate(6);
-                   
+                   $imgs = Img::where('user_id', $id)->where('type', $type)->paginate(6);
                    $result['files'] = $imgs->toArray(); 
                 } else {
                    $result['status'] = '0';
