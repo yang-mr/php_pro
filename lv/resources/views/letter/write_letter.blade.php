@@ -40,15 +40,30 @@
             });
         });
     });
+
+    function write_model() {
+        $('#text_letter').text("{{ $models[0]['content'] }}")
+    }
+
+    //换一句逻辑
+    function select_letter_model() {
+        // body...
+    }
+
 </script>
 <link href="{{ asset('/css/write_letter.css') }}" rel="stylesheet" type="text/css">
 
     <div class="letter_content">
     	<div class="user_desc">
-    		<img src="{{ asset('img/default_avatar.png') }}" />
+    		<img src="{{ $user['avatar_url'] or asset('img/default_avatar.png') }}" />
     		<div class="img_right">
     			<div class="div_name">
-    			<strong>{{$user['name']}}</strong>{{ $user['sex'] }}
+    			<strong>{{$user['name']}}</strong>
+                @if ($user['sex'] == 0)
+                女
+                @else
+                男
+                @endif
 	    		</div>
 	    		<div class="div_description">
 	    			<strong>{{$user['city']}}</strong>{{ $user['area'] }}
@@ -59,7 +74,7 @@
     	<div class="letter">
     		<div class="letter_top">
     			<div class="letter_top_left">
-    			<a href="#">使用模块</a>
+    			<a href="javascript:;" onClick="write_model()">使用模块</a>
     			<a href="javascript:;" onClick="select_letter_model()">换一句</a>
     			</div>
     			<div class="letter_top_right">

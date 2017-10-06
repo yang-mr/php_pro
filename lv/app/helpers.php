@@ -6,7 +6,10 @@
      * @param    [type]                   $birthday [年龄的格式是：2016-09-23]
      * @return   [type]                             [description]
      */
-    function calcAge($birthday) {  
+    function calcAge($birthday) {
+        if (is_null($birthday)) {
+            return '--';
+        }  
         $age = 0;  
         if(!empty($birthday)){  
             $age = strtotime($birthday);  
@@ -59,6 +62,9 @@
     * @return str
     */
     function get_animal($birthday='0000-00-01'){
+        if (is_null($birthday)) {
+            return '--';
+        }
         $array = explode("-",$birthday);
         $year = $array[0];
         $animals = array(
@@ -76,7 +82,12 @@
     * @return str
     */
     function get_constellation($birthday='0000-00-01'){
+        if (is_null($birthday)) {
+            return '--';
+        }
         $array = explode("-",$birthday);
+        var_dump($birthday);
+        exit();
         $month = $array[1];
         $day = $array[2];
         $signs = array(

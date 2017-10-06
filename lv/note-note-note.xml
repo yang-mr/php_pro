@@ -72,6 +72,19 @@ lv数据库
 	        }
 	    });
 
+	锋利的Jquery
+		第一章
+			jquery对象和dom对象的注意事项
+				不能使用对方的方法
+				二者可以互相切换
+					jquery -> dom
+					var $j = $('#id');
+					var j = $j.get(0); or var j = $j[0];
+
+					dom -> jquery
+					var j = document.getElementById('id');
+					var $j = $(j);
+
 mac 查看端口 关闭端口 （有时候即使关闭了服务 端口还是被占用着）
 	lsof -i 2123 //查看2123 端口
 	由上门命令可以肯定具体的进程

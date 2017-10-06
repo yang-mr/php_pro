@@ -125,7 +125,7 @@ Route::get('/gift/attentions', 'GiftController@getGiftsByType')->name('gift_atte
 /**
  * 写信 业务
  */
-Route::get('/letter/index/{id}', 'LetterController@index')->name('write_letter')->middleware('vip');
+Route::get('/letter/index/{id}', 'LetterController@index')->name('write_letter');
 
 Route::post('/letter/insertLetter', 'LetterController@insertLetter')->name('insert_letter')->middleware('vip');
 

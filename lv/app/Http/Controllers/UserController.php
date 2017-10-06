@@ -141,7 +141,7 @@ class UserController extends Controller
             $user = User::find($id);
 
             //事务
-            DB::transaction(function () use ($id, $user) {
+            $user = DB::transaction(function () use ($id, $user) {
             $user_id = auth()->user()->id;
         //    $attention_result = DB::select('select count(*) count from attentions where user_id = :user_id and other_id = :other_id', [$user_id, $id]);
             $attention_result = Attention::where('user_id', $user_id)->where('other_id', $id)->first();
@@ -164,15 +164,15 @@ class UserController extends Controller
 
              //获取house字段的值
             $house = DB::table('housetypes')->where('type_id', $user['house'])->first(['type_name']);
-            $user['house'] = $house->type_name;
+            $user['house'] = $house['type_name'];
 
               //获取car字段的值
             $house = DB::table('cartypes')->where('type_id', $user['car'])->first(['type_name']);
-            $user['car'] = $house->type_name;
+            $user['car'] = $house['type_name'];
 
               //获取house字段的值
             $house = DB::table('bloodtypes')->where('type_id', $user['bloodtype'])->first(['type_name']);
-            $user['bloodtype'] = $house->type_name;
+            $user['bloodtype'] = $house['type_name'];
 
             if (count($attention_result) > 0) {
                 $status = $attention_result['status'];
@@ -202,7 +202,6 @@ class UserController extends Controller
 
             return $user;
             }, 5);
-
             return view('user_desc', $user);
         }
    }

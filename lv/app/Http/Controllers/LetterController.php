@@ -8,6 +8,7 @@ use App\Model\LetterModel;
 use App\Model\Letter;
 use App\Model\InLetter;
 use App\Model\OutLetter;
+use App\Model\Img;
 use App\Events\AttentionEvent;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\SendEmail;
@@ -22,8 +23,9 @@ class LetterController extends Controller
     public function index($id = 0)
     {
     	if ($id != 0) {
-    		$user = User::find($id, ['id', 'name', 'sex', 'city', 'area', 'avatar_url']);
-            $model = LetterModel::all(['content'])->toArray();
+    		$user = User::find($id, ['id', 'name', 'sex', 'city', 'area', 'avatar_id']);
+            $user['avatar_url'] = Img::find($user['avatar_id']);
+            $model = LetterModel::where('type', $user['sex'])->get(['content'])->toArray();
             //var_dump(['user' => $user, 'models' => $model]);
             
     		return view('letter.write_letter', ['user' => $user, 'models' => $model]);
@@ -60,7 +62,6 @@ class LetterController extends Controller
                 $outLetter->user_id = $to_id;
                 $outLetter->letter_id = $letter_id;
                 $outLetter->save();
-
 
                // InLetter::create(['user_id' => $from_id, 'letter_id' => $letter_id]);
                // OutLetter::create(['user_id' => $to_id, 'letter_id' => $letter_id]);

@@ -183,6 +183,9 @@ return [
          * 超哥的七牛插件
          */
         Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
+
+        Dingo\Api\Provider\LaravelServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
@@ -232,6 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Pusher' => Pusher\Pusher::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
     ],
 
 ];
