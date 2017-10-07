@@ -122,4 +122,35 @@ redis
 			redis-cli //进入客户端
 				127.0.0.1:6379> 
 
+modern php 
+	use Namespace\className; //使用某类
+
+	use func Namespace\functionName; //使用某方法
+
+	use constant Namespace\Const_name; //使用某常量
+
+	有些代码可能没有命名空间，这些代码在全局命名空间中；ps：Exception类 在命名空间中引入全局命名空间中的代码时，要在名称前加\符号。
+
+	性状（不是接口也不是类）
+		增加代码复用	
+		创建性状
+			<?php 
+				trait MyTrait {
+					//具体实现
+				}
+			?>
+		使用性状
+			<?php 
+				class MyClass {
+					use MyTrait;   //注意导入的位置,跟类的导入方式不一样
+					//具体实现
+				}
+			?>	
+
+	生成器yield
+		暂用内存小，适合用于迭代大型数据集；
+
+	闭包
+		
+
 

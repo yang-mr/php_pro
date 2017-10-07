@@ -160,19 +160,21 @@ class UserController extends Controller
 
             //获取nation字段的值
             $income = Nationtype::where('type_id', $user['nation'])->first(['type_name']);
+           
             $user['nation'] = $income['type_name'];
 
              //获取house字段的值
             $house = DB::table('housetypes')->where('type_id', $user['house'])->first(['type_name']);
-            $user['house'] = $house['type_name'];
+           
+            $user['house'] = $house->type_name;
 
               //获取car字段的值
             $house = DB::table('cartypes')->where('type_id', $user['car'])->first(['type_name']);
-            $user['car'] = $house['type_name'];
+            $user['car'] = $house->type_name;
 
               //获取house字段的值
             $house = DB::table('bloodtypes')->where('type_id', $user['bloodtype'])->first(['type_name']);
-            $user['bloodtype'] = $house['type_name'];
+            $user['bloodtype'] = $house->type_name;
 
             if (count($attention_result) > 0) {
                 $status = $attention_result['status'];

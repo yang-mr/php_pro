@@ -21,9 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 $api = app('Dingo\Api\Routing\Router');
  
 // 配置api版本和路由
-$api->version('v1', ['namespace' => 'App\Http\Api'], function ($api) {
+$api->version('v1', function ($api) {
     // 授权组
-    $api->group(['prefix' => 'auth'], function ($api) {
-        $api->post('login', 'UserController@login');
+    $api->group(['namespace' => 'Api'], function ($api) {
+        $api->post('login', 'ApiController@login');
     });
 });
