@@ -1,0 +1,60 @@
+HttpClient和HttpURLConnection
+    HttpClient (android 2.2及以下版本推荐使用 因为Bug较少)
+        实现类有DefaultHttpClient和AndroidHttpClient
+
+    HttpURLConnection(android 2.3及以上版本推荐使用 api简单 体积小 压缩和缓存机制)
+
+2种注册广播、发送广播的区别
+    注册
+        动态注册（不是常驻型广播）
+        静态注册（常驻性广播）
+    发送
+        通过mContext.sendBroadcast(Intent)或mContext.sendBroadcast(Intent, String)发送的是无序广播(后者加了权限)；
+
+        通过mContext.sendOrderedBroadcast(Intent, String, BroadCastReceiver, Handler, int, String, Bundle)发送的是有序广播。
+        区别：
+            无序广播：所有的接收者都会接收事件，不可以被拦截，不可以被修改。
+            有序广播：按照优先级，一级一级的向下传递，接收者可以修改广播数据，也可以终止广播事件。
+
+2种服务启动方式的区别
+    onCreate()--->onStartCommand()（onStart()方法已过时） ---> onDestory()
+
+    onCreate() --->onBind()--->onunbind()--->onDestory()
+        当一个service的所有客户端都解除绑定，Android系统就销毁它(除非它是从onStartCommand()启动)．如果你的service是一个纯boundservice，你不需管理它的生命期—Android系统会为你管理它．。
+
+        然而，如果你选择了实现onStartCommand()回调方法，那么你必须明确地停止service，因为service现在被认为是＂开始的＂．在此情况下，service会一直运行，直到service使用stopSelf()停止它自己或另外的组件调用了stopService()停止了它，不管是否有客户端绑定了它．
+
+context(上下文)
+    activity service application 都拥有context上下文, 但是使用的场景不一样，与ui相关的场景一般用activity的上下文;
+
+    public class MyClass  
+    {  
+        private static MyClass mInstance;  
+        private Context mContext;  
+      
+        private MyClass(Context context)  
+        {  
+            this.mContext = context;  
+        }  
+      
+        public static synchronized MyClass getInstance(Context context)  
+        {  
+            if (mInstance == null)  
+                {  
+                    mInstance = new MyClass(context);    //对象是一个static而且是强引用 很可能导致内存泄漏，因为一直持有activity的引用，使activity不能被回收。
+                }  
+                return mInstance;  
+        }  
+    }    
+
+正确使用Context
+
+一般Context造成的内存泄漏，几乎都是当Context销毁的时候，却因为被引用导致销毁失败，而Application的Context对象可以理解为随着进程存在的，所以我们总结出使用Context的正确姿势：
+1：当Application的Context能搞定的情况下，并且生命周期长的对象，优先使用Application的Context。
+2：不要让生命周期长于Activity的对象持有到Activity的引用。
+3：尽量不要在Activity中使用非静态内部类，因为非静态内部类会隐式持有外部类实例的引用，如果使用静态内部类，将外部实例引用作为弱引用持有。
+
+作者：尹star
+链接：http://www.jianshu.com/p/94e0f9ab3f1d
+來源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
